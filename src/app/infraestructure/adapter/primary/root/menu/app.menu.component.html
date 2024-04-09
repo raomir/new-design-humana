@@ -1,0 +1,101 @@
+<div
+  class="layout-menu-wrapper"
+  [ngClass]="{ 'layout-sidebar-active': appMain.sidebarActive }"
+  (click)="appMain.onSidebarClick()"
+  (mouseover)="appMain.onSidebarMouseOver()"
+  (mouseleave)="appMain.onSidebarMouseLeave()"
+>
+  <div
+    class="menu-logo"
+    *ngIf="!appMain.isHorizontal() || appMain.isMobile()"
+    style="
+      padding: 10%;
+      text-align: center;
+      display: block;
+      background-image: url(../../../../assets/images/banner-sidebar.png);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    "
+  >
+    <div
+      [ngClass]="{
+        'justify-content-evenly': appMain.sidebarActive,
+        'justify-content-center': !appMain.sidebarActive
+      }"
+      style="width: 100%; display: flex; font-size: 15px; align-items: baseline"
+    >
+      <div
+        *ngIf="appMain.sidebarActive"
+        class="grid justify-content-center text-base text-color-primary"
+      >
+        <b> ALE HIS</b>
+      </div>
+      <div>
+        <div
+          class="menu-pin cursor-pointer"
+          (click)="appMain.onToggleMenu($event)"
+        >
+          <span *ngIf="appMain.isOverlay()" class="pi pi-times"></span>
+          <span
+            *ngIf="
+              appMain.isSidebar() && !appMain.sidebarStatic && appMain.pinActive
+            "
+            class="pi pi-unlock"
+          ></span>
+          <span
+            *ngIf="
+              appMain.isSidebar() && appMain.sidebarStatic && appMain.pinActive
+            "
+            class="pi pi-lock"
+          ></span>
+        </div>
+      </div>
+      <div
+        *ngIf="!appMain.sidebarActive"
+        style="top: 15px; position: relative; height: 46px"
+        class="inherit justify-content-center text-color-primary"
+      >
+        <b> A | C </b>
+        <div>
+          <div
+            class="menu-pin cursor-pointer"
+            (click)="appMain.onToggleMenu($event)"
+          >
+            <span *ngIf="appMain.isOverlay()" class="pi pi-times"></span>
+            <span
+              *ngIf="
+                appMain.isSidebar() &&
+                !appMain.sidebarStatic &&
+                appMain.pinActive
+              "
+              class="pi pi-unlock"
+            ></span>
+            <span
+              *ngIf="
+                appMain.isSidebar() &&
+                appMain.sidebarStatic &&
+                appMain.pinActive
+              "
+              class="pi pi-lock"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-inlinemenu></app-inlinemenu>
+  <div class="layout-menu-container">
+    <ul class="layout-menu">
+      <ng-container *ngFor="let item of model; let i = index">
+        <li
+          app-menuitem
+          *ngIf="!item.separator"
+          [item]="item"
+          [index]="i"
+          [root]="true"
+        ></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

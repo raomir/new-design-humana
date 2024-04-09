@@ -1,0 +1,191 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700");
+@import url("https://d1zp9uuockp8mt.cloudfront.net/uicons2021/uicons-regular-rounded/css/uicons-regular-rounded.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css");
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+
+i[class^="fi-rr-"]:before {
+  display: flex !important;
+}
+
+i[class^="fi-sr-"]:before {
+  display: flex !important;
+}
+
+.card {
+  box-shadow: 0 0 4px #0000001a;
+  border-top: 4px solid #1d68be;
+}
+
+.button-inactive {
+  background-color: #c30000 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+.button-active {
+  background-color: #2b7909 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+.button-favorite {
+  background-color: #d7be06 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+input[type="text"] {
+  text-transform: uppercase;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  text-transform: none;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  text-transform: none;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  text-transform: none;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  text-transform: none;
+}
+
+::placeholder {
+  /* Recent browsers */
+  text-transform: none;
+}
+
+.float-right {
+  float: right;
+}
+
+.disabled-input {
+  color: #000 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.p-disabled,
+.p-component:disabled {
+  opacity: 1 !important;
+}
+
+.p-chips {
+  width: 100% !important;
+}
+
+.p-chips .p-chips-multiple-container {
+  width: 100% !important;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  max-width: 640px !important;
+}
+
+.p-chip-text {
+  width: 100% !important;
+}
+
+.p-dropdown-filter {
+  width: 100% !important;
+}
+
+.customer-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.icon-phone {
+  font-size: 0.8rem !important;
+}
+
+.status-secondary {
+  background-color: #eee;
+  color: #44486d;
+}
+
+.status-secondary-text {
+  color: #44486d;
+}
+
+.status-warning {
+  background-color: #feedaf;
+  color: #8a5340;
+}
+
+.invalid-feedback {
+  color: #960000;
+  border-radius: 2px;
+  padding: 0.5em 0em 0.25em 0rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+}
+
+.invalid-border {
+  border: 1px solid #fc6161 !important;
+}
+
+.p-chips {
+  min-height: 32px !important;
+}
+
+.p-datatable-table {
+  min-width: 1000px !important;
+  width: 100% !important;
+}
+
+@media only screen and (max-width: 1190px) {
+  .p-dialog {
+    width: 80vw !important;
+  }
+}
+
+.layout-inline-menu {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #d9d9e1 !important;
+  padding-bottom: 0rem !important;
+}
+
+.layout-menu-wrapper .layout-menu-container .layout-menu > li:first-child {
+  margin-top: 0.5rem !important;
+}
+
+.layout-inline-menu .layout-inline-menu-action {
+  padding: 1rem 1rem 1rem 1.6rem !important;
+}
+
+.bg-columns-table {
+  background-color: #f1f1f4 !important;
+}
+
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+.none-text-case {
+  text-transform: none !important;
+}
+
+.text-color-primary {
+  color: var(--primary-color) !important;
+}
