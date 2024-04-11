@@ -1,0 +1,88 @@
+<form [formGroup]="searchForm">
+    <p-table
+        #dataTable
+        styleClass="p-datatable-striped"
+        loadingIcon="fa-solid fa-spinner fa-spin"
+        [columns]="columns"
+        [value]="data"
+        [loading]="loading"
+        [rowsPerPageOptions]="rows"
+        [showCurrentPageReport]="true"
+        dataKey="id"
+        responsiveLayout="scroll"
+        [lazy]="usePostRequest"
+        (onLazyLoad)="onSort($event)"
+        >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
+                <div class="col-6 p-0">
+                    <app-buttons-general [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']"></app-buttons-general> 
+                </div>
+                <div *ngIf="showFilter" class="col-6 p-0 flex align-items-center justify-content-end">
+                    <span class="p-input-icon-left w-7">
+                        <i class="pi pi-search"></i>
+                        <input formControlName="search" pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" (input)="clearInvalidCharacters($event)" (keyup.enter)="filterEnter($event)" placeholder="Search" />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <ng-container *ngFor="let column of columns">
+                <th
+                    pSortableColumn="{{ column.sort }}"
+                    class="{{ column.classTitle }}"
+                    [style]="'margin: 0 auto;' + (column.width ? 'width: ' + column.width : '')"
+                >
+                    {{ column.title }}
+                    <p-sortIcon *ngIf="column.sort != ''" field="{{ column.sort }}"></p-sortIcon>
+                </th>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-dataItem
+            let-columns="columns"
+            let-rowIndex="rowIndex"
+        >
+
+        <tr>
+        <ng-container *ngFor="let column of columns">
+            <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
+            <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>
+            <td style="padding: 0.25rem 0.5rem" *ngIf="column?.actions?.length" class="text-center">
+                <ng-container *ngIf="column.actions">
+                    <app-buttons-general [datatable]="true" [buttons]="column.actions"></app-buttons-general> 
+                </ng-container>
+            </td>
+        </ng-container>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="columns.length" class="mt-3 text-center text-lg">
+            No records found.
+            </td>
+        </tr>
+        </ng-template>
+    </p-table>
+    <p-divider class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" 
+        [ngStyle]="{ 'background-color': '#dfdfe6', 'margin': '0', 'padding': '0', 'border-width': '0px', 'height': '1px' }">
+    </p-divider>
+    <div class="flex align-items-center justify-content-center">
+        <p-paginator
+            *ngIf="paginatePage"
+            class="p-element ng-star-inserted"
+            currentPageReportTemplate="Mostrando 1 a {{ size }} de {{ numberPage }} entradas"
+            [showCurrentPageReport]="showCurrentPageReport"
+            [rows]="pageNumber"
+            [rowsPerPageOptions]="rows"
+            [totalRecords]="numberPage"
+            (onPageChange)="paginate($event)">
+        </p-paginator>
+    </div>
+    <p-divider class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" 
+        [ngStyle]="{ 'background-color': '#dfdfe6', 'margin': '0', 'padding': '0', 'border-width': '0px', 'height': '1px' }">
+    </p-divider>
+</form>

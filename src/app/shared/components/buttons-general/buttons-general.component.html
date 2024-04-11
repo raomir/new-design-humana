@@ -1,0 +1,115 @@
+<ng-container><!-- *ngxPermissionsOnly="[this.permission + '.export']" -->
+  <div *ngIf="!datatable" class="p-buttonset float-left" role="group">
+    <!-- BOTÓN EXPORTAR EXCEL -->
+    <p-button (click)="exportAction.next('excel')"
+      *ngIf="buttons.includes('btn_export_excel') || buttons.includes('btn_export_full')" 
+      id="exporters" icon="pi pi-file-excel" [outlined]="true" pTooltip="XLS" tooltipPosition="bottom"
+      class="p-button-success p-button-rounded mr-2" [rounded]="true" [outlined]="true">
+    </p-button>
+    <!-- BOTÓN EXPORTAR TEXTO -->
+    <p-button (click)="exportAction.next('csv')"
+      *ngIf="buttons.includes('btn_export_text') || buttons.includes('btn_export_full')" 
+      id="exporters" icon="pi pi-file" [outlined]="true" pTooltip="CSV" tooltipPosition="bottom"
+      class="p-button-info p-button-rounded mr-2" [rounded]="true" [outlined]="true">
+    </p-button>
+    <!-- BOTÓN EXPORTAR PDF -->
+    <p-button (click)="exportAction.next('pdf')"
+      *ngIf="buttons.includes('btn_export_pdf') || buttons.includes('btn_export_full')" 
+      id="exporters" icon="pi pi-file-pdf" [outlined]="true" pTooltip="PDF" tooltipPosition="bottom"
+      class="p-button-danger p-button-rounded mr-2" [rounded]="true" [outlined]="true">
+    </p-button>
+  </div>
+</ng-container>
+<div #toolbar class="row">
+  <div *ngIf="!datatable">
+    <div class="p-buttonset float-right mt-1" role="group">
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.exit']" -->
+        <!-- BOTÓN CANCELAR -->
+        <p-button (click)="cancelAction.next()" *ngIf="buttons.includes('btn_cancel')" 
+          id="btn-cancel" icon="pi pi-times" [outlined]="true"
+          class="p-button-danger p-button-rounded mr-2" label="Cancelar" severity="danger">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.exit']" -->
+        <!-- BOTÓN REGRESAR -->
+        <p-button (click)="returnAction.next()" *ngIf="buttons.includes('btn_return')" 
+          id="btn-return" icon="pi pi-times" [outlined]="true"
+          class="p-button-danger p-button-rounded mr-2" label="Regresar" severity="danger">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.destroy']" -->
+        <!-- BOTÓN ELIMINAR -->
+        <p-button (click)="deleteAction.next()" *ngIf="buttons.includes('btn_delete')" 
+          id="btn-delete" icon="pi pi-eraser" [outlined]="true"
+          class="p-button-danger p-button-rounded mr-2" label="Eliminar" severity="danger">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.clean']" -->
+        <!-- BOTÓN LIMPIAR -->
+        <p-button (click)="cleanAction.next()" *ngIf="buttons.includes('btn_clean')" 
+          id="btn-clean" icon="pi pi-eraser" [outlined]="true"
+          class="p-button-danger p-button-rounded mr-2" label="Limpiar" severity="danger">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.annul']" -->
+        <!-- BOTÓN ANULAR -->
+        <p-button (click)="annulAction.next()" *ngIf="buttons.includes('btn_annul')" 
+          id="btn-annul" icon="pi pi-ban" [outlined]="true"
+          class="p-button-danger p-button-rounded mr-2" label="Anular" severity="danger">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.authorize']" -->
+        <!-- BOTÓN AUTORIZAR -->
+        <p-button (click)="authorizeAction.next()" *ngIf="buttons.includes('btn_authorize')" 
+          id="btn-authorize" icon="pi pi-check" [outlined]="true"
+          class="p-button-success p-button-rounded mr-2" label="Autorizar" severity="success">
+        </p-button>
+      </ng-container>
+      <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.edit']" -->
+        <!-- BOTÓN EDITAR -->
+        <p-button (click)="editAction.next()" *ngIf="buttons.includes('btn_edit')" 
+          id="btn-edit" icon="pi pi-pencil" [outlined]="true"
+          class="p-button-warning p-button-rounded mr-2" label="Editar" severity="warning">
+        </p-button>
+      </ng-container>
+      <ng-container>
+        <!-- BOTÓN CREAR -->
+        <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
+        <p-button (click)="createAction.next()" *ngIf="buttons.includes('btn_create')" 
+          id="btn-create" icon="pi pi-plus" [outlined]="true"
+          class="p-button-primary p-button-rounded mr-2" label="Crear" severity="primary">
+        </p-button>
+      </ng-container>
+      <ng-container>
+        <!-- BOTÓN GUARDAR -->
+        <!-- *ngxPermissionsOnly="[this.permission + '.save']" -->
+        <p-button [outlined]="true" (click)="saveAction.next()" *ngIf="buttons.includes('btn_save')" 
+          id="btn-save" icon="pi pi-save" [outlined]="true"
+          class="p-button-success p-button-rounded mr-2" label="Guardar" severity="success">
+        </p-button>
+      </ng-container>
+    </div>
+  </div>
+  <!-- BOTONES DATATABLE -->
+  <div *ngIf="datatable" class="p-buttonset mt-1" role="group">
+    <p-button (click)="runActions.emit({ action: 'btn_reversar_inscripcion', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar_inscripcion')" icon="pi pi-undo" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar inscripción"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_reversar', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar')" icon="pi pi-undo" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_nuevo', data: dataDatatable })" *ngIf="buttons.includes('btn_nuevo')" icon="pi pi-plus" [rounded]="true" [text]="true" severity="success" pTooltip="Nuevo"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_reset', data: dataDatatable })" *ngIf="buttons.includes('btn_reset')" icon="pi pi-refresh" [rounded]="true" [text]="true" severity="info" pTooltip="Reiniciar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_editar', data: dataDatatable })" *ngIf="buttons.includes('btn_editar')" icon="fi-rr-edit" [rounded]="true" [text]="true" severity="warning" pTooltip="Editar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_ver', data: dataDatatable })" *ngIf="buttons.includes('btn_ver')" icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" pTooltip="Ver"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_solicitar', data: dataDatatable })" *ngIf="buttons.includes('btn_solicitar')" icon="pi pi-bell" [rounded]="true" [text]="true" severity="info" pTooltip="Solicitar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_realizar', data: dataDatatable })" *ngIf="buttons.includes('btn_realizar')" icon="pi pi-check-square" [rounded]="true" [text]="true" severity="info" pTooltip="Realizar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_autorizar', data: dataDatatable })" *ngIf="buttons.includes('btn_autorizar')" icon="pi pi-check-square" [rounded]="true" [text]="true" severity="info" pTooltip="Autorizar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_rechazar', data: dataDatatable })" *ngIf="buttons.includes('btn_rechazar')" icon="pi pi-times" [rounded]="true" [text]="true" severity="danger" pTooltip="Rechazar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_compromiso', data: dataDatatable })" *ngIf="buttons.includes('btn_compromiso')" icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info" pTooltip="Compromiso"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_eliminar', data: dataDatatable })" *ngIf="buttons.includes('btn_eliminar')" icon="fi-rr-trash" [rounded]="true" [text]="true" severity="danger" pTooltip="Eliminar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_descargar', data: dataDatatable })" *ngIf="buttons.includes('btn_descargar')" icon="pi pi-download" [rounded]="true" [text]="true" severity="success" pTooltip="Descargar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_evaluar', data: dataDatatable })" *ngIf="buttons.includes('btn_evaluar')" icon="pi pi-check-square" [rounded]="true" [text]="true" severity="info" pTooltip="Evaluar"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_imprimir', data: dataDatatable })" *ngIf="buttons.includes('btn_imprimir')" icon="pi pi-print" [rounded]="true" [text]="true" severity="info" pTooltip="Imprimir"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_inscribir', data: dataDatatable })" *ngIf="buttons.includes('btn_inscribir')" icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info" pTooltip="Inscribirse"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_responder', data: dataDatatable })" *ngIf="buttons.includes('btn_responder')" icon="pi pi-send" [rounded]="true" [text]="true" severity="info" pTooltip="Responder"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_ejecucion', data: dataDatatable })" *ngIf="buttons.includes('btn_ejecucion')" icon="pi pi-check-square" [rounded]="true" [text]="true" severity="info" pTooltip="Ejecución"></p-button>
+    <p-button (click)="runActions.emit({ action: 'btn_analizar', data: dataDatatable })" *ngIf="buttons.includes('btn_analizar')" icon="pi pi-cog" [rounded]="true" [text]="true" severity="info" pTooltip="Analizar"></p-button>
+  </div>
+</div>
