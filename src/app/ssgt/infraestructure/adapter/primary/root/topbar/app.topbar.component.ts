@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { AppComponent } from '../../../../../app.component'
+import { AppComponent } from 'src/app/app.component'
 import { AppMainComponent } from '../main/app.main.component'
 import { AppMenuComponent } from '../menu/app.menu.component'
 

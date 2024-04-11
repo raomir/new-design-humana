@@ -4,9 +4,7 @@ import { ListCrudPort } from '../port/in/list-crud.port';
 import { List } from '../domain/list.model';
 import { ListRepositoryPort } from '../port/out/list-repository.port';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ListService implements ListCrudPort{
 
   constructor(private repository: ListRepositoryPort){}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
-import { AppComponent } from '../../../../../app.component'
+import { AppComponent } from 'src/app/app.component'
 import { AppInlineMenuComponent } from '../inlinemenu/app.inlinemenu.component'
 import { AppMainComponent } from '../main/app.main.component'
 import { AppMenuitemComponent } from '../menuitem/app.menuitem.component'

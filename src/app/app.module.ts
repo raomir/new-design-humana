@@ -9,8 +9,8 @@ import { AppComponent } from './app.component'
 
 // Application services
 import { AppRoutingModule } from './app-routing.module'
-import { AppBreadcrumbService } from './infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service'
-import { MenuService } from './infraestructure/adapter/primary/root/menu/app.menu.service'
+import { MenuService } from './ssgt/infraestructure/adapter/primary/root/menu/app.menu.service'
+import { AppBreadcrumbService } from './ssgt/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service'
 
 @NgModule({
     imports: [

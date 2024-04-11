@@ -16,6 +16,6 @@ export class ListRepositoryService implements ListRepositoryPort {
     ) {}
 
     findByAll(): Observable<List[]> {
-        return this.http.get<List[]>(`${this.apiUrl}/listas/345`);
+        return this.http.get<List[]>(this.apiUrl);
     }
 }

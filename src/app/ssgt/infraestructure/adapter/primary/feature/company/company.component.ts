@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
-import { ListService } from 'src/app/ssgt/core/application/list.service';
-import { List } from 'src/app/ssgt/core/domain/list.model';
+// import { ListService } from 'src/app/ssgt/core/application/list.service';
 import { AppBreadcrumbService } from '../../root/breadcrumb/app.breadcrumb.service'
 
 @Component({
@@ -11,9 +10,13 @@ import { AppBreadcrumbService } from '../../root/breadcrumb/app.breadcrumb.servi
     templateUrl: './company.component.html',
 })
 export class CompanyComponent {
+
+    // private service = inject(ListService);
+    // products$ = this.service.getLists();
+
     constructor(
         private breadcrumbService: AppBreadcrumbService,
-        private service: ListService
+        
     ) {
         this.breadcrumbService.setItems([
             { label: 'Home', routerLink: ['/'] },
@@ -22,9 +25,9 @@ export class CompanyComponent {
     }
 
     
-    getList() {
-        this.service.getLists().subscribe(res => {
-            var list = res;
-        });
-    }
+    // getList() {
+    //     this.service.getLists().subscribe(res => {
+    //         var list = res;
+    //     });
+    // }
 }

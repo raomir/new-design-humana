@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { ButtonModule } from 'primeng/button'
 import { InputTextModule } from 'primeng/inputtext'
-import { AppComponent } from '../../../../../app.component'
+import { AppComponent } from 'src/app/app.component'
 
 @Component({
     selector: 'app-login',
