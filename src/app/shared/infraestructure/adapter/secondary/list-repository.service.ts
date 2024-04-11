@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { Component, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { List } from 'src/app/ssgt/core/domain/list.model'
-import { ListRepositoryPort } from 'src/app/ssgt/core/port/out/list-repository.port'
+import { List } from 'src/app/shared/core/domain/list.model'
+import { ListRepositoryPort } from 'src/app/shared/core/port/out/list-repository.port'
 import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })

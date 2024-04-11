@@ -6,14 +6,14 @@ const routes: Routes = [
         path: '',
         loadComponent: () =>
             import(
-                './ssgt/infraestructure/adapter/primary/root/main/app.main.component'
+                './ssgt/parameter/infraestructure/adapter/primary/root/main/app.main.component'
             ).then((m) => m.AppMainComponent),
         children: [
             {
                 path: '',
                 loadComponent: () =>
                     import(
-                        './ssgt/infraestructure/adapter/primary/feature/dashboard/dashboard.component'
+                        './ssgt/parameter/infraestructure/adapter/primary/feature/dashboard/dashboard.component'
                     ).then((m) => m.DashboardComponent),
             },
             {
@@ -23,7 +23,7 @@ const routes: Routes = [
                         path: 'company',
                         loadComponent: () =>
                             import(
-                                './ssgt/infraestructure/adapter/primary/feature/company/company.component'
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/company/company.component'
                             ).then((m) => m.CompanyComponent),
                     },
                 ],
@@ -34,28 +34,28 @@ const routes: Routes = [
         path: 'error',
         loadComponent: () =>
             import(
-                './ssgt/infraestructure/adapter/primary/root/error/app.error.component'
+                './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'
             ).then((m) => m.AppErrorComponent),
     },
     {
         path: 'access',
         loadComponent: () =>
             import(
-                './ssgt/infraestructure/adapter/primary/root/accessdenied/app.accessdenied.component'
+                './ssgt/parameter/infraestructure/adapter/primary/root/accessdenied/app.accessdenied.component'
             ).then((m) => m.AppAccessdeniedComponent),
     },
     {
         path: 'notfound',
         loadComponent: () =>
             import(
-                './ssgt/infraestructure/adapter/primary/root/notfound/app.notfound.component'
+                './ssgt/parameter/infraestructure/adapter/primary/root/notfound/app.notfound.component'
             ).then((m) => m.AppNotfoundComponent),
     },
     {
         path: 'login',
         loadComponent: () =>
             import(
-                './ssgt/infraestructure/adapter/primary/root/login/app.login.component'
+                './ssgt/parameter/infraestructure/adapter/primary/root/login/app.login.component'
             ).then((m) => m.AppLoginComponent),
     },
     { path: '**', redirectTo: '/notfound' },
