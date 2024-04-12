@@ -1,0 +1,6 @@
+.p-paginator {
+    display: flex;
+    align-items: center;
+    justify-content: left !important;
+    flex-wrap: wrap;
+}

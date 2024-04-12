@@ -8,8 +8,9 @@ import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.comp
 @Component({
   selector: 'app-tree-table-general',
   standalone: true,
-  imports: [CommonModule,CommonModule, TreeTableModule, ButtonModule, ButtonsGeneralComponent],
+  imports: [CommonModule, TreeTableModule, ButtonModule, ButtonsGeneralComponent],
   templateUrl: './tree-table-general.component.html',
+  styleUrls: ['./tree-table-general.component.css'],
   styles: [
   ]
 })
