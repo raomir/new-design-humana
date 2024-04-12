@@ -26,6 +26,21 @@ const routes: Routes = [
                                 './ssgt/parameter/infraestructure/adapter/primary/feature/company/company.component'
                             ).then((m) => m.CompanyComponent),
                     },
+                    {
+                        path: 'danger-class',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Clases peligro',
+                            endpoint: 'clasepeligro',
+                            permissions: {
+                                name: 'talentohumano.clase_peligro',
+                                only: 'talentohumano.clase_peligro.index'
+                            }
+                        }
+                    },
                 ],
             },
         ],
@@ -69,4 +84,4 @@ const routes: Routes = [
     ],
     exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

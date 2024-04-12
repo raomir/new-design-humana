@@ -1,0 +1,6 @@
+<div class="card">
+    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()" (actionPrint)="print()"></app-header-card>
+    <div>
+        <app-table-general [route]="endPoint"></app-table-general>
+    </div>
+</div>

@@ -22,7 +22,7 @@
 </ng-container>
 <div #toolbar class="row">
   <div *ngIf="!datatable">
-    <div class="p-buttonset float-right mt-1" role="group">
+    <div class="p-buttonset mt-1" role="group">
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.exit']" -->
         <!-- BOTÓN CANCELAR -->
         <p-button (click)="cancelAction.next()" *ngIf="buttons.includes('btn_cancel')" 
@@ -80,6 +80,23 @@
           class="p-button-primary p-button-rounded mr-2" label="Crear" severity="primary">
         </p-button>
       </ng-container>
+      <ng-container>
+        <!-- BOTÓN IMPRIMIR -->
+        <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
+        <p-button (click)="printAction.next(null)" *ngIf="buttons.includes('btn_imprimir')" 
+          id="btn-create" icon="pi pi-print" [outlined]="true"
+          class="p-button-primary p-button-rounded mr-2" label="Imprimir" severity="primary">
+        </p-button>
+      </ng-container>
+      <ng-container>
+        <!-- BOTÓN NUEVO -->
+        <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
+        <p-button (click)="newAction.next()" *ngIf="buttons.includes('btn_nuevo')" 
+          id="btn-create" icon="pi pi-plus" [outlined]="true"
+          class="p-button-primary p-button-rounded mr-2" label="Nuevo" severity="primary">
+        </p-button>
+      </ng-container>
+      
       <ng-container>
         <!-- BOTÓN GUARDAR -->
         <!-- *ngxPermissionsOnly="[this.permission + '.save']" -->

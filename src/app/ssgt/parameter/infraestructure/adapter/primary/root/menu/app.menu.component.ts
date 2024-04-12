@@ -36,6 +36,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/administration/company'],
                     },
                     {
+                        label: 'Clases Peligro',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/administration/danger-class'],
+                    },
+                    {
                         label: 'Sedes',
                         icon: 'pi pi-fw pi-check-square',
                         routerLink: ['/uikit/input'],
