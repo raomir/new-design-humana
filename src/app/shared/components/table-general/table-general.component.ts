@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Action, Column, DatatableSort, ExtendedPostData, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -21,11 +21,11 @@ import { TooltipModule } from 'primeng/tooltip';
 export class TableGeneralComponent implements OnInit {
   
   @Input() columns: Array<Column> = []; // Atributo: Columnas de la tabla
-  @Output() runAction: any = new EventEmitter<Action>(); // Método: Emite una acción
+  @Input() export: boolean = true;
   @Input() endPoint: string = ''; // Atributo: Punto final
   @Input() data: Array<any> = []; // Atributo: Datos de la tabla
   @Input() loading: boolean = false; // Atributo: Carga de la tabla
-  @Input() pageNumber: number | string | any = 8; // Atributo: Número de página
+  @Input() pageNumber: number | string | any = 10; // Atributo: Número de página
   @Input() path: string = ''; // Atributo: Ruta
   @Input() route: string = ''; // Atributo: Ruta
   @Input() showCurrentPageReport: boolean = true; // Atributo: Mostrar informe de la página actual
@@ -36,7 +36,7 @@ export class TableGeneralComponent implements OnInit {
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
-  @Output() public runActions = new EventEmitter<RegistroData>();
+  @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
   @Output() public exportAction = new EventEmitter<any>();
   public searchForm: FormGroup = new FormGroup({}); // Atributo: Formulario de búsqueda
   public search: any; // Atributo: Búsqueda
@@ -54,6 +54,7 @@ export class TableGeneralComponent implements OnInit {
 
   currentDate: Date = new Date(); // Atributo: Fecha actual
   public dateTime: any; // Atributo: Fecha y hora
+  public rowsPerPageOptions: number[] = [10, 25, 50, 100];
 
   constructor(
     /* public services: ApisServicesService, */
@@ -470,9 +471,14 @@ export class TableGeneralComponent implements OnInit {
    * @param page Page object.
    */
   paginate(page: any) {
-    this.pageNumber = page.rows;
-    this.selectedPage = page.page;
-    this.selectedRows = page.rows;
+    if (typeof page == 'number') {
+      this.pageNumber = page;
+      this.selectedRows = page;
+    } else {
+      this.pageNumber = page.rows;
+      this.selectedPage = page.page;
+      this.selectedRows = page.rows;
+    }
     this.loadTable(
       this.selectedPage,
       this.pageNumber,

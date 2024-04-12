@@ -15,8 +15,15 @@
         >
         <ng-template pTemplate="caption">
             <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
-                <div class="col-6 p-0">
-                    <app-buttons-general [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']" (exportAction)="exportAction.emit($event)"></app-buttons-general> 
+                <div class="col-6 p-0 flex flex-row">
+                    <div class="col-2 p-0" *ngIf="export">
+                        <app-buttons-general [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']" (exportAction)="exportAction.emit($event)"></app-buttons-general> 
+                    </div>
+                    <div class="col-10 p-0" [ngClass]="{'col-12': !export, 'col-10': export}">
+                        <div class="p-element ng-star-inserted">
+                            <p-dropdown [ngModelOptions]="{standalone: true}" [options]="rowsPerPageOptions" [(ngModel)]="pageNumber" (ngModelChange)="paginate($event)"></p-dropdown>
+                        </div>
+                    </div>
                 </div>
                 <div *ngIf="showFilter" class="col-6 p-0 flex align-items-center justify-content-end">
                     <span class="p-input-icon-left w-7">
@@ -77,7 +84,6 @@
             currentPageReportTemplate="Mostrando 1 a {{ size }} de {{ numberPage }} entradas"
             [showCurrentPageReport]="showCurrentPageReport"
             [rows]="pageNumber"
-            [rowsPerPageOptions]="rows"
             [totalRecords]="numberPage"
             (onPageChange)="paginate($event)">
         </p-paginator>
