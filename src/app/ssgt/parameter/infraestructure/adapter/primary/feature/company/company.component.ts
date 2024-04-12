@@ -92,6 +92,26 @@ export class CompanyComponent {
 
     runActions(event: RegistroData) {
         console.log(event);
+        switch (event.action) {
+            case 'btn_editar':
+            // Acción para editar
+            console.log('Editar:', event.data);
+            break;
+            case 'btn_eliminar':
+            // Acción para eliminar
+            console.log('Eliminar:', event.data);
+            break;
+            case 'btn_nuevo':
+            // Acción para crear nuevo
+            console.log('Nuevo:', event.data);
+            break;
+            case 'btn_imprimir':
+            // Acción para imprimir
+            console.log('Imprimir:', event.data);
+            break;
+            default:
+            break;
+        }
     }
 
     exportAction(event: any) {
