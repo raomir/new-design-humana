@@ -5,7 +5,9 @@
     <app-table-general
         #dataTable
         ruta="cliente/asesor/page"
-        [columns]="retornaColumnas()"
+        [columns]="columns"
+        (runActions)="runActions($event)"
+        (exportAction)="exportAction($event)"
     ></app-table-general>
   </div>
 </div>

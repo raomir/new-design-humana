@@ -7,11 +7,14 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.component';
 import { DividerModule } from 'primeng/divider';
+import { RegistroData } from '../buttons-general/actions';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-table-general',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
+  imports: [ButtonModule, TooltipModule, CommonModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
   templateUrl: './table-general.component.html',
   styleUrls: ['./table-general.component.css']
 })
@@ -32,6 +35,9 @@ export class TableGeneralComponent implements OnInit {
   @Input() closingDate: boolean = false; // Atributo: Fecha de cierre
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
+  @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
+  @Output() public runActions = new EventEmitter<RegistroData>();
+  @Output() public exportAction = new EventEmitter<any>();
   public searchForm: FormGroup = new FormGroup({}); // Atributo: Formulario de búsqueda
   public search: any; // Atributo: Búsqueda
   public size: number = 0; // Atributo: Tamaño
@@ -44,7 +50,6 @@ export class TableGeneralComponent implements OnInit {
   public datatableSort: DatatableSort = new DatatableSort(); // Atributo: Orden de clasificación de la tabla
   public selectedPage: any = 0; // Atributo: Página seleccionada
   public selectedRows: any; // Atributo: Filas seleccionadas
-  @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   public datatableData: any[] = []; // Atributo: Datos de la tabla
 
   currentDate: Date = new Date(); // Atributo: Fecha actual
@@ -617,5 +622,8 @@ export class TableGeneralComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  handleRunActions(event: RegistroData) {
+    this.runActions.emit(event);
   }
 }

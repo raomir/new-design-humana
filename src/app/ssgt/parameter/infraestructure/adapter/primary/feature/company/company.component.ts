@@ -4,6 +4,7 @@ import { ButtonsGeneralComponent } from '../../../../../../../shared/components/
 import { TableGeneralComponent } from '../../../../../../../shared/components/table-general/table-general.component';
 import { AppBreadcrumbService } from '../../root/breadcrumb/app.breadcrumb.service';
 import { Column } from '../../../../../../../shared/components/table-general/col/col';
+import { RegistroData } from 'src/app/shared/components/buttons-general/actions';
 
 
 @Component({
@@ -13,11 +14,15 @@ import { Column } from '../../../../../../../shared/components/table-general/col
     templateUrl: './company.component.html',
 })
 export class CompanyComponent {
+
+    public columns: Array<Column>;
+    
     constructor(private breadcrumbService: AppBreadcrumbService) {
         this.breadcrumbService.setItems([
             { label: 'Home', routerLink: ['/'] },
             { label: 'Empresas', routerLink: ['/administration/company'] },
         ])
+        this.columns = this.retornaColumnas();
     }
 
 
@@ -83,5 +88,13 @@ export class CompanyComponent {
                 actions: ['btn_eliminar', 'btn_editar'],
             },
         ];
+    }
+
+    runActions(event: RegistroData) {
+        console.log(event);
+    }
+
+    exportAction(event: any) {
+        console.log(event);
     }
 }
