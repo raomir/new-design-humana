@@ -7,7 +7,6 @@ import { RegistroData } from "./actions";
 import { HelpersServiceImp } from "../../core/application/config/helpers.service.imp";
 
 /**
- * Component that represents a set of general buttons.
  * Componente que representa un conjunto de botones generales.
  */
 @Component({

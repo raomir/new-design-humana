@@ -1,0 +1,45 @@
+<div class="card">
+    <p-treeTable 
+        [value]="data" 
+        [columns]="cols" 
+        [paginator]="true" 
+        [rows]="10" 
+        [scrollable]="true" 
+        [tableStyle]="{'min-width':'50rem'}">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
+                <div class="col-6 p-0">
+                    <app-buttons-general [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']"></app-buttons-general> 
+                </div>
+                <div  class="col-6 p-0 flex align-items-center justify-content-end">
+                    <span class="p-input-icon-left w-7">
+                        <i class="pi pi-search"></i>
+                        <input  pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" placeholder="Search" />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th  *ngFor="let col of columns" style="text-align: left;" >
+                    {{ col.header }}
+                </th>
+                <th style="text-align: center; width: 120px">
+                    Acciones
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr [ttRow]="rowNode">
+                <td *ngFor="let col of columns; let i = index">
+                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                    <i *ngIf="col.field === 'active'" [class]="getIconClass(rowData[col.field])" [ngStyle]="{'color': getIconColor(rowData[col.field])}"></i>
+                    {{ col.field === 'active' ? '' : rowData[col.field] }}
+                </td>
+                <td style="text-align: center; width: 120px">
+                    <app-buttons-general [datatable]="true" [buttons]="buttonsDatatable" (runActions)="runActions($event)" [dataDatatable]="rowData"></app-buttons-general>
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+</div>
