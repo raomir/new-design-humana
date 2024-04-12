@@ -4,7 +4,7 @@ import { ButtonsGeneralComponent } from '../../../../../../../shared/components/
 import { TableGeneralComponent } from '../../../../../../../shared/components/table-general/table-general.component';
 import { AppBreadcrumbService } from '../../root/breadcrumb/app.breadcrumb.service';
 import { Column } from '../../../../../../../shared/components/table-general/col/col';
-import { RegistroData } from 'src/app/shared/components/buttons-general/actions';
+import { RegistroData } from '../../../../../../../shared/components/buttons-general/actions';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { RegistroData } from 'src/app/shared/components/buttons-general/actions'
 export class CompanyComponent {
 
     public columns: Array<Column>;
-    
+
     constructor(private breadcrumbService: AppBreadcrumbService) {
         this.breadcrumbService.setItems([
             { label: 'Home', routerLink: ['/'] },
