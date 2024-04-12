@@ -1,10 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HelpersServiceImp } from "../../../core/port/in/config/helpers.service.imp";
+
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { CommonModule } from "@angular/common";
 import { RegistroData } from "./actions";
+import { HelpersServiceImp } from '../../../ssgt/parameter/core/application/config/helpers.service.imp';
 
 /**
  * Component that represents a set of general buttons.
