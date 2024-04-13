@@ -1,3 +1,13 @@
-<div class="card flex justify-content-center">
-  <div>Empresas</div>
+<div class="card ">
+  <!-- <div>Empresas</div> -->
+  <!-- <app-buttons-general [buttons]="['btn_save', 'btn_create', 'btn_annul']"></app-buttons-general> -->
+  <div class="col-12">
+    <app-table-general
+        #dataTable
+        ruta="cliente/asesor/page"
+        [columns]="columns"
+        (runActions)="runActions($event)"
+        (exportAction)="exportAction($event)"
+    ></app-table-general>
+  </div>
 </div>

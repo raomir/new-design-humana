@@ -30,7 +30,7 @@ const routes: Routes = [
                         path: 'danger-class',
                         loadComponent: () =>
                             import(
-                                './shared/components/element-list/element-list.component'
+                                './shared/components/element-list/datatable/element-list.component'
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Clases peligro',

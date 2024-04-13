@@ -4,10 +4,9 @@ import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { CommonModule } from "@angular/common";
 import { RegistroData } from "./actions";
-import { HelpersServiceImp } from '../../core/application/config/helpers.service.imp';
+import { HelpersServiceImp } from "../../core/application/config/helpers.service.imp";
 
 /**
- * Component that represents a set of general buttons.
  * Componente que representa un conjunto de botones generales.
  */
 @Component({

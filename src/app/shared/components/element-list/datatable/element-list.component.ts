@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { AppBreadcrumbService } from '../../../ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
-import { HeaderCardComponent } from '../header-card/header-card.component';
-import { TableGeneralComponent } from '../table-general/table-general.component';
-import { Column } from '../table-general/col/col';
+import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
+import { HeaderCardComponent } from '../../header-card/header-card.component';
+import { TableGeneralComponent } from '../../table-general/table-general.component';
+import { Column } from '../../table-general/col/col';
 import { ActivatedRoute } from '@angular/router';
+import { ElementListModalComponent } from '../modal/element-list-modal.component';
 
 @Component({
   selector: 'app-element-list',
@@ -11,7 +12,8 @@ import { ActivatedRoute } from '@angular/router';
   standalone: true,
   imports: [
     HeaderCardComponent,
-    TableGeneralComponent
+    TableGeneralComponent,
+    ElementListModalComponent
   ]
 })
 export class ElementListComponent {
@@ -29,6 +31,9 @@ export class ElementListComponent {
     { title: "Activo", data: "activo" },
   ]
 
+  public idEdit: number | null = null;
+  public displayModal: boolean = false;
+
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
@@ -45,7 +50,15 @@ export class ElementListComponent {
   }
 
   create() {
+    this.displayModal = true;
+  }
 
+  modalResponse(event: boolean) {
+    this.displayModal = false;
+    if (event) {
+      // refrescar tabla
+    }
+    this.idEdit = null;
   }
 
   print() {

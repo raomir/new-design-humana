@@ -1,0 +1,16 @@
+<p-dialog (onHide)="hideModal()" [(visible)]="displayModal" [modal]="true" [style]="{ width: '50vw' }"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <h4 *ngIf="!cutTitle" class="modal-title" id="modal-basic-title">{{ title }}</h4>
+        <h4 *ngIf="cutTitle" class="modal-title" id="modal-basic-title" pTooltip="{{title}}">{{ newTitle }}</h4>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <ng-content></ng-content>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="grid justify-content-end">
+            <app-buttons-general [buttons]="buttons" (cancelAction)="hideModal()"
+                (saveAction)="closeModal.emit(true)"></app-buttons-general>
+        </div>
+    </ng-template>
+</p-dialog>

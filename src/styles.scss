@@ -18,7 +18,6 @@ i[class^="fi-sr-"]:before {
 .card {
   box-shadow: 0 0 4px #0000001a;
   border-top: 4px solid #1d68be;
-  min-height: 50%;
 }
 
 .button-inactive {
@@ -200,3 +199,11 @@ input[type="text"] {
   color: #1d68be;
   font-weight: 600;
 }
+.text-green-500 {
+  color: #0BD18A !important;
+}
+
+.text-red-500 {
+  color: #fc6161 !important;
+}
+

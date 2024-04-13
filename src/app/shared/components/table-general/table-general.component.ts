@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Action, Column, DatatableSort, ExtendedPostData, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,22 +7,25 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.component';
 import { DividerModule } from 'primeng/divider';
+import { RegistroData } from '../buttons-general/actions';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-table-general',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
+  imports: [ButtonModule, TooltipModule, CommonModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
   templateUrl: './table-general.component.html',
   styleUrls: ['./table-general.component.css']
 })
 export class TableGeneralComponent implements OnInit {
   
   @Input() columns: Array<Column> = []; // Atributo: Columnas de la tabla
-  @Output() runAction: any = new EventEmitter<Action>(); // Método: Emite una acción
+  @Input() export: boolean = true;
   @Input() endPoint: string = ''; // Atributo: Punto final
   @Input() data: Array<any> = []; // Atributo: Datos de la tabla
   @Input() loading: boolean = false; // Atributo: Carga de la tabla
-  @Input() pageNumber: number | string | any = 8; // Atributo: Número de página
+  @Input() pageNumber: number | string | any = 10; // Atributo: Número de página
   @Input() path: string = ''; // Atributo: Ruta
   @Input() route: string = ''; // Atributo: Ruta
   @Input() showCurrentPageReport: boolean = true; // Atributo: Mostrar informe de la página actual
@@ -32,6 +35,9 @@ export class TableGeneralComponent implements OnInit {
   @Input() closingDate: boolean = false; // Atributo: Fecha de cierre
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
+  @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
+  @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
+  @Output() public exportAction = new EventEmitter<any>();
   public searchForm: FormGroup = new FormGroup({}); // Atributo: Formulario de búsqueda
   public search: any; // Atributo: Búsqueda
   public size: number = 0; // Atributo: Tamaño
@@ -44,11 +50,11 @@ export class TableGeneralComponent implements OnInit {
   public datatableSort: DatatableSort = new DatatableSort(); // Atributo: Orden de clasificación de la tabla
   public selectedPage: any = 0; // Atributo: Página seleccionada
   public selectedRows: any; // Atributo: Filas seleccionadas
-  @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   public datatableData: any[] = []; // Atributo: Datos de la tabla
 
   currentDate: Date = new Date(); // Atributo: Fecha actual
   public dateTime: any; // Atributo: Fecha y hora
+  public rowsPerPageOptions: number[] = [10, 25, 50, 100];
 
   constructor(
     /* public services: ApisServicesService, */
@@ -465,9 +471,14 @@ export class TableGeneralComponent implements OnInit {
    * @param page Page object.
    */
   paginate(page: any) {
-    this.pageNumber = page.rows;
-    this.selectedPage = page.page;
-    this.selectedRows = page.rows;
+    if (typeof page == 'number') {
+      this.pageNumber = page;
+      this.selectedRows = page;
+    } else {
+      this.pageNumber = page.rows;
+      this.selectedPage = page.page;
+      this.selectedRows = page.rows;
+    }
     this.loadTable(
       this.selectedPage,
       this.pageNumber,
@@ -617,5 +628,8 @@ export class TableGeneralComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  handleRunActions(event: RegistroData) {
+    this.runActions.emit(event);
   }
 }
