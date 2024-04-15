@@ -48,23 +48,23 @@
             </tr>
         </ng-template>
         <ng-template
-            pTemplate="body"
-            let-dataItem
-            let-columns="columns"
-            let-rowIndex="rowIndex"
-        >
+                pTemplate="body"
+                let-dataItem
+                let-columns="columns"
+                let-rowIndex="rowIndex"
+            >
 
-        <tr>
-            <ng-container *ngFor="let column of columns">
-                <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
-                <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>
-                <td style="padding: 0.25rem 0.5rem" *ngIf="column?.actions?.length" class="text-center">
-                    <ng-container *ngIf="column.actions">
-                        <app-buttons-general (runActions)="handleRunActions($event)" [datatable]="true" [buttons]="column.actions" [dataDatatable]="dataItem"></app-buttons-general> 
-                    </ng-container>
-                </td>
-            </ng-container>
-        </tr>
+            <tr (click)="runActions.emit({action: 'documento', data: dataItem});">
+                <ng-container *ngFor="let column of columns">
+                    <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
+                    <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>
+                    <td style="padding: 0.25rem 0.5rem" *ngIf="column?.actions?.length" class="text-center">
+                        <ng-container *ngIf="column.actions">
+                            <app-buttons-general (runActions)="handleRunActions($event)" [datatable]="true" [buttons]="column.actions" [dataDatatable]="dataItem"></app-buttons-general> 
+                        </ng-container>
+                    </td>
+                </ng-container>
+            </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
             <tr>
