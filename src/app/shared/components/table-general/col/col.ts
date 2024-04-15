@@ -32,11 +32,6 @@ export interface DatatableSort {
   sortOrder: number;
 }
 
-export class DatatableSort implements DatatableSort {
-  public sortField: string = 'id';
-  public sortOrder: number = 1;
-}
-
 export interface PostData {
   page: number;
   rows: number | string;
@@ -47,4 +42,42 @@ export interface PostData {
 
 export interface ExtendedPostData extends PostData {
   [key: string]: any;
+}
+
+interface SearchParams {
+  value: string;
+  regex: boolean;
+}
+
+interface Order {
+  column: number;
+  dir: string;
+}
+
+interface Col {
+  data: string;
+  name: string;
+  searchable: boolean;
+  orderable: boolean;
+  search: {
+    value: string;
+    regex: boolean;
+  };
+}
+
+export interface JsonParams {
+  draw: number;
+  columns: Column[] | Col[];
+  order: Order[];
+  start: number;
+  length: number;
+  search: SearchParams;
+  pageCurrent: number;
+  params: any[]; // Puedes ajustar el tipo de datos según lo necesites
+}
+
+
+export class DatatableSort implements DatatableSort {
+  public sortField: string = 'id';
+  public sortOrder: number = 1;
 }
