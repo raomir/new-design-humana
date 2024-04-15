@@ -1,7 +1,8 @@
 export class List {
     constructor(
       public id: number,
-      public name: string,
-      public code: string
+      public codigo: string,
+      public nombre: string,
+      public valor_montar: string
     ) {}
    }

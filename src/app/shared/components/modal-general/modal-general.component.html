@@ -1,16 +1,19 @@
-<p-dialog (onHide)="hideModal()" [(visible)]="displayModal" [modal]="true" [style]="{ width: '50vw' }"
+<p-dialog (onHide)="hideModal()" [(visible)]="displayModal" [modal]="true" [style]="{ width: widthVwModal }"
     [draggable]="false" [resizable]="false">
     <ng-template pTemplate="header">
-        <h4 *ngIf="!cutTitle" class="modal-title" id="modal-basic-title">{{ title }}</h4>
-        <h4 *ngIf="cutTitle" class="modal-title" id="modal-basic-title" pTooltip="{{title}}">{{ newTitle }}</h4>
+        <h4 *ngIf="!cutTitle" class="modal-title mb-auto mt-auto" id="modal-basic-title">{{ title }}</h4>
+        <h4 *ngIf="cutTitle" class="modal-title mb-auto mt-auto" id="modal-basic-title" pTooltip="{{title}}">{{ newTitle }}</h4>
     </ng-template>
+    <p-divider class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" 
+        [ngStyle]="{ 'background-color': '#1d68be', 'margin': '0', 'padding': '0', 'border-width': '0px', 'height': '1px' }">
+    </p-divider>
     <ng-template pTemplate="body">
         <ng-content></ng-content>
     </ng-template>
     <ng-template pTemplate="footer">
         <div class="grid justify-content-end">
             <app-buttons-general [buttons]="buttons" (cancelAction)="hideModal()"
-                (saveAction)="closeModal.emit(true)"></app-buttons-general>
+                (saveAction)="closeModal.emit(true)" />
         </div>
     </ng-template>
 </p-dialog>

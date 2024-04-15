@@ -171,7 +171,7 @@ input[type="text"] {
   padding-bottom: 0rem !important;
 }
 
-.layout-menu-wrapper .layout-menu-container .layout-menu > li:first-child {
+.layout-menu-wrapper .layout-menu-container .layout-menu>li:first-child {
   margin-top: 0.5rem !important;
 }
 
@@ -200,6 +200,7 @@ input[type="text"] {
   color: #1d68be;
   font-weight: 600;
 }
+
 .text-green-500 {
   color: #0BD18A !important;
 }
@@ -221,3 +222,43 @@ input[type="text"] {
   color: #484c53;
 }
 
+.modal-title {
+  color: #000000 !important;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link,
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: #ECECF9 !important;
+  border: 0px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 0px;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link chevronrighticon,
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link chevrondownicon {
+  background-color: #1d68be !important;
+  color: white !important;
+  padding: 3px !important;
+  border-radius: 5px !important;
+}
+
+.p-accordion .p-accordion-content {
+  border: 0px;
+  padding: 0px;
+}
+
+.p-dropdown .p-dropdown-trigger {
+  background-color: #1d68be !important;
+  color: white !important;
+}
+
+.p-dropdown-default {
+  .p-dropdown-trigger {
+    background-color: transparent !important;
+    color: #676B89 !important;
+  }
+}
