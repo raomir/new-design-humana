@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TreeTableModule } from 'primeng/treetable';
@@ -11,6 +11,7 @@ import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.comp
   imports: [CommonModule, TreeTableModule, ButtonModule, ButtonsGeneralComponent],
   templateUrl: './tree-table-general.component.html',
   styleUrls: ['./tree-table-general.component.css'],
+  encapsulation: ViewEncapsulation.None,
   styles: [
   ]
 })
