@@ -11,13 +11,11 @@ export enum ActivoIcon {
 export interface TreeNodeGeneral {
     data: {
         id: number;
-        code: string;
-        name: string;
+        code?: string;
+        name?: string;
         level: number;
-        active: number;
-        createdAt: number | null;
-        updatedAt: number | null;
-        deletedAt: number | null;
+        active?: number;
+        favorite?: number | null;
     };
     children?: TreeNodeGeneral[];
   }
@@ -28,7 +26,9 @@ export interface TreeNodeGeneral {
         name: string;
         level: number;
         active: number;
-        createdAt: number | null;
-        updatedAt: number | null;
-        deletedAt: number | null;
+        favorite: number | null;
+  }
+
+  export interface TreeTableData {
+    
   }

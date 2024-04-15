@@ -1,11 +1,15 @@
 <div class="card">
-    <p-treeTable 
+    <p-treeTable
         [value]="data" 
         [columns]="cols" 
         [paginator]="true" 
-        [rows]="10" 
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{'min-width':'50rem'}"
+        currentPageReportTemplate="Mostrando de {first} al {last} de un total de {totalRecords} entradas"
+        [rowsPerPageOptions]="[5,10,20]"
         [scrollable]="true" 
-        [tableStyle]="{'min-width':'50rem'}">
+        >
         <ng-template pTemplate="caption">
             <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
                 <div class="col-6 p-0">
@@ -33,13 +37,25 @@
             <tr [ttRow]="rowNode">
                 <td *ngFor="let col of columns; let i = index">
                     <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
-                    <i *ngIf="col.field === 'active'" [class]="getIconClass(rowData[col.field])" [ngStyle]="{'color': getIconColor(rowData[col.field])}"></i>
-                    {{ col.field === 'active' ? '' : rowData[col.field] }}
+                    <ng-container *ngIf="col.field === 'active'">
+                        <i class="pi" [ngClass]="{
+                            'text-green-500 pi-check-circle': rowData[col.field] === 1,
+                            'text-pink-500 pi-times-circle': rowData[col.field] === 2}">
+                        </i>
+                    </ng-container>
+                    <ng-container *ngIf="col.field === 'favorite'">
+                        <i class="pi" [ngClass]="{
+                            'text-pink-500 pi-star': rowData[col.field] === 1}">
+                        </i>
+                    </ng-container>
+                    <span *ngIf="col.field !== 'active' && col.field !== 'favorite'">
+                        {{ rowData[col.field] }}
+                    </span>
                 </td>
                 <td style="text-align: center; width: 120px">
                     <app-buttons-general [datatable]="true" [buttons]="buttonsDatatable" (runActions)="runActions($event)" [dataDatatable]="rowData"></app-buttons-general>
                 </td>
             </tr>
-        </ng-template>
+        </ng-template>  
     </p-treeTable>
 </div>
