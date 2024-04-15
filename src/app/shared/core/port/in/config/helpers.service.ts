@@ -1,3 +1,4 @@
+import { Message } from "primeng/api";
 import { Observable } from "rxjs";
 
 export interface HelpersService {

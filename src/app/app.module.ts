@@ -11,6 +11,7 @@ import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app-routing.module'
 import { MenuService } from './ssgt/parameter/infraestructure/adapter/primary/root/menu/app.menu.service'
 import { AppBreadcrumbService } from './ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
+import { MessageService } from 'primeng/api'
 
 @NgModule({
     imports: [
@@ -21,7 +22,7 @@ import { AppBreadcrumbService } from './ssgt/parameter/infraestructure/adapter/p
         BrowserAnimationsModule,
     ],
     declarations: [AppComponent],
-    providers: [MenuService, AppBreadcrumbService],
+    providers: [MenuService, AppBreadcrumbService, MessageService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent],
 })

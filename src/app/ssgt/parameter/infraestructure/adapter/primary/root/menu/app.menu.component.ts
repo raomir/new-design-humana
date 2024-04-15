@@ -33,12 +33,12 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Instituciones',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/administration/company'],
+                        routerLink: ['/main/administration/company'],
                     },
                     {
                         label: 'Clases Peligro',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/administration/danger-class'],
+                        routerLink: ['/main/administration/danger-class'],
                     },
                     {
                         label: 'Sedes',
