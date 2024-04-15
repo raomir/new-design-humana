@@ -281,7 +281,7 @@ export class TableGeneralComponent implements OnInit {
             }
           };
         }),
-        order: [{ column: 0, dir: 'desc' }], 
+        order: [{ column: this.columns.findIndex((col: Column) => col.data == sortField) != -1 ? this.columns.findIndex((col: Column) => col.data == sortField) : 0, dir: sortOrder == 1 ? 'desc' : 'asc' }], 
         start: (page - 1) * rows, 
         length: rows, 
         search: {
@@ -291,7 +291,6 @@ export class TableGeneralComponent implements OnInit {
         pageCurrent: page,
         params: [],
       };
-      console.log(jsonParams);
 
       this.services.getDataJsonParams(jsonParams)
         .subscribe((res: any) => {
