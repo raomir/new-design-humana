@@ -51,7 +51,6 @@ export class ButtonsGeneralComponent implements OnInit {
   @Output() public rejectAction = new EventEmitter<void>();
   @Output() public requestAction = new EventEmitter<void>();
   @Output() public searchAction = new EventEmitter<void>();
-  @Output() public clearAction = new EventEmitter<void>();
   @Output() public confirmAction = new EventEmitter<void>();
   @Output() public exportAction = new EventEmitter<any>();
   @Output() public printAction = new EventEmitter<any>();
