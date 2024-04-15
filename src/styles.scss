@@ -241,3 +241,10 @@ input[type="text"] {
   background-color: #1d68be !important;
   color: white !important;
 }
+
+.p-dropdown-default {
+  .p-dropdown-trigger {
+    background-color: transparent !important;
+    color: #676B89 !important;
+  }
+}
