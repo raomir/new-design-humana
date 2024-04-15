@@ -1,0 +1,68 @@
+<app-modal-general [displayModal]="displayModal" [title]="title" (closeModal)="closeModal($event)"
+    [widthVwModal]="'70vw'" [buttons]="buttons">
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab [iconPos]="'end'">
+            <ng-template pTemplate="header">
+                <span class="font-bold" style="font-size: 12px;">Criterios de búsqueda</span>
+            </ng-template>
+            <p-divider class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left"
+                [ngStyle]="{ 'background-color': '#1d68be', 'margin': '0', 'padding': '0', 'border-width': '0px', 'height': '1px' }">
+            </p-divider>
+            <form name="frm" id="frm" [formGroup]="frm">
+                <div class="grid col-12 m-0">
+                    <!-- Código -->
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3">
+                        <div class="field form-group">
+                            <label for="codigo" class="m-0">Código</label>
+                            <div class="p-inputgroup mt-2"> <!-- [patterns]="codePatterns" mask="0*" -->
+                                <input pInputText maxlength="10" formControlName="codigo" id="codigo" name="codigo"
+                                    type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Código -->
+                    <!-- nombre -->
+                    <div class="col-12 sm:col-12 md:col-5 lg:col-5">
+                        <div class="field form-group">
+                            <label for="nombre" class="m-0">Tipo Formulario</label>
+                            <div class="mt-2">
+                                <p-dropdown [style]="{width: '100%'}" [options]="typesForms" [showClear]="true"
+                                    formControlName="tipo_formulario_id" placeholder="Seleccione tipo de formulario"
+                                    optionLabel="valor_montar" optionValue="id"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END nombre -->
+                    <!-- nombre -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4">
+                        <div class="field form-group">
+                            <label for="nombre" class="m-0">Nombre</label>
+                            <div class="p-inputgroup mt-2">
+                                <input pInputText placeholder="Nombre" maxlength="50" name="nombre"
+                                    formControlName="nombre" id="nombre" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END nombre -->
+                    <!-- descripcion -->
+                    <div class="col-12 pt-0">
+                        <div class="field form-group">
+                            <label for="descripcion" class="m-0">Descripción</label>
+                            <div class="p-inputgroup mt-2">
+                                <textarea style="min-height: 100px;" id="descripcion" placeholder="Descripción"
+                                    name="descripcion" formControlName="descripcion" pInputText type="text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END descripcion -->
+                    <div class="col-auto ml-auto">
+                        <app-buttons-general [buttons]="buttonsForm" (searchAction)="searchForms()"
+                            (cleanAction)="cleanForm()" />
+                    </div>
+                </div>
+            </form>
+        </p-accordionTab>
+    </p-accordion>
+    <app-table-general [columns]="columns" [export]="false" [endPoint]="''" [usePostRequest]="true" [parameters]="frm.getRawValue()"/>
+
+</app-modal-general>

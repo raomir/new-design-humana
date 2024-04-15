@@ -3,6 +3,7 @@ import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.comp
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog'
 import { TooltipModule } from 'primeng/tooltip';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-modal-general',
@@ -12,6 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
     CommonModule,
     DialogModule,
     TooltipModule,
+    DividerModule,
     ButtonsGeneralComponent
   ]
 })
@@ -19,6 +21,7 @@ export class ModalGeneralComponent {
 
   @Input() displayModal: boolean = false;
   @Input() title: string = '';
+  @Input() widthVwModal: string = '50vw';
   @Input() sizeLimitTitle: number = 40;
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
 
