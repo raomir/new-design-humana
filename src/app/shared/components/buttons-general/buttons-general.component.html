@@ -27,49 +27,49 @@
         <!-- BOTÓN CANCELAR -->
         <p-button (click)="cancelAction.next()" *ngIf="buttons.includes('btn_cancel')" 
           id="btn-cancel" icon="pi pi-times" [outlined]="true"
-          class="p-button-danger p-button-rounded mr-2" label="Cancelar" severity="danger">
+          class="p-button-danger button-rounded-general mr-2" label="Cancelar" severity="danger">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.exit']" -->
         <!-- BOTÓN REGRESAR -->
         <p-button (click)="returnAction.next()" *ngIf="buttons.includes('btn_return')" 
           id="btn-return" icon="pi pi-times" [outlined]="true"
-          class="p-button-danger p-button-rounded mr-2" label="Regresar" severity="danger">
+          class="p-button-danger button-rounded-general mr-2" label="Regresar" severity="danger">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.destroy']" -->
         <!-- BOTÓN ELIMINAR -->
         <p-button (click)="deleteAction.next()" *ngIf="buttons.includes('btn_delete')" 
           id="btn-delete" icon="pi pi-eraser" [outlined]="true"
-          class="p-button-danger p-button-rounded mr-2" label="Eliminar" severity="danger">
+          class="p-button-danger button-rounded-general mr-2" label="Eliminar" severity="danger">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.clean']" -->
         <!-- BOTÓN LIMPIAR -->
         <p-button (click)="cleanAction.next()" *ngIf="buttons.includes('btn_clean')" 
           id="btn-clean" icon="pi pi-eraser" [outlined]="true"
-          class="p-button-danger p-button-rounded mr-2" label="Limpiar" severity="danger">
+          class="p-button-danger button-rounded-general mr-2" label="Limpiar" severity="danger">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.annul']" -->
         <!-- BOTÓN ANULAR -->
         <p-button (click)="annulAction.next()" *ngIf="buttons.includes('btn_annul')" 
           id="btn-annul" icon="pi pi-ban" [outlined]="true"
-          class="p-button-danger p-button-rounded mr-2" label="Anular" severity="danger">
+          class="p-button-danger button-rounded-general mr-2" label="Anular" severity="danger">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.authorize']" -->
         <!-- BOTÓN AUTORIZAR -->
         <p-button (click)="authorizeAction.next()" *ngIf="buttons.includes('btn_authorize')" 
           id="btn-authorize" icon="pi pi-check" [outlined]="true"
-          class="p-button-success p-button-rounded mr-2" label="Autorizar" severity="success">
+          class="p-button-success button-rounded-general mr-2" label="Autorizar" severity="success">
         </p-button>
       </ng-container>
       <ng-container><!-- *ngxPermissionsOnly="[this.permission + '.edit']" -->
         <!-- BOTÓN EDITAR -->
         <p-button (click)="editAction.next()" *ngIf="buttons.includes('btn_edit')" 
           id="btn-edit" icon="pi pi-pencil" [outlined]="true"
-          class="p-button-warning p-button-rounded mr-2" label="Editar" severity="warning">
+          class="p-button-warning button-rounded-general mr-2" label="Editar" severity="warning">
         </p-button>
       </ng-container>
       <ng-container>
@@ -77,7 +77,7 @@
         <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
         <p-button (click)="createAction.next()" *ngIf="buttons.includes('btn_create')" 
           id="btn-create" icon="pi pi-plus" [outlined]="true"
-          class="p-button-success p-button-rounded mr-2" label="Crear" severity="success">
+          class="p-button-success button-rounded-general mr-2" label="Crear" severity="success">
         </p-button>
       </ng-container>
       <ng-container>
@@ -85,7 +85,7 @@
         <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
         <p-button (click)="printAction.next(null)" *ngIf="buttons.includes('btn_imprimir')" 
           id="btn-create" icon="pi pi-print" [outlined]="true"
-          class="p-button-primary p-button-rounded mr-2" label="Imprimir" severity="primary">
+          class="p-button-primary button-rounded-general mr-2" label="Imprimir" severity="primary">
         </p-button>
       </ng-container>
       <ng-container>
@@ -93,7 +93,7 @@
         <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
         <p-button (click)="newAction.next()" *ngIf="buttons.includes('btn_nuevo')" 
           id="btn-create" icon="pi pi-plus" [outlined]="true"
-          class="p-button-success p-button-rounded mr-2" label="Nuevo" severity="success">
+          class="p-button-success button-rounded-general mr-2" label="Nuevo" severity="success">
         </p-button>
       </ng-container>
       
@@ -102,7 +102,7 @@
         <!-- *ngxPermissionsOnly="[this.permission + '.save']" -->
         <p-button [outlined]="true" (click)="saveAction.next()" *ngIf="buttons.includes('btn_save')" 
           id="btn-save" icon="pi pi-save" [outlined]="true"
-          class="p-button-success p-button-rounded mr-2" label="Guardar" severity="success">
+          class="p-button-success button-rounded-general mr-2" label="Guardar" severity="success">
         </p-button>
       </ng-container>
     </div>

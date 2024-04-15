@@ -18,6 +18,7 @@ i[class^="fi-sr-"]:before {
 .card {
   box-shadow: 0 0 4px #0000001a;
   border-top: 4px solid #1d68be;
+  padding-top: 10px;
 }
 
 .button-inactive {
@@ -205,5 +206,18 @@ input[type="text"] {
 
 .text-red-500 {
   color: #fc6161 !important;
+}
+
+.button-rounded-general {
+  button {
+    border-radius: 30px;
+    font-size: 12px;
+  }
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #484c53;
 }
 

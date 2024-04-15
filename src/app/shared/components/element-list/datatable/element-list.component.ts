@@ -32,7 +32,7 @@ export class ElementListComponent {
   ]
 
   public idEdit: number | null = null;
-  public displayModal: boolean = false;
+  public displayModal: boolean = true;
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute) {
     this.title = this.activatedRoute.snapshot.data['title'];
