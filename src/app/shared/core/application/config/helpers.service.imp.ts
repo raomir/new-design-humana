@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { HelpersService } from '../../port/in/config/helpers.service';
+import { environment } from '../../../../../environments/environment';
+import { MessageService } from 'primeng/api';
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HelpersServiceImp implements HelpersService {
   token_erp: string;
@@ -13,12 +16,13 @@ export class HelpersServiceImp implements HelpersService {
   maxCode: number;
   maxDescription: number;
   maxName: number;
-  API_URL_ERP = ""; //GLOBAL.url_sinergia;
-  API_URL = "";//GLOBAL.url;
+  API_URL_ERP = environment.url_sinergia;
+  API_URL = environment.url;
   perfiles: any;
 
   constructor(
     private http: HttpClient,
+    private messageService: MessageService
   ) {
     this.token_erp = localStorage.getItem('ACCESS_TOKEN') || '';
     this.prmDataTableSearch = 50;
@@ -90,7 +94,7 @@ export class HelpersServiceImp implements HelpersService {
   }
 
   showAlert(type: string, message: string): void {
-    // Implementa la lógica del método showAlert aquí
+    this.messageService.add({severity: type, summary: 'Alerta', detail: message});
   }
 
   showConfirmation(title: string, message: string): Promise<any> | any {

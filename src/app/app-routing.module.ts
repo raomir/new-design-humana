@@ -2,8 +2,16 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
 const routes: Routes = [
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     {
-        path: '',
+        path: 'login',
+        loadComponent: () =>
+            import(
+                './auth/components/login/login.component'
+            ).then((m) => m.LoginComponent),
+    },
+    {
+        path: 'main',
         loadComponent: () =>
             import(
                 './ssgt/parameter/infraestructure/adapter/primary/root/main/app.main.component'

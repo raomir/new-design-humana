@@ -12,17 +12,17 @@ export interface AuthService {
   login(user: UserI): Promise<any>;
   loginToken(user: { token: string, prv_empresa_id : string}): Promise<any>;
   postAuthenticate(sedes: any, token: any): Promise<any>;
-  obtenerUsuario(res: any): any;
-  validarToken(token: string): any;
+  getUserInfo(res: any): any;
+  validateToken(token: string): any;
   logout(): void;
-  setValidacionesLogout(status: any, message: any): any;
+  setLogoutValidations(status: any, message: any): any;
   saveToken(token: string, expiresIn: string): void;
   getToken(): string;
-  obtenerTraduccionesLogin(): any;
-  verificationIp(ip: string): any;
-  verificationCode(email: string): any;
-  setPerfiles(data: any): any;
+  getLoginTranslations(): any;
+  verifyIp(ip: string): any;
+  verifyCode(email: string): any;
+  setProfiles(data: any): any;
   loadPermissions(perm: any): any;
-  loadPermissionsStorage(): any;
-  obtenerLogo(): Promise<any>;
+  loadPermissionsFromStorage(): any;
+  getLogo(): Promise<any>;
 }

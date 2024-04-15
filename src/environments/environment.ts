@@ -1,6 +1,6 @@
 export const environment = {
     url: 'http://localhost:9091/api/',
-    url_sinergia: 'https://qa-back.nuevoerp.co/api/',
+    url_sinergia: 'http://oracle.aleerp.com:8008/api/', //'https://dev08-backend.aleerp.com/api/', // 'https://qa-back.nuevoerp.co/api/', //,
     token: '',
     production: false,
     pantalla: (screen.width < 768) ? 'smarthphone' : 'computer',

@@ -1,0 +1,78 @@
+<!-- login.component.html -->
+<p-toast></p-toast>
+<div class="login-body p-grid p-fluid">
+    <div class="p-col-6 login-header-left"></div>
+    <div class="p-col-6 login-header-right"></div>
+    <div class="p-col-6 login-panel-left pb-1">
+        <div class="p-col-12 p-md-10 p-md-offset-2 p-lg-6 p-lg-offset-6 login-panel-content"></div>
+    </div>
+    <div class="p-col-6 login-panel-right pb-1">
+        <div class="p-col-12 p-md-10 p-lg-6 login-panel-content p-shadow-6">
+            <div class="p-grid">
+                <div class="p-col-12 p-text-center pt-5">
+                    <img src="../../../assets/images/logoLogin.png" class="login-logo" alt="logo-sihos">
+                </div>
+
+                <!-- Begin login form -->
+                <form class="p-col-12"  id="frmInicioSesion" [formGroup]="loginForm">
+                    <div class="grid">
+                        <div class="col-10 col-offset-1 text-center">
+                            <p [hidden]="isGeneralHidden" style="font-size: 14px" class="p-0 m-0">Identifiquese para acceder a su cuenta</p>
+                            <p [hidden]="isRecoverPasswordHidden" style="font-size: 14px" class="p-0 m-0">Enviar correo de recuperación de contraseña</p>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-8 col-offset-2 field">
+                            <input type="email" pInputText id="email" name="email" formControlName="email" placeholder="Correo electrónico" class="p-inputtext p-component p-element col-12 ng-untouched ng-pristine ng-valid">
+                        </div>
+                    </div>
+                    <div [hidden]="isGeneralHidden"  class="p-grid">
+                        <div class="col-8 col-offset-2 field">
+                            <input type="password" pPassword autocomplete="off" id="password" name="password" formControlName="password" placeholder="Contraseña" class="p-inputtext p-component p-element col-12 ng-untouched ng-pristine ng-valid">
+                        </div>
+                    </div>
+                    <div class="p-grid" *ngIf="companies.length > 1">
+                        <div class="p-col-8 p-offset-2 p-field">
+                            <p-dropdown [options]="companies"
+                                formControlName="prv_empresa_id"
+                                id="prv_empresa_id"
+                                optionLabel="nombre"
+                                placeholder="Entidad">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-8 p-offset-2 p-text-right forgotPasswordLink">
+                            <a [hidden]="!isRecoverPasswordHidden" (click)="showRecoverPassword()">Olvidé la contraseña</a>
+                            <a [hidden]="!isGeneralHidden" (click)="showRecoverPassword()">Iniciar sesión</a>
+                        </div>
+                    </div>
+                    <div class="p-grid" [ngClass]="{'pt-3':!isGeneralHidden}">
+                        <div class="p-col-8 p-offset-2">
+                            <button [hidden]="isGeneralHidden" type="submit" pButton class="p-element p-button p-button-rounded w-full p-button-primary p-component color-btn-login center-text text-center" (click)="login()">
+                                <span class="p-button-label">Ingresar</span>
+                            </button>
+                            <!-- <button [hidden]="isRecoverPasswordHidden" [disabled]="clockDisabled" type="submit" pButton class="btn btn-info btn-sm btn-round btn-block waves-effect text-center" (click)="sendVerificationCode()">{{ recoverPasswordButtonText }}</button> -->
+                        </div>
+                    </div>
+                </form>
+                <!-- End login form -->
+
+                <!-- Begin reset password ask for code form -->
+                <!-- End reset password ask for code form -->
+
+                <!-- Begin reset password form -->
+                <!-- End reset password form -->
+                <div class="p-col-12 p-text-center">
+                    <a href="#">Términos de uso</a> | <a href="#">Políticas de privacidad</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-6 login-footer-left">
+        Copyright Tecnologías Sinergia SAS {{ currentYear }}
+    </div>
+    <div class="p-col-6 login-footer-right">
+        Todos los derechos reservados
+    </div>
+</div>
