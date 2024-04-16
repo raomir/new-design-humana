@@ -41,6 +41,8 @@ export class TableGeneralComponent implements OnInit {
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
   @Output() public exportAction = new EventEmitter<any>();
+  public rowIndexHovered: number = -1;
+  public cursorStyle: string = 'default';
   public searchForm: FormGroup = new FormGroup({}); // Atributo: Formulario de búsqueda
   public search: any; // Atributo: Búsqueda
   public size: number = 0; // Atributo: Tamaño
@@ -63,6 +65,16 @@ export class TableGeneralComponent implements OnInit {
     public services: ApisServicesServiceImp,
   ) {
     this.services.endPoint = this.endPoint;
+  }
+
+  onMouseEnter(rowIndex: number): void {
+    if (this.sendDocument) {
+      this.rowIndexHovered = rowIndex;
+    }
+  }
+
+  onMouseLeave(): void {
+    this.rowIndexHovered = -1;
   }
 
   /**

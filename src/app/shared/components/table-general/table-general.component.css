@@ -1,0 +1,9 @@
+.highlight-row {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    /* Color de sombra */
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+    /* Cambia el cursor a una mano */
+}

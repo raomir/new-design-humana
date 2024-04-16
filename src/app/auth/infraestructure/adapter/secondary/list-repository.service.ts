@@ -14,6 +14,18 @@ export class ListRepositoryService implements ListRepositoryPort {
     constructor(
         private http: HttpClient
     ) {}
+    findById(id: Number, endPoint: string): Observable<List> {
+        throw new Error('Method not implemented.')
+    }
+    save(data: List, endPoint: string): Observable<any> {
+        throw new Error('Method not implemented.')
+    }
+    update(data: List, endPoint: string, id: Number): Observable<any> {
+        throw new Error('Method not implemented.')
+    }
+    delete(endPoint: string, id: Number): Observable<any> {
+        throw new Error('Method not implemented.')
+    }
 
     findByAll(): Observable<List[]> {
         return this.http.get<List[]>(this.apiUrl);
