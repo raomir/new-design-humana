@@ -275,3 +275,19 @@ input[type="text"] {
 .p-dialog .p-dialog-header {
   padding-bottom: 5px;
 }
+
+.icon-red {
+  color: #f44336 !important;
+}
+
+.btn-accept {
+  background-color: #1d67be !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.btn-reject {
+  background-color: #f44336 !important;
+  color: white !important;
+  font-weight: bold !important;
+}

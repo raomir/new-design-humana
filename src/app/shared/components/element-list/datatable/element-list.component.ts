@@ -9,6 +9,8 @@ import { HelpersServiceImp } from '../../../core/application/config/helpers.serv
 import { List } from '../../../core/domain/list.model';
 import { RegistroData } from '../../buttons-general/actions';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ListRepositoryService } from '../../../infraestructure/adapter/secondary/list-repository.service';
 
 @Component({
   selector: 'app-element-list',
@@ -44,7 +46,8 @@ export class ElementListComponent {
   public idEdit: number | null = null;
   public displayModal: boolean = false;
 
-  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp) {
+  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
+    private listRepositoryService: ListRepositoryService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
 
@@ -80,7 +83,20 @@ export class ElementListComponent {
   }
 
   delete(id: Number): void {
-
+    this.helperService.showConfirmationDelete()
+      .then((confirmed: boolean) => {
+        if (confirmed) {
+          this.listRepositoryService.delete(this.endPoint, id).subscribe(
+            (resp: any) => {
+              this.helperService.showAlert('success', resp.mensaje);
+              this.table?.loadTable(0);
+            }
+          );
+        }
+      })
+      .catch((error: any) => {
+        console.error('Error al mostrar el cuadro de confirmación:', error);
+      });
   }
 
   print(): void {

@@ -30,4 +30,8 @@ export class ListRepositoryService implements ListRepositoryPort {
     update(data: List, endPoint: string, id: Number): Observable<any> {
         return this.http.put<any>(this.apiUrl + `${endPoint}/${id}`, data);
     }
+
+    delete(endPoint: string, id: Number): Observable<any> {
+        return this.http.delete<any>(this.apiUrl + `${endPoint}/${id}`);
+    }
 }
