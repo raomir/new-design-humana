@@ -105,10 +105,11 @@ export class HelpersServiceImp implements HelpersService {
   showConfirmationDelete(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.confirmationService.confirm({
+        header: 'Confirmación de Eliminación',
         message: `
           <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
             <i class="pi pi-exclamation-circle icon-red text-6xl text-primary-500" style="font-size: 3em; color: #f44336;"></i>
-            <p style="margin-top: 10px; font-weight: bold;">¿Está seguro que quieres eliminar este registro?</p>
+            <p style="margin-top: 10px; font-weight: bold; font: bold;">¿Está seguro que quieres eliminar este registro?</p>
           </div>
         `,
         acceptLabel: 'Sí',
