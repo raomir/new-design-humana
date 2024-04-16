@@ -54,7 +54,7 @@
                 let-rowIndex="rowIndex"
             >
 
-            <tr (click)="runActions.emit({action: 'documento', data: dataItem});">
+            <tr (click)="sendDocument ? runActions.emit({action: 'documento', data: dataItem}) : ''">
                 <ng-container *ngFor="let column of columns">
                     <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
                     <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>

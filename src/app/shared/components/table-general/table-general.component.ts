@@ -35,7 +35,8 @@ export class TableGeneralComponent implements OnInit {
   @Input() showFilter: boolean = true; // Atributo: Mostrar filtro
   @Input() closingDate: boolean = false; // Atributo: Fecha de cierre
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
-  @Input() public erp: boolean = false;
+  @Input() public erp: boolean = false; // Attribute: ERP
+  @Input() public sendDocument: boolean = false; // Attribute: Send Document
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción

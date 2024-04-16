@@ -49,6 +49,21 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'occupational-evaluation-type',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Tipos de evaluación ocupacional',
+                            endpoint: 'tipodeevaluacionocupacional',
+                            permissions: {
+                                name: 'talentohumano.tipo_evaluacion_ocupacional',
+                                only: 'talentohumano.tipo_evaluacion_ocupacional.index'
+                            }
+                        }
+                    },
                 ],
             },
         ],

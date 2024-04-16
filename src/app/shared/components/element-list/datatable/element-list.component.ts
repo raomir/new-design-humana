@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
 import { HeaderCardComponent } from '../../header-card/header-card.component';
 import { TableGeneralComponent } from '../../table-general/table-general.component';
@@ -22,6 +22,8 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class ElementListComponent {
+
+  @ViewChild('table') table?: TableGeneralComponent;
 
   public title: string;
   public endPoint: string;
@@ -63,7 +65,7 @@ export class ElementListComponent {
   modalResponse(event: boolean): void {
     this.displayModal = false;
     if (event) {
-      // refrescar tabla
+      this.table?.loadTable(0);
     }
     this.idEdit = null;
   }
