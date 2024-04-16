@@ -5,7 +5,6 @@ export class List {
       public descripcion: string,
       public activo: Number,
       public favorito: Number,
-      public prvTipoListaId: Number,
       public id?: Number,
       public valor_montar?: string
     ) {}

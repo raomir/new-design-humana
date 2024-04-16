@@ -13,10 +13,14 @@ export class ListRepositoryService implements ListRepositoryPort {
 
     constructor(
         private http: HttpClient
-    ) {}
+    ) { }
 
     findByAll(): Observable<List[]> {
         return this.http.get<List[]>(this.apiUrl);
+    }
+
+    findById(id: Number, endPoint: string): Observable<List> {
+        return this.http.get<List>(this.apiUrl + `${endPoint}/${id}`);
     }
 
     save(data: List, endPoint: string): Observable<any> {

@@ -1,7 +1,7 @@
 <div class="card">
     <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()"
-        (actionPrint)="print()"></app-header-card>
-    <app-table-general [route]="endPoint"></app-table-general>
-    <app-element-list-modal [listName]="title" [displayModal]="displayModal" [id]="idEdit" [endPoint]="endPoint"
-        (modalResponse)="modalResponse($event)"></app-element-list-modal>
+        (actionPrint)="print()" />
+    <app-table-general [endPoint]="endPoint + '/page'" [columns]="columnsTable" (runActions)="runActions($event)" />
+    <app-element-list-modal *ngIf="displayModal" [listName]="title" [displayModal]="displayModal" [id]="idEdit" [endPoint]="endPoint"
+        (modalResponse)="modalResponse($event)" />
 </div>

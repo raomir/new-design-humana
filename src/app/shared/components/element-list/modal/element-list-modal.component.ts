@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { List } from '../../../core/domain/list.model';
 import { ListRepositoryService } from '../../../infraestructure/adapter/secondary/list-repository.service';
+import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
 
 @Component({
   selector: 'app-element-list-modal',
@@ -21,8 +22,7 @@ import { ListRepositoryService } from '../../../infraestructure/adapter/secondar
 export class ElementListModalComponent {
 
   @Input() listName: string = '';
-  @Input() listTypeId: Number = 0;
-  @Input() id: number | null = null;
+  @Input() id: Number | null = null;
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
@@ -37,7 +37,8 @@ export class ElementListModalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _listRepositoryService: ListRepositoryService
+    private listRepositoryService: ListRepositoryService,
+    private helperService: HelpersServiceImp
   ) {
 
   }
@@ -46,7 +47,7 @@ export class ElementListModalComponent {
     this.loadForm()
     if (this.id) {
       this.title = 'Editar: ' + this.listName;
-      this.loadData();
+      this.loadData(this.id);
     } else {
       this.title = 'Nuevo: ' + this.listName;
     }
@@ -70,16 +71,25 @@ export class ElementListModalComponent {
         Validators.minLength(3),
         Validators.required
       ])],
-      favorito: [true],
+      favorito: [false],
     })
   }
 
-  async loadData() {
-    /* this.frm.patchValue({
-      codigo: resp.codigo,
-      nombre: resp.nombre,
-      descripcion: resp.descripcion
-    }) */
+  loadData(id: Number) {
+    this.listRepositoryService.findById(id, this.endPoint).subscribe({
+      next: resp => {
+        this.frm.patchValue({
+          activo: resp.activo === 1,
+          favorito: resp.favorito === 1,
+          codigo: resp.codigo,
+          nombre: resp.nombre,
+          descripcion: resp.descripcion
+        })
+      },
+      error: error => {
+
+      }
+    })
   }
 
   closeModal(event: boolean) {
@@ -95,35 +105,38 @@ export class ElementListModalComponent {
 
   async save(): Promise<void> {
     const data = {
-      codigo: this.frm.value.code,
-      nombre: this.frm.value.name,
-      descripcion: this.frm.value.description,
-      prvTipoListaId: this.listTypeId,
+      codigo: this.frm.value.codigo,
+      nombre: this.frm.value.nombre,
+      descripcion: this.frm.value.descripcion,
       favorito: this.frm.value.favorito ? 1 : 2,
       activo: this.frm.value.activo ? 1 : 2
     }
 
     if (this.id) {
-
-      this._listRepositoryService.update(data, this.endPoint, this.id).subscribe({
+      this.listRepositoryService.update(data, this.endPoint, this.id).subscribe({
         next: resp => {
-          console.log(resp)
+          this.helperService.showAlert('success', 'Registro actualizado exitosamente!');
+          this.modalResponse.emit(true)
         },
         error: error => {
           console.log(error)
+          this.helperService.showAlert('info', error.error.message);
+          this.modalResponse.emit(false)
         },
       })
     } else {
-      this._listRepositoryService.save(data, this.endPoint).subscribe(
-        res => {
-
+      this.listRepositoryService.save(data, this.endPoint).subscribe({
+        next: resp => {
+          this.helperService.showAlert('success', 'Registro creado exitosamente!');
+          this.modalResponse.emit(true)
         },
-        error => {
-
-        }
-      )
+        error: error => {
+          console.log(error)
+          this.helperService.showAlert('info', error.error.message);
+          this.modalResponse.emit(false)
+        },
+      })
     }
-    this.modalResponse.emit(true)
   }
 
 }

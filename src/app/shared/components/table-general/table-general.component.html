@@ -42,7 +42,7 @@
                     [style]="'margin: 0 auto;' + (column.width ? 'width: ' + column.width : '')"
                 >
                     {{ column.title }}
-                    <p-sortIcon *ngIf="column.sort != ''" field="{{ column.sort }}"></p-sortIcon>
+                    <p-sortIcon *ngIf="column.sort != '' && column.sort != undefined" field="{{ column.sort }}"></p-sortIcon>
                 </th>
                 </ng-container>
             </tr>

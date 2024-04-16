@@ -53,48 +53,48 @@ export class HelpersServiceImp implements HelpersService {
     return this.http.post(this.API_URL_ERP + route, data, { headers: headersERP })
       .pipe(
         map((response: any) => {
-            return Object.keys(response['data']).map((key: string) => {
-              return {
-                id: response['data'][key].id,
-                name: response['data'][key].value_to_display,
-                data: response['data'][key]
-              };
-            });
-          }
+          return Object.keys(response['data']).map((key: string) => {
+            return {
+              id: response['data'][key].id,
+              name: response['data'][key].value_to_display,
+              data: response['data'][key]
+            };
+          });
+        }
         )
       );
   }
 
   exportDataTable(action: any, exportType: any, input?: any, route?: string): Observable<any> {
-      input['accion'] = action;
-      input['tipo_exportacion'] = exportType;
-      const headers = headersHttp('application/json'); 
-      return this.http.post(this.API_URL_ERP + route, input, { headers: headers });
+    input['accion'] = action;
+    input['tipo_exportacion'] = exportType;
+    const headers = headersHttp('application/json');
+    return this.http.post(this.API_URL_ERP + route, input, { headers: headers });
   }
 
   export(action: any, exportType: any, pInput?: any, model?: any, validity?: any, institution?: any, order?: any, listType?: any, module?: any, route?: string, filters?: any, extraData?: any[]): Observable<any> {
-        const input = JSON.stringify(pInput);
-        let data = {
-            accion: action,
-            tipo_exportacion: exportType,
-            input: input,
-            paginas: pInput.input,
-            modelo: model,
-            com_vigencia_id: validity,
-            prv_empresa_id: institution,
-            prv_lista_tipo_id: listType,
-            prv_modulo_id: module
-        };
-        if (extraData != null && extraData !== undefined) {
-            data = Object.assign({}, data, extraData);
-        }
-        const datosCompletos = Object.assign({}, data, filters);
-        const headers = headersHttp(); 
-        return this.http.post(this.API_URL + route, 'json=' + JSON.stringify(datosCompletos), { headers: headers });
+    const input = JSON.stringify(pInput);
+    let data = {
+      accion: action,
+      tipo_exportacion: exportType,
+      input: input,
+      paginas: pInput.input,
+      modelo: model,
+      com_vigencia_id: validity,
+      prv_empresa_id: institution,
+      prv_lista_tipo_id: listType,
+      prv_modulo_id: module
+    };
+    if (extraData != null && extraData !== undefined) {
+      data = Object.assign({}, data, extraData);
+    }
+    const datosCompletos = Object.assign({}, data, filters);
+    const headers = headersHttp();
+    return this.http.post(this.API_URL + route, 'json=' + JSON.stringify(datosCompletos), { headers: headers });
   }
 
   showAlert(type: string, message: string): void {
-    this.messageService.add({severity: type, summary: 'Alerta', detail: message});
+    this.messageService.add({ severity: type, summary: 'Alerta', detail: message });
   }
 
   showConfirmation(title: string, message: string): Promise<any> | any {
@@ -164,17 +164,35 @@ export class HelpersServiceImp implements HelpersService {
   getProfilesJson(): any {
     return this.perfiles;
   }
+
+  getColumnActive(data: Number): string {
+    if (data === 1) {
+      return `<i class="pi text-green-500 pi-check-circle"></i>`;
+    } else if (data === 2) {
+      return `<i class="pi text-pink-500 pi-times-circle"></i>`;
+    } else {
+      return '';
+    }
+  }
+
+  getColumnFavorite(data: Number): string {
+    if (data === 1) {
+      return `<i class="pi text-pink-500 pi-star"></i>`;
+    } else {
+      return '';
+    }
+  }
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
-    let token = tokenService ? tokenService : ""; //GLOBAL.token;
-    return new HttpHeaders({
-        'X-localization': 'es',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
-        'Access-Control-Max-Age': '3600',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Range, Content-Disposition, Content-Type, Authorization',
-        'Content-Type': type,
-        'Authorization': `Bearer ${token}`
-    });
+  let token = tokenService ? tokenService : ""; //GLOBAL.token;
+  return new HttpHeaders({
+    'X-localization': 'es',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+    'Access-Control-Max-Age': '3600',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Range, Content-Disposition, Content-Type, Authorization',
+    'Content-Type': type,
+    'Authorization': `Bearer ${token}`
+  });
 }
