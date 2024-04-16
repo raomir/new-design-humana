@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Action, Column, DatatableSort, ExtendedPostData, PostData } from './col/col';
+import { Action, Column, DatatableSort, ExtendedPostData, JsonParams, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { TableModule } from 'primeng/table';
@@ -10,6 +10,7 @@ import { DividerModule } from 'primeng/divider';
 import { RegistroData } from '../buttons-general/actions';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { ApisServicesServiceImp } from '../../core/application/config/apis-services.service.imp';
 
 @Component({
   selector: 'app-table-general',
@@ -34,6 +35,7 @@ export class TableGeneralComponent implements OnInit {
   @Input() showFilter: boolean = true; // Atributo: Mostrar filtro
   @Input() closingDate: boolean = false; // Atributo: Fecha de cierre
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
+  @Input() public erp: boolean = false;
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
@@ -57,8 +59,10 @@ export class TableGeneralComponent implements OnInit {
   public rowsPerPageOptions: number[] = [10, 25, 50, 100];
 
   constructor(
-    /* public services: ApisServicesService, */
-  ) {}
+    public services: ApisServicesServiceImp,
+  ) {
+    this.services.endPoint = this.endPoint;
+  }
 
   /**
    * Clears invalid characters from the input.
@@ -139,8 +143,6 @@ export class TableGeneralComponent implements OnInit {
    * Inicializa el componente.
    */
   ngOnInit(): void {
-    /* this.services.endPoint = this.route; */
-    this.endPoint = this.route;
 
     this.searchForm = new FormGroup({
       search: new FormControl(null, [
@@ -179,9 +181,6 @@ export class TableGeneralComponent implements OnInit {
       }
     }
     this.generalData.emit(this.datatableData ? this.datatableData : null);
-  /*     this.services.sendDatatableData(
-    this.datatableData ? this.datatableData : ''
-  ); */
     if (this.data.length < 1) {
       this.hasData$.next(true);
     } else {
@@ -235,7 +234,7 @@ export class TableGeneralComponent implements OnInit {
    */
   loadTable(
     page: number,
-    rows: number | string = this.pageNumber,
+    rows: number | string | any = this.pageNumber,
     path?: string,
     datatable: any = null,
     loading: boolean = true,
@@ -245,225 +244,65 @@ export class TableGeneralComponent implements OnInit {
   ) {
     path = path == null ? this.path : path;
     this.loading = loading;
-    /* this.services.endPoint = this.endPoint;
-    this.services.render(); */
+    this.services.endPoint = this.endPoint;
+    this.services.render();
 
     if (this.usePostRequest) {
       if (datatable) this.parameters = datatable;
-      /* const postData: ExtendedPostData | PostData = {
+      const postData: ExtendedPostData | PostData | any = {
         page: page,
         rows: rows,
         sortField: sortField,
         search: search,
         sortOrder: sortOrder === 1 ? 'asc' : 'desc',
         parameters: this.parameters,
-      }; */
-      /* this.services.postData(postData).subscribe((res: any) => {
+      };
+      this.services.postData(postData).subscribe((res: any) => {
         this.setData(res?.content);
         this.numberPage = res.totalElements;
         this.size = res.content.length;
         this.totalPages = res.totalPages;
         this.loading = false;
         this.dataRequest.emit(postData);
-      }); */
+      });
     } else {
-      /* this.services
-        .getData(page, 'null', path ? path : null, rows, datatable)
+      // Construir objeto JSONParams
+      const jsonParams: JsonParams = {
+        draw: 1, // Asigna el valor adecuado para draw
+        columns: this.columns.map(col => {
+          return {
+            data: col.data,
+            name: '', 
+            searchable: true, 
+            orderable: true, 
+            search: {
+              value: '', 
+              regex: false, 
+            }
+          };
+        }),
+        order: [{ column: this.columns.findIndex((col: Column) => col.data == sortField) != -1 ? this.columns.findIndex((col: Column) => col.data == sortField) : 0, dir: sortOrder == 1 ? 'desc' : 'asc' }], 
+        start: (page - 1) * rows, 
+        length: rows, 
+        search: {
+          value: search || '', 
+          regex: false,
+        },
+        pageCurrent: page,
+        params: [],
+      };
+
+      this.services.getDataJsonParams(jsonParams)
         .subscribe((res: any) => {
           this.setData(res?.content);
           this.numberPage = res.totalElements;
           this.size = res.content.length;
           this.totalPages = res.totalPages;
           this.loading = false;
-        }); */
+        });
     }
-    const resPrueba: any = {
-      "content": [
-        {
-          "id": 85,
-          "codigo": "CP001",
-          "nombre": "Biológico",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "Causado por hongos bacterias virus y parásitos.",
-          "metadatos": null,
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1657309884908,
-          "updatedAt": null
-        },
-        {
-          "id": 86,
-          "codigo": "CP002",
-          "nombre": "Físico",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "Temperaturas extremas: Calor y frio.",
-          "metadatos": null,
-          "favorito": 2,
-          "activo": 2,
-          "createdAt": 1657309917980,
-          "updatedAt": null
-        },
-        {
-          "id": 87,
-          "codigo": "CP003",
-          "nombre": "Quimico",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "Causado por polvos orgánicos e inorgánicos.",
-          "metadatos": null,
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1657309943557,
-          "updatedAt": null
-        },
-        {
-          "id": 172,
-          "codigo": "dddd",
-          "nombre": "jjjjj",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "jjjjjjj d",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 1,
-          "activo": 1,
-          "createdAt": 1659732214896,
-          "updatedAt": null
-        },
-        {
-          "id": 360,
-          "codigo": "PRB1",
-          "nombre": "Peligro 1",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308156993,
-          "updatedAt": null
-        },
-        {
-          "id": 361,
-          "codigo": "PRB2",
-          "nombre": "Peligro 2",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308170471,
-          "updatedAt": null
-        },
-        {
-          "id": 362,
-          "codigo": "PRB3",
-          "nombre": "Peligro 3",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308181305,
-          "updatedAt": null
-        },
-        {
-          "id": 363,
-          "codigo": "PRB4",
-          "nombre": "Peligro 4",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308198432,
-          "updatedAt": null
-        },
-        {
-          "id": 364,
-          "codigo": "PRB5",
-          "nombre": "Peligro 5",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308213001,
-          "updatedAt": null
-        },
-        {
-          "id": 365,
-          "codigo": "PRB6",
-          "nombre": "Peligro 6",
-          "prvListaElementoId": null,
-          "tipoLista": "CLASE_PELIGRO",
-          "deletedAt": null,
-          "descripcion": "prueba exportacion componente",
-          "metadatos": {
-            "formulario": null
-          },
-          "favorito": 2,
-          "activo": 1,
-          "createdAt": 1664308226873,
-          "updatedAt": null
-        }
-      ],
-      "empty": false,
-      "first": true,
-      "last": false,
-      "number": 0,
-      "numberOfElements": 10,
-      "pageable": {
-        "sort": {
-          "unsorted": false,
-          "sorted": true,
-          "empty": false
-        },
-        "offset": 0,
-        "pageNumber": 0,
-        "pageSize": 10
-      },
-      "size": 10,
-      "sort": {
-        "unsorted": false,
-        "sorted": true,
-        "empty": false
-      },
-      "totalElements": 12,
-      "totalPages": 2
-    };
-    this.setData(resPrueba?.content);
-    this.numberPage = resPrueba.totalElements;
-    this.size = resPrueba.content.length;
-    this.totalPages = resPrueba.totalPages;
-    this.loading = false;
   }
+
 
   /**
    * Handles pagination.
@@ -491,64 +330,14 @@ export class TableGeneralComponent implements OnInit {
   }
 
   /**
-   * Filters the data.
-   * Filtra los datos.
-   * @param filter Filter object.
-   * @param path Path for data retrieval.
-   */
-  filter(filter: any, path?: string) {
-    path = path == null ? this.path : path;
-    let value = this.searchForm.controls['search'].value;
-    value = value == null ? '' : value;
-
-    if (this.isDate(value)) {
-      value = this.formatDate(value); // Formats date to "YYYY-MM-DD"
-    } else {
-      value = encodeURIComponent(value); // Converts special characters (e.g., '#' becomes '%23')
-    }
-
-    this.loading = true;
-    /* this.services.endPoint = this.endPoint;
-    this.services.render(); */
-    if (this.usePostRequest) {
-      /* const postData: ExtendedPostData | PostData = {
-        page: 0,
-        rows: this.selectedRows,
-        sortField: '',
-        search: value,
-        sortOrder: 'asc',
-        parameters: this.parameters,
-      }; */
-
-      /* this.services.postData(postData).subscribe((res: any) => {
-        this.searched = true;
-        this.setData(res?.content);
-        this.numberPage = res.totalElements;
-        this.size = res.content.length;
-        this.totalPages = res.totalPages;
-        this.loading = false;
-        this.dataRequest.emit(postData);
-      }); */
-    } else {
-      /* this.services
-        .getData(0, value, path ? path : null, this.selectedRows)
-        .subscribe((res: any) => {
-          this.searched = true;
-          this.setData(res.content);
-          this.numberPage = res.totalElements;
-          this.size = res.content.length;
-          this.loading = false;
-        }); */
-    }
-  }
-
-  /**
    * Filters the data when 'Enter' key is pressed.
    * Filtra los datos cuando se presiona la tecla 'Enter'.
    * @param filter Filter object.
    * @param path Path for data retrieval.
+   * @param page Page number.
+   * @param rows Number of rows per page.
    */
-  filterEnter(filter: any, path?: string) {
+  filterEnter(filter: any, path?: string, page: number = 0, rows: number = 10) {
     let string = this.searchForm.controls['search'].value;
     string = string == null ? '' : string;
     if (this.isDate(string)) {
@@ -559,17 +348,44 @@ export class TableGeneralComponent implements OnInit {
 
     path = path == null ? this.path : path;
     this.loading = true;
-    /* this.services.endPoint = this.endPoint;
+    this.services.endPoint = this.endPoint;
     this.services.render();
+
+    // Construir objeto JSONParams
+    const jsonParams: JsonParams = {
+      draw: 1, // Asigna el valor adecuado para draw
+      columns: this.columns.map(col => {
+        return {
+          data: col.data,
+          name: '', 
+          searchable: true, 
+          orderable: true, 
+          search: {
+            value: '', 
+            regex: false, 
+          }
+        };
+      }),
+      order: [{ column: 0, dir: 'desc' }], 
+      start: page * rows, 
+      length: rows, 
+      search: {
+        value: string || '', 
+        regex: false,
+      },
+      pageCurrent: page,
+      params: [],
+    };
+
     this.services
-      .getData(0, string, path ? path : null, this.selectedRows)
+      .getDataJsonParams(jsonParams)
       .subscribe((res: any) => {
         this.searched = true;
         this.setData(res.content);
         this.numberPage = res.totalElements;
         this.size = res.content.length;
         this.loading = false;
-      }); */
+      });
   }
 
   /**
@@ -610,25 +426,6 @@ export class TableGeneralComponent implements OnInit {
     return dateValue;
   }
 
-  /**
-   * Checks if the estimated closing date is valid.
-   * Comprueba si la fecha de cierre estimada es válida.
-   * @param estimatedClosing Estimated closing date.
-   * @returns Boolean indicating if the date is valid.
-   */
-  checkDate(estimatedClosing: any): Boolean {
-    /* this.dateTime = this.datePipe.transform(
-      this.currentDate,
-      'yyyy-MM-dd HH:mm:ss'
-    ); */
-    const date1 = new Date(estimatedClosing);
-    const date2 = new Date(this.dateTime);
-    if (date1 <= date2) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   handleRunActions(event: RegistroData) {
     this.runActions.emit(event);
   }
