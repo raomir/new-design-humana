@@ -18,4 +18,12 @@ export class ListRepositoryService implements ListRepositoryPort {
     findByAll(): Observable<List[]> {
         return this.http.get<List[]>(this.apiUrl);
     }
+
+    save(data: List, endPoint: string): Observable<any> {
+        return this.http.post<any>(this.apiUrl + endPoint, data);
+    }
+
+    update(data: List, endPoint: string, id: Number): Observable<any> {
+        return this.http.put<any>(this.apiUrl + `${endPoint}/${id}`, data);
+    }
 }

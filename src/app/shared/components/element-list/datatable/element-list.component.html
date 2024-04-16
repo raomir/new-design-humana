@@ -1,5 +1,7 @@
 <div class="card">
-    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()" (actionPrint)="print()"></app-header-card>
+    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()"
+        (actionPrint)="print()"></app-header-card>
     <app-table-general [route]="endPoint"></app-table-general>
-    <app-element-list-modal [listName]="title" [displayModal]="displayModal" [id]="idEdit" (modalResponse)="modalResponse($event)"></app-element-list-modal>
+    <app-element-list-modal [listName]="title" [displayModal]="displayModal" [id]="idEdit" [endPoint]="endPoint"
+        (modalResponse)="modalResponse($event)"></app-element-list-modal>
 </div>

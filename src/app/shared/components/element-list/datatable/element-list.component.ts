@@ -21,7 +21,7 @@ export class ElementListComponent {
   public title: string;
   public endPoint: string;
 
-  public buttons: Array<string> = ['btn_nuevo', 'btn_imprimir'];
+  public buttons: Array<string> = ['btn_print', 'btn_new'];
 
   public columnsTable: Array<Column> = [
     { title: "Código", data: "codigo" },

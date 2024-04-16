@@ -3,6 +3,8 @@ import { ModalGeneralComponent } from '../../modal-general/modal-general.compone
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { List } from '../../../core/domain/list.model';
+import { ListRepositoryService } from '../../../infraestructure/adapter/secondary/list-repository.service';
 
 @Component({
   selector: 'app-element-list-modal',
@@ -19,6 +21,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 export class ElementListModalComponent {
 
   @Input() listName: string = '';
+  @Input() listTypeId: Number = 0;
   @Input() id: number | null = null;
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
@@ -34,6 +37,7 @@ export class ElementListModalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
+    private _listRepositoryService: ListRepositoryService
   ) {
 
   }
@@ -81,11 +85,45 @@ export class ElementListModalComponent {
   closeModal(event: boolean) {
     if (event) {
       if (this.frm.valid) {
-        this.modalResponse.emit(true)
+        this.save();
+      } else {
       }
     } else {
       this.modalResponse.emit(false)
     }
+  }
+
+  async save(): Promise<void> {
+    const data = {
+      codigo: this.frm.value.code,
+      nombre: this.frm.value.name,
+      descripcion: this.frm.value.description,
+      prvTipoListaId: this.listTypeId,
+      favorito: this.frm.value.favorito ? 1 : 2,
+      activo: this.frm.value.activo ? 1 : 2
+    }
+
+    if (this.id) {
+
+      this._listRepositoryService.update(data, this.endPoint, this.id).subscribe({
+        next: resp => {
+          console.log(resp)
+        },
+        error: error => {
+          console.log(error)
+        },
+      })
+    } else {
+      this._listRepositoryService.save(data, this.endPoint).subscribe(
+        res => {
+
+        },
+        error => {
+
+        }
+      )
+    }
+    this.modalResponse.emit(true)
   }
 
 }

@@ -90,16 +90,16 @@
       <ng-container>
         <!-- BOTÓN IMPRIMIR -->
         <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
-        <p-button (click)="printAction.next(null)" *ngIf="buttons.includes('btn_imprimir')" 
-          id="btn-create" icon="pi pi-print" [outlined]="true"
+        <p-button (click)="printAction.next(null)" *ngIf="buttons.includes('btn_print')" 
+          id="btn-print" icon="pi pi-print" [outlined]="true"
           class="p-button-primary button-rounded-general mr-2" label="Imprimir" severity="primary">
         </p-button>
       </ng-container>
       <ng-container>
         <!-- BOTÓN NUEVO -->
         <!-- *ngxPermissionsOnly="[this.permission + '.create']" -->
-        <p-button (click)="newAction.next()" *ngIf="buttons.includes('btn_nuevo')" 
-          id="btn-create" icon="pi pi-plus" [outlined]="true"
+        <p-button (click)="newAction.next()" *ngIf="buttons.includes('btn_new')" 
+          id="btn-new" icon="pi pi-plus" [outlined]="true"
           class="p-button-success button-rounded-general mr-2" label="Nuevo" severity="success">
         </p-button>
       </ng-container>
