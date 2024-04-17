@@ -210,7 +210,7 @@ export class HelpersServiceImp implements HelpersService {
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
-  let token = tokenService ? tokenService : ""; //GLOBAL.token;
+  let token = tokenService ? tokenService : environment.token;
   return new HttpHeaders({
     'X-localization': 'es',
     'Access-Control-Allow-Origin': '*',

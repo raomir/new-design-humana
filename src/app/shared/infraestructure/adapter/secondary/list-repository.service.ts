@@ -15,8 +15,8 @@ export class ListRepositoryService implements ListRepositoryPort {
         private http: HttpClient
     ) { }
 
-    findByAll(): Observable<List[]> {
-        return this.http.get<List[]>(this.apiUrl);
+    findAll(endPoint: string): Observable<List[]> {
+        return this.http.get<List[]>(this.apiUrl + endPoint);
     }
 
     findById(id: Number, endPoint: string): Observable<List> {

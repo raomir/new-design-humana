@@ -64,7 +64,6 @@ export class AppMainComponent {
         private primengConfig: PrimeNGConfig,
         public app: AppComponent
     ) {
-        console.log('aca')
     }
 
     onLayoutClick() {
