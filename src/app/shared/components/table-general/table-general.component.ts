@@ -20,12 +20,12 @@ import { ApisServicesServiceImp } from '../../core/application/config/apis-servi
   styleUrls: ['./table-general.component.css']
 })
 export class TableGeneralComponent implements OnInit {
-  
+
   @Input() columns: Array<Column> = []; // Atributo: Columnas de la tabla
   @Input() export: boolean = true;
   @Input() endPoint: string = ''; // Atributo: Punto final
   @Input() data: Array<any> = []; // Atributo: Datos de la tabla
-  @Input() loading: boolean = false; // Atributo: Carga de la tabla
+  @Input() loading: boolean = true; // Atributo: Carga de la tabla
   @Input() pageNumber: number | string | any = 10; // Atributo: Número de página
   @Input() path: string = ''; // Atributo: Ruta
   @Input() route: string = ''; // Atributo: Ruta
@@ -251,9 +251,9 @@ export class TableGeneralComponent implements OnInit {
     path?: string,
     datatable: any = null,
     loading: boolean = true,
-    sortField: string | any = '',
+    sortField: string = this.datatableSort.sortField,
     sortOrder: number = 1,
-    search: any = null
+    search: string = ''
   ) {
     path = path == null ? this.path : path;
     this.loading = loading;
@@ -263,14 +263,13 @@ export class TableGeneralComponent implements OnInit {
     if (this.usePostRequest) {
       if (datatable) this.parameters = datatable;
       const postData: ExtendedPostData | PostData | any = {
-        page: page,
-        rows: rows,
-        sortField: sortField,
-        search: search,
-        sortOrder: sortOrder === 1 ? 'asc' : 'desc',
-        parameters: this.parameters,
+        ...this.parameters,
+        length: rows,
+        busqueda: search,
+        columnOrder: sortField,
+        directionOrder: sortOrder === 1 ? 'asc' : 'desc',
       };
-      this.services.postData(postData).subscribe((res: any) => {
+      this.services.postData(postData, page).subscribe((res: any) => {
         this.setData(res?.content);
         this.numberPage = res.totalElements;
         this.size = res.content.length;
@@ -285,20 +284,20 @@ export class TableGeneralComponent implements OnInit {
         columns: this.columns.map(col => {
           return {
             data: col.data,
-            name: '', 
-            searchable: true, 
-            orderable: true, 
+            name: '',
+            searchable: true,
+            orderable: true,
             search: {
-              value: '', 
-              regex: false, 
+              value: '',
+              regex: false,
             }
           };
         }),
-        order: [{ column: this.columns.findIndex((col: Column) => col.data == sortField) != -1 ? this.columns.findIndex((col: Column) => col.data == sortField) : 0, dir: sortOrder == 1 ? 'desc' : 'asc' }], 
-        start: (page - 1) * rows, 
-        length: rows, 
+        order: [{ column: this.columns.findIndex((col: Column) => col.data == sortField) != -1 ? this.columns.findIndex((col: Column) => col.data == sortField) : 0, dir: sortOrder == 1 ? 'desc' : 'asc' }],
+        start: (page - 1) * rows,
+        length: rows,
         search: {
-          value: search || '', 
+          value: search || '',
           regex: false,
         },
         pageCurrent: page,
@@ -322,10 +321,10 @@ export class TableGeneralComponent implements OnInit {
    * Maneja la paginación.
    * @param page Page object.
    */
-  paginate(page: any) {
-    if (typeof page == 'number') {
-      this.pageNumber = page;
-      this.selectedRows = page;
+  paginate(page: any, quantity = false) {
+    if (quantity) {
+      this.pageNumber = page.value;
+      this.selectedRows = page.value;
     } else {
       this.pageNumber = page.rows;
       this.selectedPage = page.page;
@@ -350,7 +349,7 @@ export class TableGeneralComponent implements OnInit {
    * @param page Page number.
    * @param rows Number of rows per page.
    */
-  filterEnter(filter: any, path?: string, page: number = 0, rows: number = 10) {
+  filterEnter() {
     let string = this.searchForm.controls['search'].value;
     string = string == null ? '' : string;
     if (this.isDate(string)) {
@@ -358,47 +357,7 @@ export class TableGeneralComponent implements OnInit {
     } else {
       string = encodeURIComponent(string); // Converts special characters (e.g., '#' becomes '%23')
     }
-
-    path = path == null ? this.path : path;
-    this.loading = true;
-    this.services.endPoint = this.endPoint;
-    this.services.render();
-
-    // Construir objeto JSONParams
-    const jsonParams: JsonParams = {
-      draw: 1, // Asigna el valor adecuado para draw
-      columns: this.columns.map(col => {
-        return {
-          data: col.data,
-          name: '', 
-          searchable: true, 
-          orderable: true, 
-          search: {
-            value: '', 
-            regex: false, 
-          }
-        };
-      }),
-      order: [{ column: 0, dir: 'desc' }], 
-      start: page * rows, 
-      length: rows, 
-      search: {
-        value: string || '', 
-        regex: false,
-      },
-      pageCurrent: page,
-      params: [],
-    };
-
-    this.services
-      .getDataJsonParams(jsonParams)
-      .subscribe((res: any) => {
-        this.searched = true;
-        this.setData(res.content);
-        this.numberPage = res.totalElements;
-        this.size = res.content.length;
-        this.loading = false;
-      });
+    this.loadTable(0, this.pageNumber, this.path, null, true, this.datatableSort.sortField, 1, string )
   }
 
   /**

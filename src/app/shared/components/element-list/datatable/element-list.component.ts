@@ -6,11 +6,9 @@ import { Column } from '../../table-general/col/col';
 import { ActivatedRoute } from '@angular/router';
 import { ElementListModalComponent } from '../modal/element-list-modal.component';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
-import { List } from '../../../core/domain/list.model';
 import { RegistroData } from '../../buttons-general/actions';
 import { CommonModule } from '@angular/common';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ListRepositoryService } from '../../../infraestructure/adapter/secondary/list-repository.service';
+import { ListService } from '../../../core/application/list.service';
 
 @Component({
   selector: 'app-element-list',
@@ -47,7 +45,7 @@ export class ElementListComponent {
   public displayModal: boolean = false;
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
-    private listRepositoryService: ListRepositoryService) {
+    private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
 
@@ -86,7 +84,7 @@ export class ElementListComponent {
     this.helperService.showConfirmationDelete()
       .then((confirmed: boolean) => {
         if (confirmed) {
-          this.listRepositoryService.delete(this.endPoint, id).subscribe(
+          this.listService.delete(this.endPoint, id).subscribe(
             (resp: any) => {
               this.helperService.showAlert('success', resp.mensaje);
               this.table?.loadTable(0);

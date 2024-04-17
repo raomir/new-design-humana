@@ -33,10 +33,9 @@ export interface DatatableSort {
 }
 
 export interface PostData {
-  page: number;
-  rows: number | string;
-  sortField: string | any;
-  sortOrder: string;
+  length: number | string;
+  columnOrder: string | any;
+  directionOrder: string;
   filter: string;
 }
 

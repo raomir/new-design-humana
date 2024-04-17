@@ -1,4 +1,4 @@
-<app-modal-general [displayModal]="displayModal" [title]="title" (closeModal)="closeModal($event)"
+<app-modal-general *ngIf="displayModal" [displayModal]="displayModal" [title]="title" (closeModal)="closeModal()"
     [widthVwModal]="'70vw'" [buttons]="buttons">
     <p-accordion [activeIndex]="0">
         <p-accordionTab [iconPos]="'end'">
@@ -14,23 +14,23 @@
                             <label for="codigo" class="m-0">Código</label>
                             <div class="p-inputgroup mt-2"> <!-- [patterns]="codePatterns" mask="0*" -->
                                 <input pInputText maxlength="10" formControlName="codigo" id="codigo" name="codigo"
-                                    type="text" />
+                                    type="text" placeholder="Código" />
                             </div>
                         </div>
                     </div>
                     <!-- END Código -->
-                    <!-- nombre -->
+                    <!-- Tipo formulario -->
                     <div class="col-12 sm:col-12 md:col-5 lg:col-5">
                         <div class="field form-group">
-                            <label for="nombre" class="m-0">Tipo Formulario</label>
+                            <label for="typeForm" class="m-0">Tipo Formulario</label>
                             <div class="mt-2">
                                 <p-dropdown [style]="{width: '100%'}" [options]="typesForms" [showClear]="true"
-                                    formControlName="tipo_formulario_id" placeholder="Seleccione tipo de formulario"
-                                    optionLabel="valor_montar" optionValue="id"></p-dropdown>
+                                    formControlName="tipoFormularioId" placeholder="Seleccione tipo de formulario"
+                                    optionLabel="nombre" optionValue="id"></p-dropdown>
                             </div>
                         </div>
                     </div>
-                    <!-- END nombre -->
+                    <!-- END Tipo formulario -->
                     <!-- nombre -->
                     <div class="col-12 sm:col-12 md:col-4 lg:col-4">
                         <div class="field form-group">
@@ -61,6 +61,7 @@
             </form>
         </p-accordionTab>
     </p-accordion>
-    <app-table-general [columns]="columns" [export]="false" [endPoint]="''" [usePostRequest]="true" [parameters]="frm.getRawValue()"/>
+    <app-table-general #table [columns]="columns" [export]="false" [endPoint]="endPointDatatable" [usePostRequest]="true" [parameters]="dataForm"
+        [usePostRequest]="true" [sendDocument]="true" (runActions)="selectElement($event)" />
 
 </app-modal-general>
