@@ -1,1 +1,41 @@
-<p>new-class-cause-modal works!</p>
+<app-modal-general [displayModal]="displayModal" [title]="title" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+            <!-- Estado -->
+            <div class="grid col-12 m-0 mt-2 p-0">
+                <label for="activo" class="form-label md:col-3">Activo</label>
+                <div class="md:col-9">
+                    <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"
+                        [(ngModel)]="frm.value.activo"></p-inputSwitch>
+                </div>
+            </div>
+            <!-- END Estado -->
+            <!-- Código -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="codigo" class="form-label md:col-3">Código</label>
+                <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
+                    <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                </div>
+            </div>
+            <!-- END Código -->
+            <!-- nombre -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="nombre" class="form-label md:col-3">Nombre</label>
+                <div class="p-inputgroup md:col-9">
+                    <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
+                        id="nombre" type="text" />
+                </div>
+            </div>
+            <!-- END nombre -->
+            <!-- descripcion -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="descripcion" class="form-label md:col-3">Descripción</label>
+                <div class="p-inputgroup md:col-9">
+                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
+                        formControlName="descripcion" pInputText type="text"></textarea>
+                </div>
+            </div>
+            <!-- END descripcion -->
+        </div>
+    </form>
+</app-modal-general>

@@ -6,11 +6,12 @@ import { TreeTableGeneralComponent } from '../../../../../../../../shared/compon
 import { HeaderCardComponent } from '../../../../../../../../shared/components/header-card/header-card.component';
 import { AccidentCausesService } from '../../../../../../core/application/accident-causes/accident-causes.service';
 import { map, elementAt } from 'rxjs';
+import { NewClassCauseModalComponent } from '../modal/new-class-cause-modal/new-class-cause-modal.component';
 
 @Component({
   selector: 'app-accident-causes-index',
   standalone: true,
-  imports: [CommonModule, TreeTableGeneralComponent, HeaderCardComponent],
+  imports: [CommonModule, TreeTableGeneralComponent, HeaderCardComponent,NewClassCauseModalComponent],
   templateUrl: './accident-causes-index.component.html'
 })
 export class AccidentCausesIndexComponent implements OnInit {
@@ -21,7 +22,11 @@ export class AccidentCausesIndexComponent implements OnInit {
   public data: any[] = [];
   public buttonsGenerals: any[] = ["btn_print","btn_new"];
   public buttonsDatatable = ["btn_nuevo", "btn_editar", "btn_eliminar"];
- 
+  public displayModal: boolean = false;
+  public idEdit: number | null = null;
+  public title: string = '';
+  public endPoint?: string;
+
 
   constructor(
     private breadcrumbService: AppBreadcrumbService,
@@ -120,8 +125,9 @@ export class AccidentCausesIndexComponent implements OnInit {
   }
 
   //* Accion Nuevo 
-  actionNew(event: any) {
-    console.log('Nuevo')
+  actionNew() {
+    this.displayModal = true;
+    this.title = 'Clase causa del accidente';
   }
 
   //* Accion Imprimir
@@ -141,6 +147,14 @@ export class AccidentCausesIndexComponent implements OnInit {
         const itemDataId = event.data.id;
         break;
     }
+  }
+
+  modalResponse(event: boolean): void {
+    this.displayModal = false;
+    if (event) {
+      // refrescar tabla
+    }
+    this.idEdit = null;
   }
 
 }
