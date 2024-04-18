@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
 import { HeaderCardComponent } from '../../header-card/header-card.component';
 import { TableGeneralComponent } from '../../table-general/table-general.component';
@@ -6,9 +6,9 @@ import { Column } from '../../table-general/col/col';
 import { ActivatedRoute } from '@angular/router';
 import { ElementListModalComponent } from '../modal/element-list-modal.component';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
-import { List } from '../../../core/domain/list.model';
 import { RegistroData } from '../../buttons-general/actions';
 import { CommonModule } from '@angular/common';
+import { ListService } from '../../../core/application/list.service';
 
 @Component({
   selector: 'app-element-list',
@@ -22,6 +22,8 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class ElementListComponent {
+
+  @ViewChild('table') table?: TableGeneralComponent;
 
   public title: string;
   public endPoint: string;
@@ -42,7 +44,8 @@ export class ElementListComponent {
   public idEdit: number | null = null;
   public displayModal: boolean = false;
 
-  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp) {
+  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
+    private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
 
@@ -63,7 +66,7 @@ export class ElementListComponent {
   modalResponse(event: boolean): void {
     this.displayModal = false;
     if (event) {
-      // refrescar tabla
+      this.table?.loadTable(0);
     }
     this.idEdit = null;
   }
@@ -78,7 +81,20 @@ export class ElementListComponent {
   }
 
   delete(id: Number): void {
-
+    this.helperService.showConfirmationDelete()
+      .then((confirmed: boolean) => {
+        if (confirmed) {
+          this.listService.delete(this.endPoint, id).subscribe(
+            (resp: any) => {
+              this.helperService.showAlert('success', resp.mensaje);
+              this.table?.loadTable(0);
+            }
+          );
+        }
+      })
+      .catch((error: any) => {
+        console.error('Error al mostrar el cuadro de confirmación:', error);
+      });
   }
 
   print(): void {

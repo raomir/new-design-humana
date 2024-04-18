@@ -3,9 +3,8 @@ import { ModalGeneralComponent } from '../../modal-general/modal-general.compone
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { List } from '../../../core/domain/list.model';
-import { ListRepositoryService } from '../../../infraestructure/adapter/secondary/list-repository.service';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
+import { ListService } from '../../../core/application/list.service';
 
 @Component({
   selector: 'app-element-list-modal',
@@ -37,7 +36,7 @@ export class ElementListModalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private listRepositoryService: ListRepositoryService,
+    private listService: ListService,
     private helperService: HelpersServiceImp
   ) {
 
@@ -76,7 +75,7 @@ export class ElementListModalComponent {
   }
 
   loadData(id: Number) {
-    this.listRepositoryService.findById(id, this.endPoint).subscribe({
+    this.listService.findById(id, this.endPoint).subscribe({
       next: resp => {
         this.frm.patchValue({
           activo: resp.activo === 1,
@@ -113,7 +112,7 @@ export class ElementListModalComponent {
     }
 
     if (this.id) {
-      this.listRepositoryService.update(data, this.endPoint, this.id).subscribe({
+      this.listService.update(data, this.endPoint, this.id).subscribe({
         next: resp => {
           this.helperService.showAlert('success', 'Registro actualizado exitosamente!');
           this.modalResponse.emit(true)
@@ -125,7 +124,7 @@ export class ElementListModalComponent {
         },
       })
     } else {
-      this.listRepositoryService.save(data, this.endPoint).subscribe({
+      this.listService.save(data, this.endPoint).subscribe({
         next: resp => {
           this.helperService.showAlert('success', 'Registro creado exitosamente!');
           this.modalResponse.emit(true)

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { HelpersService } from '../../port/in/config/helpers.service';
 import { environment } from '../../../../../environments/environment';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 @Injectable({
@@ -22,7 +22,8 @@ export class HelpersServiceImp implements HelpersService {
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {
     this.token_erp = localStorage.getItem('ACCESS_TOKEN') || '';
     this.prmDataTableSearch = 50;
@@ -99,6 +100,30 @@ export class HelpersServiceImp implements HelpersService {
 
   showConfirmation(title: string, message: string): Promise<any> | any {
     return '';
+  }
+
+  showConfirmationDelete(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.confirmationService.confirm({
+        header: 'Confirmación de Eliminación',
+        message: `
+          <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+            <i class="pi pi-exclamation-circle icon-red text-6xl text-primary-500" style="font-size: 3em; color: #f44336;"></i>
+            <p style="margin-top: 10px; font-weight: bold; font: bold;">¿Está seguro que quieres eliminar este registro?</p>
+          </div>
+        `,
+        acceptLabel: 'Sí',
+        rejectLabel: 'No',
+        acceptButtonStyleClass: 'btn-accept',
+        rejectButtonStyleClass: 'btn-reject',
+        accept: () => {
+          resolve(true); // Resuelve la promesa con true si el usuario acepta
+        },
+        reject: () => {
+          resolve(false); // Resuelve la promesa con false si el usuario rechaza
+        }
+      });
+    });
   }
 
   showSuccess(message: string): void {
@@ -185,7 +210,7 @@ export class HelpersServiceImp implements HelpersService {
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
-  let token = tokenService ? tokenService : ""; //GLOBAL.token;
+  let token = tokenService ? tokenService : environment.token;
   return new HttpHeaders({
     'X-localization': 'es',
     'Access-Control-Allow-Origin': '*',

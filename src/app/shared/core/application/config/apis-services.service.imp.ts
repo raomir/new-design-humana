@@ -174,7 +174,7 @@ export class ApisServicesServiceImp implements ApisServiceInterface {
     if (path !== '' && path !== '') {
       path = `/${path}`;
     }
-    console.log(this.endPoint);
+
     return this.http.post<any>(`${this.urlBase}${this.endPoint}${path}`, body, {
       headers: this.headers,
     });

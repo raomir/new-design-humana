@@ -8,7 +8,6 @@ import { DropdownModule } from 'primeng/dropdown'
 import { ProgressBarModule } from 'primeng/progressbar'
 import { TableModule } from 'primeng/table'
 import { AppBreadcrumbService } from '../../root/breadcrumb/app.breadcrumb.service'
-import { AdvancedSearchFormsComponent } from '../../../../../../../shared/components/advanced-search-forms/advanced-search-forms.component';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -21,13 +20,11 @@ import { AdvancedSearchFormsComponent } from '../../../../../../../shared/compon
         AvatarGroupModule,
         AvatarModule,
         TableModule,
-        ButtonModule,
-        AdvancedSearchFormsComponent
+        ButtonModule
     ],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-    public displayModal: boolean = true;
 
     constructor(private breadcrumbService: AppBreadcrumbService) {
         this.breadcrumbService.setItems([
@@ -36,18 +33,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ])
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
-    ngOnDestroy() {}
+    ngOnDestroy() { }
 
-    openModal() {
-        this.displayModal = true;
-    }
-
-    closeModal(event: Number | null) {
-        this.displayModal = false;
-        if (event) {
-            console.log('id seleccionado ' + event)
-        }
-    }
 }

@@ -8,13 +8,12 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
-import { ToastModule } from 'primeng/toast';
 import { NgxPermissionsModule, NgxPermissionsService, NgxPermissionsStore, USE_PERMISSIONS_STORE } from 'ngx-permissions';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule, ToastModule, FormsModule, NgxPermissionsModule, DatePipe, ReactiveFormsModule, DropdownModule, ButtonModule, TooltipModule],
+    imports: [CommonModule, FormsModule, NgxPermissionsModule, DatePipe, ReactiveFormsModule, DropdownModule, ButtonModule, TooltipModule],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
     providers: [AuthServiceImp, DatePipe, NgxPermissionsService, NgxPermissionsStore, { provide: USE_PERMISSIONS_STORE, useValue: 'local' }]

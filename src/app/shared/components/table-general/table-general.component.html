@@ -2,6 +2,7 @@
     <p-table
         #dataTable
         styleClass="p-datatable-striped"
+        [selectionMode]="sendDocument ? 'single' : null"
         loadingIcon="fa-solid fa-spinner fa-spin"
         [columns]="columns"
         [value]="data"
@@ -21,14 +22,14 @@
                     </div>
                     <div class="col-auto p-0">
                         <div class="p-element ng-star-inserted">
-                            <p-dropdown styleClass="p-dropdown-default" [ngModelOptions]="{standalone: true}" [options]="rowsPerPageOptions" [(ngModel)]="pageNumber" (ngModelChange)="paginate($event)"></p-dropdown>
+                            <p-dropdown styleClass="p-dropdown-default" [ngModelOptions]="{standalone: true}" [options]="rowsPerPageOptions" [(ngModel)]="pageNumber" (onChange)="paginate($event, true)"></p-dropdown>
                         </div>
                     </div>
                 </div>
                 <div *ngIf="showFilter" class="col-6 p-0 flex align-items-center justify-content-end">
                     <span class="p-input-icon-left w-7">
                         <i class="pi pi-search"></i>
-                        <input formControlName="search" pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" (input)="clearInvalidCharacters($event)" (keyup.enter)="filterEnter($event)" placeholder="Search" />
+                        <input formControlName="search" pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" (input)="clearInvalidCharacters($event)" (keyup.enter)="filterEnter()" placeholder="Search" />
                     </span>
                 </div>
             </div>
@@ -54,7 +55,7 @@
                 let-rowIndex="rowIndex"
             >
 
-            <tr (click)="runActions.emit({action: 'documento', data: dataItem});">
+            <tr (click)="sendDocument ? runActions.emit({action: 'documento', data: dataItem}) : ''">
                 <ng-container *ngFor="let column of columns">
                     <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
                     <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>

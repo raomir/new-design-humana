@@ -15,8 +15,8 @@ export class ListRepositoryService implements ListRepositoryPort {
         private http: HttpClient
     ) { }
 
-    findByAll(): Observable<List[]> {
-        return this.http.get<List[]>(this.apiUrl);
+    findAll(endPoint: string): Observable<List[]> {
+        return this.http.get<List[]>(this.apiUrl + endPoint);
     }
 
     findById(id: Number, endPoint: string): Observable<List> {
@@ -29,5 +29,9 @@ export class ListRepositoryService implements ListRepositoryPort {
 
     update(data: List, endPoint: string, id: Number): Observable<any> {
         return this.http.put<any>(this.apiUrl + `${endPoint}/${id}`, data);
+    }
+
+    delete(endPoint: string, id: Number): Observable<any> {
+        return this.http.delete<any>(this.apiUrl + `${endPoint}/${id}`);
     }
 }

@@ -11,7 +11,9 @@ import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app-routing.module'
 import { MenuService } from './ssgt/parameter/infraestructure/adapter/primary/root/menu/app.menu.service'
 import { AppBreadcrumbService } from './ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
-import { MessageService } from 'primeng/api'
+import { ConfirmationService, MessageService } from 'primeng/api'
+import { ConfirmDialogModule } from 'primeng/confirmdialog'
+import { ToastModule } from 'primeng/toast'
 
 @NgModule({
     imports: [
@@ -20,9 +22,11 @@ import { MessageService } from 'primeng/api'
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
+        ConfirmDialogModule,
+        ToastModule
     ],
     declarations: [AppComponent],
-    providers: [MenuService, AppBreadcrumbService, MessageService],
+    providers: [MenuService, AppBreadcrumbService, MessageService, ConfirmationService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent],
 })
