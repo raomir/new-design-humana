@@ -1,0 +1,7 @@
+<div class="card">
+    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()"
+        (actionPrint)="print()" />
+    <app-table-general #table [endPoint]="endPoint + '/page'" [columns]="columnsTable" (runActions)="runActions($event)" />
+    <app-inspection-objects-modal *ngIf="displayModal" [displayModal]="displayModal" [id]="idEdit" 
+        (modalResponse)="modalResponse($event)" />
+</div>
