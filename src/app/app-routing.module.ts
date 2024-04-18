@@ -49,6 +49,13 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'accident-causes',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/accident-causes/accident-causes-index/accident-causes-index.component'
+                            ).then((m) => m.AccidentCausesIndexComponent),
+                    },
                 ],
             },
         ],

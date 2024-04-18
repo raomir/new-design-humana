@@ -1,0 +1,15 @@
+<div class="card">
+    <app-header-card 
+        [title]="'Causas accidentes'" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew($event)" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <app-tree-table-general  
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        [buttonsDatatable]="buttonsDatatable">
+    </app-tree-table-general>
+</div>
+

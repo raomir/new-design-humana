@@ -45,6 +45,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-check-square',
                         routerLink: ['/uikit/input'],
                     },
+                    {
+                        label: 'Causas Accidentes',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/accident-causes'],
+                    },
                 ],
             },
             {

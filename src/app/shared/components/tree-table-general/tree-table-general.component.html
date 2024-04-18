@@ -1,4 +1,4 @@
-<div class="card">
+
     <p-treeTable
         [value]="data" 
         [columns]="cols" 
@@ -52,10 +52,16 @@
                         {{ rowData[col.field] }}
                     </span>
                 </td>
+                
                 <td style="text-align: center; width: 120px">
-                    <app-buttons-general [datatable]="true" [buttons]="buttonsDatatable" (runActions)="runActions($event)" [dataDatatable]="rowData"></app-buttons-general>
+                    <app-buttons-general 
+                        [datatable]="true" 
+                        [buttons]="buttonsDatatable" 
+                        (runActions)="runActions($event)" 
+                        [dataDatatable]="rowData"
+                        [arrayDisabled]="rowData.hiddenButtons">
+                    </app-buttons-general>
                 </td>
             </tr>
         </ng-template>  
     </p-treeTable>
-</div>
