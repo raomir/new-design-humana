@@ -46,6 +46,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/occupational-evaluation-type'],
                     },
                     {
+                        label: 'Objetos de inspección',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/inspection-objects'],
+                    },
+                    {
                         label: 'Sedes',
                         icon: 'pi pi-fw pi-check-square',
                         routerLink: ['/uikit/input'],

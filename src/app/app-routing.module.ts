@@ -71,6 +71,19 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'inspection-objects',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/components/inspection-objects/datatable/inspection-objects.component'
+                            ).then((m) => m.InspectionObjectsComponent),
+                        data: {
+                            permissions: {
+                                name: 'talentohumano.tipo_evaluacion_ocupacional',
+                                only: 'talentohumano.tipo_evaluacion_ocupacional.index'
+                            }
+                        }
+                    },
                 ],
             },
         ],
