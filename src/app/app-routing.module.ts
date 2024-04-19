@@ -50,6 +50,13 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'accident-causes',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/accident-causes/accident-causes-index/accident-causes-index.component'
+                            ).then((m) => m.AccidentCausesIndexComponent),
+                    },
+                    {
                         path: 'occupational-evaluation-type',
                         loadComponent: () =>
                             import(
@@ -58,6 +65,19 @@ const routes: Routes = [
                         data: {
                             title: 'Tipos de evaluación ocupacional',
                             endpoint: 'tipodeevaluacionocupacional',
+                            permissions: {
+                                name: 'talentohumano.tipo_evaluacion_ocupacional',
+                                only: 'talentohumano.tipo_evaluacion_ocupacional.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'inspection-objects',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/components/inspection-objects/datatable/inspection-objects.component'
+                            ).then((m) => m.InspectionObjectsComponent),
+                        data: {
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'

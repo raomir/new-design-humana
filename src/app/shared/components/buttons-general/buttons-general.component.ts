@@ -32,6 +32,7 @@ export class ButtonsGeneralComponent implements OnInit {
   @Input() isBehavior: boolean = false;
   @Input() aligned = 'float-right';
   @Input() dataDatatable: any;
+  @Input() arrayDisabled: any = [];
 
 
   // Special

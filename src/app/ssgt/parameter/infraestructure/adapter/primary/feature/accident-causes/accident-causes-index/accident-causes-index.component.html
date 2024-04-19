@@ -1,0 +1,21 @@
+<div class="card">
+    <app-header-card 
+        [title]="'Causas accidentes'" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <app-tree-table-general  
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        [buttonsDatatable]="buttonsDatatable">
+    </app-tree-table-general>
+    <app-new-class-cause-modal
+        *ngIf="displayModal"
+        [displayModal]="displayModal"
+        [listName]="title"
+        (modalResponse)="modalResponse($event)"
+    ></app-new-class-cause-modal>
+</div>
+

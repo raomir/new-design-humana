@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TreeTableModule } from 'primeng/treetable';
@@ -17,12 +17,14 @@ import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.comp
 })
 export class TreeTableGeneralComponent implements OnInit {
 
+  //Outputs
+  @Output() onAction = new EventEmitter<ItemData>();
+
   //Inputs
   @Input() data?: TreeNodeGeneral[];
   @Input() cols?: ColumnGeneral[];
-
-  //Variables 
-  public buttonsDatatable = ["btn_nuevo", "btn_editar", "btn_eliminar"];
+  @Input() buttonsDatatable?: string[];
+  
 
   constructor() { }
 
@@ -32,6 +34,7 @@ export class TreeTableGeneralComponent implements OnInit {
   //Acciones de la botonera de la datatable
   runActions(event: any) {
     let itemData: ItemData;
+    this.onAction.emit(event);
     switch (event.action) {
       case 'btn_nuevo':
         break;
@@ -39,7 +42,7 @@ export class TreeTableGeneralComponent implements OnInit {
         itemData = event.data;
         break;
       case 'btn_eliminar':
-        itemData = event.data;
+        itemData = event.data.id;
         break;
     }
   }
