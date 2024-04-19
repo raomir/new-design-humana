@@ -126,6 +126,16 @@ export class HelpersServiceImp implements HelpersService {
     });
   }
 
+  isset(variable: any): boolean {
+    try {
+      if (typeof variable !== 'undefined' && variable !== null) {
+        return true;
+      }
+    } catch (e) {
+    }
+    return false;
+  }
+
   showSuccess(message: string): void {
     // Implementa la lógica del método showSuccess aquí
   }

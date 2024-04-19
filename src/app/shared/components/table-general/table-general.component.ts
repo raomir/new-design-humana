@@ -11,11 +11,12 @@ import { RegistroData } from '../buttons-general/actions';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { ApisServicesServiceImp } from '../../core/application/config/apis-services.service.imp';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-table-general',
   standalone: true,
-  imports: [ButtonModule, TooltipModule, CommonModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
+  imports: [ButtonModule, TooltipModule, CommonModule, DialogModule, FormsModule, ReactiveFormsModule, TableModule, PaginatorModule, DividerModule, ButtonsGeneralComponent],
   templateUrl: './table-general.component.html',
   styleUrls: ['./table-general.component.css']
 })

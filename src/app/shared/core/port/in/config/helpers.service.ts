@@ -16,7 +16,8 @@ export interface HelpersService {
 
   showAlert(type: string, message: string): void;
   showConfirmation(title: string, message: string): Promise<any>;
-  showConfirmationDelete(): Promise<boolean>
+  showConfirmationDelete(): Promise<boolean>;
+  isset(variable: any): boolean;
   showSuccess(message: string): void;
   showError(message: string): void;
   showWarning(message: string): void;

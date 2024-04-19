@@ -1,3 +1,10 @@
+<p-dialog header="Diálogo Principal"  [style]="{ 'width': '600px', 'max-height': '400px' }">
+    <p>Contenido del diálogo principal...</p>
+    <button type="button" >Abrir Diálogo Anidado</button>
+    <p-dialog header="Diálogo Anidado"  [style]="{ 'width': '800px', 'height': '600px' }">
+        <p>Contenido del diálogo anidado...</p>
+    </p-dialog>
+</p-dialog>
 <form [formGroup]="searchForm">
     <p-table
         #dataTable
