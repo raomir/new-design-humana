@@ -23,7 +23,7 @@ export class AccidentCausesRepositoryService implements AccidentCausesRepository
     return this.http.post<any>(this.apiUrl, data);
   }
   update(id: Number, data: AccidentCausesModel): Observable<any> {
-    const header = helpers.headersHttp(); 
+    const header = helpers.headersHttp('application/json'); 
     return this.http.put<any>(this.apiUrl + id, data, {headers: header});
   }
   delete(id: Number): Observable<any> {

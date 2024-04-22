@@ -29,11 +29,16 @@ export class NewClassCauseModalComponent implements OnInit {
   @Input() buttons: Array<string> = ['btn_save'];
   @Input() level: number = 1;
   @Input() action: string = '';
+  @Input() fatherName: string = '';
+  @Input() sonName: string = '';
+  @Input() fatherId: Number | null = null;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
   public title: string = '';
   public frm!: FormGroup;
+  public llave? : any;
+  public nivel? : any;
 
   constructor( 
       private formBuilder: FormBuilder,
@@ -45,11 +50,13 @@ export class NewClassCauseModalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(this.level)
     this.loadForm()
     if (this.id) {
       this.title = 'Editar: ' + this.listName;
       this.loadData(this.id);
     } else {
+      this.llave = {id: this.fatherId}
       this.title = 'Nuevo: ' + this.listName;
     }
   }
@@ -72,8 +79,8 @@ export class NewClassCauseModalComponent implements OnInit {
         Validators.minLength(3),
         Validators.required
       ])],
-      grupo_clase: [{value: null, disabled: true}], 
-      clase_causa: [{value: null, disabled: true}],
+      grupo_clase: [{value: this.sonName, disabled: true}], 
+      clase_causa: [{value: this.fatherName, disabled: true}],
       id: [null]
     })
   }
@@ -106,32 +113,39 @@ export class NewClassCauseModalComponent implements OnInit {
   }
 
   save(): void {
-    const data = {
+    const data: AccidentCausesModel = {
+      id: this.frm.value.id,
       codigo: this.frm.value.codigo,
       nombre: this.frm.value.nombre,
       descripcion: this.frm.value.descripcion,
-      nivel: this.frm.value.nivel,
-      llave: null,
-      activo: this.helperService.getSwitch(this.frm.value.activo, false) 
+      nivel: this.level + 1,
+      activo: this.helperService.getSwitch(this.frm.value.activo, false),
+      llave: (this.id !== null && this.id !== undefined) ? {id:this.fatherId} as AccidentCausesModel : null,
     };
 
     if(this.id){
+
       this.accidentCausesService.update(this.id, data).subscribe(
         (res: any) => {
           this.helperService.showAlert('success', 'Registro actualizado exitosamente!');
           this.modalResponse.emit(true)
         },
         error => {
-          console.log(error)
           this.helperService.showAlert('info', error.error.message);
           this.modalResponse.emit(false)
         },
       )
-      console.log(this.frm.value)
-      console.log('Editando')
     }else{
-      console.log(this.frm.value)
-      console.log('Guardando')
+      this.accidentCausesService.save(data).subscribe(
+        (res: any) => {
+          this.helperService.showAlert('success', 'Registro creado exitosamente!');
+          this.modalResponse.emit(true)
+        },
+        error => {
+          this.helperService.showAlert('info', error.error.message);
+          this.modalResponse.emit(false)
+        },
+      )
     }
   }
 }

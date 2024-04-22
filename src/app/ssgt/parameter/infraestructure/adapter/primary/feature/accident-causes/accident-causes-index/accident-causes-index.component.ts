@@ -27,6 +27,9 @@ export class AccidentCausesIndexComponent implements OnInit {
   public endPoint?: string;
   public level: number = 1;
   public action: string = '';
+  public fatherName: string = '';
+  public sonName: string = '';
+  public fatherId: Number | null = null;
 
 
   constructor(
@@ -83,6 +86,7 @@ export class AccidentCausesIndexComponent implements OnInit {
           active: item.activo,
           isLast: false,
           hiddenButtons: [],
+          llave: (item.llave) ? item.llave : null,
         },
         children: [],
       };
@@ -96,7 +100,7 @@ export class AccidentCausesIndexComponent implements OnInit {
         nodesById[item.id]['data']['hiddenButtons'] = ['btn_eliminar'];
         topLevelNodes.push(nodesById[item.id]);
       } else if (item.nivel > 1) {
-        const parentNode = nodesById[item.llave!.id];
+        const parentNode = item.llave ? nodesById[item.llave!.id]: null;
         if (parentNode) {
           parentNode.children!.push(nodesById[item.id]);
         }
@@ -105,11 +109,12 @@ export class AccidentCausesIndexComponent implements OnInit {
 
     // Función recursiva para marcar los últimos nodos de cada rama
     function markLastLevel(nodes: TreeNodeGeneral[]): void {
+      
       if (nodes.length === 0) return;
       nodes.forEach((node: TreeNodeGeneral) => {
         if (node.children?.length === 0) {
           node.data.isLast = true;
-          if (node.data.level != 2) {
+          if (node.data.level != 2 ) {
             node.data.hiddenButtons = ['btn_nuevo'];
           }
          
@@ -126,7 +131,6 @@ export class AccidentCausesIndexComponent implements OnInit {
     topLevelNodes.forEach((node) => {
       markLastLevel(node.children || []);
     });
-    
     return topLevelNodes;
   }
 
@@ -141,7 +145,6 @@ export class AccidentCausesIndexComponent implements OnInit {
 
   //* Accion Imprimir
   actionPrint(event: any) {
-    console.log('Imprimir')
   }
 
   //* Acciones de datatable
@@ -149,7 +152,15 @@ export class AccidentCausesIndexComponent implements OnInit {
     switch (event.action) {
       case 'btn_nuevo': 
         this.displayModal = true;
+        console.log(event.data);
         this.level = event.data.level;
+        this.fatherId = event.data.id;
+        if (this.level == 1) {
+          this.fatherName =  event.data.name;
+        }else{ 
+          this.fatherName =  event.data.llave ? event.data.llave.nombre : '';
+          this.sonName = event.data.name;
+        }
         this.action = 'btn_nuevo';
         this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         break;
@@ -169,7 +180,6 @@ export class AccidentCausesIndexComponent implements OnInit {
   modalResponse(event: boolean): void {
     this.displayModal = false;
     if (event) {
-      console.log('Refrescar tabla');
       this.getData();
     }
     this.idEdit = undefined;

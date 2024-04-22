@@ -218,8 +218,8 @@ export class HelpersServiceImp implements HelpersService {
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
+  environment.token = localStorage.getItem('ACCESS_TOKEN') || '';
   let token = tokenService ? tokenService : environment.token;
-  console.log('token', token);
   return new HttpHeaders({
     'X-localization': 'es',
     'Access-Control-Allow-Origin': '*',

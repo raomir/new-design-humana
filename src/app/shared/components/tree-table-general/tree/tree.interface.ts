@@ -19,6 +19,7 @@ export interface TreeNodeGeneral {
     isLast?: boolean;
     hiddenButtons?: string[];
     description?: string;
+    llave?: TreeNodeGeneral | null;
   };
   children?: TreeNodeGeneral[];
 }
@@ -46,6 +47,6 @@ export interface BackendNode {
   izquierda: number;
   derecha: number;
   nivel: number;
-  llave?: BackendNode;
+  llave?: BackendNode | null;
   activo: number;
 }
