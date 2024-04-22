@@ -34,7 +34,6 @@ export class TreeTableGeneralComponent implements OnInit {
   //Acciones de la botonera de la datatable
   runActions(event: any) {
     let itemData: ItemData;
-    this.onAction.emit(event);
     switch (event.action) {
       case 'btn_nuevo':
         break;
@@ -45,6 +44,7 @@ export class TreeTableGeneralComponent implements OnInit {
         itemData = event.data.id;
         break;
     }
+    this.onAction.emit(event);
   }
 
   getIconClass(activoValue: number): string {

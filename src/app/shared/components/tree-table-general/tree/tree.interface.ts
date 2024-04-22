@@ -49,7 +49,3 @@ export interface BackendNode {
   llave?: BackendNode;
   activo: number;
 }
-
-export interface TreeTableData {
-
-}
