@@ -10,6 +10,7 @@ import { RegistroData } from '../../buttons-general/actions';
 import { CommonModule } from '@angular/common';
 import { ListService } from '../../../core/application/list.service';
 import { ExporterErpComponent } from '../../exporter-erp/exporter-erp.component';
+import { ExporterComponent } from '../../exporter/exporter.component';
 
 @Component({
   selector: 'app-element-list',
@@ -20,7 +21,7 @@ import { ExporterErpComponent } from '../../exporter-erp/exporter-erp.component'
     HeaderCardComponent,
     TableGeneralComponent,
     ElementListModalComponent,
-    ExporterErpComponent
+    ExporterComponent
   ]
 })
 export class ElementListComponent {
