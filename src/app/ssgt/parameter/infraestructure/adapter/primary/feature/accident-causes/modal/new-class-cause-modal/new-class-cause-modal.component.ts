@@ -27,7 +27,7 @@ export class NewClassCauseModalComponent implements OnInit {
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save'];
-  @Input() level: number = 1;
+  @Input() level: number  = 1;
   @Input() action: string = '';
   @Input() fatherName: string = '';
   @Input() sonName: string = '';
@@ -50,13 +50,11 @@ export class NewClassCauseModalComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.level)
     this.loadForm()
     if (this.id) {
       this.title = 'Editar: ' + this.listName;
       this.loadData(this.id);
     } else {
-      this.llave = {id: this.fatherId}
       this.title = 'Nuevo: ' + this.listName;
     }
   }
@@ -113,6 +111,7 @@ export class NewClassCauseModalComponent implements OnInit {
   }
 
   save(): void {
+
     const data: AccidentCausesModel = {
       id: this.frm.value.id,
       codigo: this.frm.value.codigo,
@@ -120,7 +119,7 @@ export class NewClassCauseModalComponent implements OnInit {
       descripcion: this.frm.value.descripcion,
       nivel: this.level + 1,
       activo: this.helperService.getSwitch(this.frm.value.activo, false),
-      llave: (this.id !== null && this.id !== undefined) ? {id:this.fatherId} as AccidentCausesModel : null,
+      llave: (this.fatherId !== null && this.fatherId !== undefined) ? { id: this.fatherId } as AccidentCausesModel : null,
     };
 
     if(this.id){
@@ -139,6 +138,8 @@ export class NewClassCauseModalComponent implements OnInit {
       this.accidentCausesService.save(data).subscribe(
         (res: any) => {
           this.helperService.showAlert('success', 'Registro creado exitosamente!');
+          this.level = 0;
+          this.fatherId = null;
           this.modalResponse.emit(true)
         },
         error => {

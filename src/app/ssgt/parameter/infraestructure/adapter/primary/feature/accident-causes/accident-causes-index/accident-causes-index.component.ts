@@ -137,6 +137,7 @@ export class AccidentCausesIndexComponent implements OnInit {
   //* Accion Nuevo 
   actionNew() {
     this.level = 0;
+    this.fatherId = null
     if (this.level == 0) {
       this.displayModal = true;
       this.title = 'Clase causa del accidente';
@@ -152,7 +153,7 @@ export class AccidentCausesIndexComponent implements OnInit {
     switch (event.action) {
       case 'btn_nuevo': 
         this.displayModal = true;
-        console.log(event.data);
+ 
         this.level = event.data.level;
         this.fatherId = event.data.id;
         if (this.level == 1) {
