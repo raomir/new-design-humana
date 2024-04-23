@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthServiceImp } from '../../core/application/auth.service.imp';
@@ -20,7 +20,7 @@ import { NgxPermissionsModule, NgxPermissionsService, NgxPermissionsStore, USE_P
 })
 export class LoginComponent implements OnInit {
     
-    public loginForm: FormGroup | any;
+    public loginForm: FormGroup | any = new FormGroup({});
     public companies: Array<any> | any = [];
     submit = false;
     currentYear: number = new Date().getFullYear()
@@ -31,21 +31,21 @@ export class LoginComponent implements OnInit {
     public clockDisabled = false;
     userIP: any = ''
     
-    constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthServiceImp, private httpClient: HttpClient, private helperService: HelpersServiceImp) { }
+    constructor(private router: Router, private authService: AuthServiceImp, private httpClient: HttpClient, private helperService: HelpersServiceImp) { }
     
     ngOnInit() {
         this.authService.getLoginTranslations().subscribe(res => {
             this.companies = res.empresas;
         })
         
-        this.loginForm = this.formBuilder.group({
-            'email': [null, Validators.compose([
+        this.loginForm = new FormGroup({
+            'email': new FormControl(null, [
                 Validators.required,
                 Validators.maxLength(100),
                 Validators.email
-            ])],
-            'password': [null, Validators.required],
-            'prv_empresa_id': [ null, Validators.required ],
+            ]),
+            'password': new FormControl(null, Validators.required),
+            'prv_empresa_id': new FormControl(null, Validators.required)
         });
     }
 
@@ -70,9 +70,13 @@ export class LoginComponent implements OnInit {
     login(): void {
         this.submit = true;
         if (this.companies.length === 1) {
+            console.log('entra')
             this.loginForm.controls['prv_empresa_id'].setValue(this.companies[0].id)
         }
-        const data = this.loginForm.value;
+        const data = this.loginForm.getRawValue();
+        if (this.companies.length > 1) {
+            data.prv_empresa_id = this.loginForm.getRawValue().prv_empresa_id.id;
+        }
         if ( this.loginForm.valid ) {
             this.authService.login(data).then((res: any) => {
                 this.router.navigateByUrl('/main');
@@ -95,7 +99,7 @@ export class LoginComponent implements OnInit {
         if (this.isRecoverPasswordHidden){
             this.loginForm.get('password').setValidators([Validators.required]);
             this.loginForm.get('password').updateValueAndValidity();
-        }else{
+        } else {
             this.loginForm.get('password').clearValidators();
             this.loginForm.get('password').updateValueAndValidity();
         }
