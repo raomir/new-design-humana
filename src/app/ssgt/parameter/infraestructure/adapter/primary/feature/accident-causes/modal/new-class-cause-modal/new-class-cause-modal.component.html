@@ -10,6 +10,23 @@
                 </div>
             </div>
             <!-- END Estado -->
+            <!-- Subgrupo clase  causa -->
+            <ng-container *ngIf="level > 1 || action == 'btn_nuevo'">
+                <div *ngIf="(action === 'btn_nuevo' && level === 1) || ( level > 1)" class="grid col-12 m-0 p-0">
+                    <label for="clase_causa" class="form-label md:col-3">Clase causa</label>
+                    <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
+                        <input pInputText  maxlength="10" formControlName="clase_causa" id="clase_causa" name="clase_causa" type="text" />
+                    </div>
+                </div>
+                <div  *ngIf="(level === 3 || (level === 2 && action === 'btn_nuevo') ) || (action != 'btn_editar' && level > 2)"  class="grid col-12 m-0 p-0">
+                    <label for="grupo_clase" class="form-label md:col-3">Grupo clase</label>
+                    <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
+                        <input pInputText  maxlength="10" formControlName="grupo_clase" id="grupo_clase" name="grupo_clase" type="text" />
+                    </div>
+                </div>
+            </ng-container>
+           
+            <!-- END Subgrupo clase  causa-->
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
                 <label for="codigo" class="form-label md:col-3">Código</label>

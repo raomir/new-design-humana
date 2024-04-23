@@ -390,14 +390,23 @@ export class HelpersServiceImp implements HelpersService {
       return '';
     }
   }
+
+  getSwitch(status: any, boolean = true) {
+    if (boolean) {
+        return status == 1 ? true : false;
+    } else {
+        return status ? 1 : 2;
+    }
+}
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
+  environment.token = localStorage.getItem('ACCESS_TOKEN') || '';
   let token = tokenService ? tokenService : environment.token;
   return new HttpHeaders({
     'X-localization': 'es',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT',
     'Access-Control-Max-Age': '3600',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Range, Content-Disposition, Content-Type, Authorization',
     'Content-Type': type,

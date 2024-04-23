@@ -14,7 +14,13 @@
     <app-new-class-cause-modal
         *ngIf="displayModal"
         [displayModal]="displayModal"
+        [id]="idEdit"
         [listName]="title"
+        [level]="level"
+        [action]="action"
+        [fatherName]="fatherName"
+        [sonName]="sonName"
+        [fatherId]="fatherId"
         (modalResponse)="modalResponse($event)"
     ></app-new-class-cause-modal>
 </div>

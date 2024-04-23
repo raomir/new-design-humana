@@ -116,11 +116,11 @@
   </div>
   <!-- BOTONES DATATABLE -->
   <div *ngIf="datatable" class="p-buttonset mt-1" role="group">
-    <p-button (click)="runActions.next({ action: 'btn_reversar_inscripcion', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar_inscripcion')" icon="pi pi-undo" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar inscripción"></p-button>
-    <p-button (click)="runActions.next({ action: 'btn_reversar', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar')" icon="pi pi-undo" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar"></p-button>
-    <p-button (click)="runActions.next({ action: 'btn_nuevo', data: dataDatatable })" *ngIf="buttons.includes('btn_nuevo') && !arrayDisabled.includes('btn_nuevo')" icon="pi pi-plus" [rounded]="true" [text]="true" severity="success" pTooltip="Nuevo"></p-button>
-    <p-button (click)="runActions.next({ action: 'btn_reset', data: dataDatatable })" *ngIf="buttons.includes('btn_reset')" icon="pi pi-refresh" [rounded]="true" [text]="true" severity="info" pTooltip="Reiniciar"></p-button>
-    <p-button (click)="runActions.next({ action: 'btn_editar', data: dataDatatable })" *ngIf="buttons.includes('btn_editar')" icon="fi-rr-edit" [rounded]="true" [text]="true" severity="warning" pTooltip="Editar"></p-button>
+    <p-button (click)="runActions.next({ action: 'btn_reversar_inscripcion', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar_inscripcion')" icon="pi pi-undo-circle" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar inscripción"></p-button>
+    <p-button (click)="runActions.next({ action: 'btn_reversar', data: dataDatatable })" *ngIf="buttons.includes('btn_reversar')" icon="pi pi-undo-circle" [rounded]="true" [text]="true" severity="danger" pTooltip="Reversar"></p-button>
+    <p-button (click)="runActions.next({ action: 'btn_nuevo', data: dataDatatable })" *ngIf="buttons.includes('btn_nuevo') && !arrayDisabled.includes('btn_nuevo')" icon="pi pi-plus-circle" [rounded]="true" [text]="true" pTooltip="Nuevo"></p-button>
+    <p-button (click)="runActions.next({ action: 'btn_reset', data: dataDatatable })" *ngIf="buttons.includes('btn_reset')" icon="pi pi-refresh-circle" [rounded]="true" [text]="true" severity="info" pTooltip="Reiniciar"></p-button>
+    <p-button (click)="runActions.next({ action: 'btn_editar', data: dataDatatable })" *ngIf="buttons.includes('btn_editar')" icon="fi-rr-edit" [rounded]="true" [text]="true" pTooltip="Editar"></p-button>
     <p-button (click)="runActions.next({ action: 'btn_ver', data: dataDatatable })" *ngIf="buttons.includes('btn_ver')" icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" pTooltip="Ver"></p-button>
     <p-button (click)="runActions.next({ action: 'btn_solicitar', data: dataDatatable })" *ngIf="buttons.includes('btn_solicitar')" icon="pi pi-bell" [rounded]="true" [text]="true" severity="info" pTooltip="Solicitar"></p-button>
     <p-button (click)="runActions.next({ action: 'btn_realizar', data: dataDatatable })" *ngIf="buttons.includes('btn_realizar')" icon="pi pi-check-square" [rounded]="true" [text]="true" severity="info" pTooltip="Realizar"></p-button>

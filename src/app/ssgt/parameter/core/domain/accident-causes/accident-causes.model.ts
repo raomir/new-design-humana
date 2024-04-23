@@ -4,6 +4,6 @@ export class AccidentCausesModel {
     nombre?: string;
     descripcion?: string;
     nivel?: number;
-    llave: AccidentCausesModel | null | undefined;
-    activo?: number;
+    llave?: AccidentCausesModel | null;
+    activo?: number | boolean;
 }

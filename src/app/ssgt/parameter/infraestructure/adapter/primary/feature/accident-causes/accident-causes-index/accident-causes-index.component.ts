@@ -5,7 +5,6 @@ import { TreeNodeGeneral, BackendNode } from '../../../../../../../../shared/com
 import { TreeTableGeneralComponent } from '../../../../../../../../shared/components/tree-table-general/tree-table-general.component';
 import { HeaderCardComponent } from '../../../../../../../../shared/components/header-card/header-card.component';
 import { AccidentCausesService } from '../../../../../../core/application/accident-causes/accident-causes.service';
-import { map, elementAt } from 'rxjs';
 import { NewClassCauseModalComponent } from '../modal/new-class-cause-modal/new-class-cause-modal.component';
 
 @Component({
@@ -23,9 +22,14 @@ export class AccidentCausesIndexComponent implements OnInit {
   public buttonsGenerals: any[] = ["btn_print","btn_new"];
   public buttonsDatatable = ["btn_nuevo", "btn_editar", "btn_eliminar"];
   public displayModal: boolean = false;
-  public idEdit: number | null = null;
+  public idEdit?: Number;
   public title: string = '';
   public endPoint?: string;
+  public level: number = 1;
+  public action: string = '';
+  public fatherName: string = '';
+  public sonName: string = '';
+  public fatherId: Number | null = null;
 
 
   constructor(
@@ -82,6 +86,7 @@ export class AccidentCausesIndexComponent implements OnInit {
           active: item.activo,
           isLast: false,
           hiddenButtons: [],
+          llave: (item.llave) ? item.llave : null,
         },
         children: [],
       };
@@ -95,9 +100,8 @@ export class AccidentCausesIndexComponent implements OnInit {
         nodesById[item.id]['data']['hiddenButtons'] = ['btn_eliminar'];
         topLevelNodes.push(nodesById[item.id]);
       } else if (item.nivel > 1) {
-        const parentNode = nodesById[item.llave!.id];
+        const parentNode = item.llave ? nodesById[item.llave!.id]: null;
         if (parentNode) {
-          nodesById[item.id]['data']['hiddenButtons'] = ['btn_eliminar'];
           parentNode.children!.push(nodesById[item.id]);
         }
       }
@@ -105,12 +109,19 @@ export class AccidentCausesIndexComponent implements OnInit {
 
     // Función recursiva para marcar los últimos nodos de cada rama
     function markLastLevel(nodes: TreeNodeGeneral[]): void {
+      
       if (nodes.length === 0) return;
       nodes.forEach((node: TreeNodeGeneral) => {
         if (node.children?.length === 0) {
           node.data.isLast = true;
-          node.data.hiddenButtons = ['btn_nuevo'];
+          if (node.data.level != 2 ) {
+            node.data.hiddenButtons = ['btn_nuevo'];
+          }
+         
         } else {
+          if(node.data.level == 2){
+            node.data.hiddenButtons = ['btn_eliminar'];
+          }
           markLastLevel(node.children || []);
         }
       });
@@ -120,28 +131,46 @@ export class AccidentCausesIndexComponent implements OnInit {
     topLevelNodes.forEach((node) => {
       markLastLevel(node.children || []);
     });
-
     return topLevelNodes;
   }
 
   //* Accion Nuevo 
   actionNew() {
-    this.displayModal = true;
-    this.title = 'Clase causa del accidente';
+    this.level = 0;
+    this.fatherId = null
+    if (this.level == 0) {
+      this.displayModal = true;
+      this.title = 'Clase causa del accidente';
+    }
   }
 
   //* Accion Imprimir
   actionPrint(event: any) {
-    console.log('Imprimir')
   }
 
   //* Acciones de datatable
   onAction(event: any) {
     switch (event.action) {
       case 'btn_nuevo': 
+        this.displayModal = true;
+ 
+        this.level = event.data.level;
+        this.fatherId = event.data.id;
+        if (this.level == 1) {
+          this.fatherName =  event.data.name;
+        }else{ 
+          this.fatherName =  event.data.llave ? event.data.llave.nombre : '';
+          this.sonName = event.data.name;
+        }
+        this.action = 'btn_nuevo';
+        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         break;
       case 'btn_editar':
-        const itemData = event.data;
+        this.displayModal = true;
+        this.level = event.data.level;
+        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
+        this.action = 'btn_editar';
+        this.idEdit = event.data.id;
         break;
       case 'btn_eliminar':
         const itemDataId = event.data.id;
@@ -152,9 +181,10 @@ export class AccidentCausesIndexComponent implements OnInit {
   modalResponse(event: boolean): void {
     this.displayModal = false;
     if (event) {
-      // refrescar tabla
+      this.getData();
     }
-    this.idEdit = null;
+    this.idEdit = undefined;
   }
+
 
 }
