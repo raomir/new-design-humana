@@ -1,3 +1,10 @@
+<p-dialog header="Diálogo Principal"  [style]="{ 'width': '600px', 'max-height': '400px' }">
+    <p>Contenido del diálogo principal...</p>
+    <button type="button" >Abrir Diálogo Anidado</button>
+    <p-dialog header="Diálogo Anidado"  [style]="{ 'width': '800px', 'height': '600px' }">
+        <p>Contenido del diálogo anidado...</p>
+    </p-dialog>
+</p-dialog>
 <form [formGroup]="searchForm">
     <p-table
         #dataTable
@@ -54,8 +61,10 @@
                 let-columns="columns"
                 let-rowIndex="rowIndex"
             >
-
-            <tr (click)="sendDocument ? runActions.emit({action: 'documento', data: dataItem}) : ''">
+            <tr (mouseenter)="onMouseEnter(rowIndex)" (mouseleave)="onMouseLeave()"
+                (click)="sendDocument && runActions.emit({action: 'documento', data: dataItem})"
+                [ngClass]="{'highlight-row': sendDocument && rowIndex === rowIndexHovered, 'cursor-pointer': sendDocument && rowIndex === rowIndexHovered}"
+                [ngStyle]="{'cursor': sendDocument && rowIndex === rowIndexHovered ? 'pointer' : 'default'}">
                 <ng-container *ngFor="let column of columns">
                     <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
                     <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>

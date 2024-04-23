@@ -9,6 +9,8 @@ import { HelpersServiceImp } from '../../../core/application/config/helpers.serv
 import { RegistroData } from '../../buttons-general/actions';
 import { CommonModule } from '@angular/common';
 import { ListService } from '../../../core/application/list.service';
+import { ExporterErpComponent } from '../../exporter-erp/exporter-erp.component';
+import { ExporterComponent } from '../../exporter/exporter.component';
 
 @Component({
   selector: 'app-element-list',
@@ -18,7 +20,8 @@ import { ListService } from '../../../core/application/list.service';
     CommonModule,
     HeaderCardComponent,
     TableGeneralComponent,
-    ElementListModalComponent
+    ElementListModalComponent,
+    ExporterComponent
   ]
 })
 export class ElementListComponent {
@@ -43,6 +46,7 @@ export class ElementListComponent {
 
   public idEdit: number | null = null;
   public displayModal: boolean = false;
+  public displayModalExport: boolean = false;
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
@@ -63,12 +67,24 @@ export class ElementListComponent {
     this.displayModal = true;
   }
 
+  export(event: any) {
+    console.log(event);
+    this.displayModalExport = true;    
+  }
+
   modalResponse(event: boolean): void {
     this.displayModal = false;
     if (event) {
       this.table?.loadTable(0);
     }
     this.idEdit = null;
+  }
+  
+
+  modalExportResponse(event: boolean): void {
+    this.displayModalExport = false;
+    if (event) {
+    }
   }
 
   runActions(info: RegistroData): void {

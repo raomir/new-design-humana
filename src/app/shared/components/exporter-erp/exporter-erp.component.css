@@ -1,0 +1,13 @@
+.caja {
+    margin-left: 20px;
+}
+
+.caja2 { 
+    text-align: right !important;
+}
+
+.caja3 {  
+    height: 100px;
+    float: left;
+    margin-right: 30px;
+}

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { HelpersService } from '../../port/in/config/helpers.service';
 import { environment } from '../../../../../environments/environment';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { saveAs } from "file-saver";
 
 
 @Injectable({
@@ -94,6 +95,178 @@ export class HelpersServiceImp implements HelpersService {
     return this.http.post(this.API_URL + route, 'json=' + JSON.stringify(datosCompletos), { headers: headers });
   }
 
+  checkIfDataExistsInExporter(title: string, url: any): boolean {
+    var mediaType = "text/csv";
+    this.http
+      .post(
+        this.API_URL + url,
+        { location: "archivo.csv" },
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob: Blob | any = new Blob([response], { type: mediaType });
+          let size = blob.size; 
+          blob = null;
+          if(size > 0){ 
+            return true;
+          }else{ 
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+            return false;
+          }
+        },
+        (e) => { 
+          return false; 
+        }
+      );
+      return false;
+  }
+
+  openPDF(title: string, url: any, viewer: boolean, values:any = {}): void {
+    
+    var mediaType = "application/pdf";
+    var blob: Blob;
+    this.http
+      .post(
+        this.API_URL + url,
+        { location: "archivo.pdf", values },
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            if (viewer == true) {
+              /* this.openModalImprimir(blob); */
+              this.showAlert('info','Reporte generado exitosamente!');
+            } else {
+              saveAs(blob, title + ".pdf");
+              this.showAlert('info','Documento exportado exitosamente!');
+            } 
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          }
+        },
+        (e) => {
+        }
+      );
+  }
+
+  openPDFJsonDataAdapter(title: string,json: any, url: any, viewer: boolean): void {
+    var mediaType = "application/pdf";
+    var blob: Blob; 
+    this.http
+      .post(
+        environment.url + url, json,
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            if (viewer == true) {
+              //this.openModalImprimir(blob);
+              this.showAlert('info','Reporte generado exitosamente!');
+            } else {
+              saveAs(blob, title + ".pdf");
+              this.showAlert('info','Documento exportado exitosamente!');
+            }
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          }
+        },
+        (e) => {
+        }
+      );
+  }
+
+  openXLSJsonDataAdapter(title: string,json: any, url: any ): any {
+    var mediaType = "application/vnd.ms-excel";
+    this.http
+      .post(
+        environment.url + url, json,
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            saveAs(blob, title + ".xls");
+            this.showAlert('info','Documento exportado exitosamente!');
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          }
+        },
+        (e) => {}
+      );
+  }
+
+  openCSVJsonDataAdapter(title: string,json: any, url: any ): any {
+    var mediaType = "text/csv";
+    this.http
+      .post(
+        environment.url + url, json,
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            saveAs(blob, title + ".csv");
+            this.showAlert('info','Documento exportado exitosamente!');
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          }
+        },
+        (e) => {}
+      );
+  }
+
+  public openXLS(title: string, url: any, values = []): any {
+    var mediaType = "application/vnd.ms-excel";
+    this.http
+      .post(
+        this.API_URL + url,
+        { location: "archivo.xls", valores: values },
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            saveAs(blob, title + ".xls");
+            this.showAlert('info','Documento exportado exitosamente!');
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+            
+          }
+        },
+        (e) => {}
+      );
+  }
+
+  public openCSV(title: string, url: any, values = []): any {
+    var mediaType = "text/csv";
+    this.http
+      .post(
+        this.API_URL + url,
+        { location: "archivo.csv", valores: values },
+        { responseType: "blob" }
+      )
+      .subscribe(
+        (response) => {
+          var blob = new Blob([response], { type: mediaType });
+          if(blob.size > 0){
+            saveAs(blob, title + ".csv");
+            this.showAlert('info','Documento exportado exitosamente!');
+          }else{
+            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          }
+        },
+        (e) => {}
+      );
+  }
+
   showAlert(type: string, message: string): void {
     this.messageService.add({ severity: type, summary: 'Alerta', detail: message });
   }
@@ -124,6 +297,16 @@ export class HelpersServiceImp implements HelpersService {
         }
       });
     });
+  }
+
+  isset(variable: any): boolean {
+    try {
+      if (typeof variable !== 'undefined' && variable !== null) {
+        return true;
+      }
+    } catch (e) {
+    }
+    return false;
   }
 
   showSuccess(message: string): void {

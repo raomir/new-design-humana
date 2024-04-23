@@ -1,0 +1,20 @@
+<app-modal-general [displayModal]="displayModal" [title]="'Exportar'" (closeModal)="closeModal($event)" [buttons]="[]" [widthVwModal]="'17vw'">
+    <form [formGroup]="form">
+        <div class="p-dialog-content">
+            <div class="p-field-radiobutton">
+                <p-radioButton inputId="export-all" name="export" formControlName="export" value="1" label="Todo"></p-radioButton>
+            </div>
+            <div class="p-field-radiobutton">
+                <p-radioButton inputId="export-current" name="export" formControlName="export" value="2" label="Actual"></p-radioButton>
+            </div>
+            <div class="p-field-radiobutton">
+                <p-radioButton inputId="export-custom" name="export" formControlName="export" value="3"></p-radioButton>
+                <input type="text" pInputText formControlName="range" placeholder="ej. 1-4, 8, 12-14" [disabled]="form.get('export').value !== '3'" maxlength="10" (keyup)="customValidation()" />
+                <span style="font-size: 12px;" *ngIf="frmValidation" class="col-12 text-danger">{{ notificationMessage }}</span>
+            </div>
+        </div>
+        <div class="p-dialog-footer">
+            <p-button type="button" label="Exportar" class="btn btn-primary" (click)="export()" [disabled]="isDisabled"></p-button>
+        </div>
+    </form>
+</app-modal-general>
