@@ -166,6 +166,7 @@ export class TableGeneralComponent implements OnInit {
         this.validatePattern,
       ]),
     });
+    this.datatableSort.sortField = this.columns[0].data;
     this.loadTable(0);
   }
 
@@ -304,9 +305,9 @@ export class TableGeneralComponent implements OnInit {
           regex: false,
         },
         pageCurrent: page,
-        params: [],
+        pages: this.totalPages,
+        params: [] 
       };
-      this.exportDataInput.emit(jsonParams);
 
       this.services.getDataJsonParams(jsonParams)
         .subscribe((res: any) => {
@@ -315,6 +316,8 @@ export class TableGeneralComponent implements OnInit {
           this.size = res.content.length;
           this.totalPages = res.totalPages;
           this.loading = false;
+          jsonParams.pages = this.totalPages;
+          this.exportDataInput.emit(jsonParams);
         });
     }
   }

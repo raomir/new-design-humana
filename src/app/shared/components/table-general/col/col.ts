@@ -72,6 +72,7 @@ export interface JsonParams {
   length: number;
   search: SearchParams;
   pageCurrent: number;
+  pages?: number;
   params: any[]; // Puedes ajustar el tipo de datos según lo necesites
 }
 

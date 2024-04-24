@@ -53,6 +53,8 @@ export class ElementListComponent {
   public displayModalExport: boolean = false;
   public inputExport: InputExport | JsonParams | undefined;
   public values: ExportData | ExportDataInterface = new ExportData(false, {});
+  public exportValues: Array<any> = [];
+  public titleExport: string = 'report'
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
@@ -61,6 +63,7 @@ export class ElementListComponent {
     this.endPointExport = this.activatedRoute.snapshot.data['endpointexport'];
     this.module = this.activatedRoute.snapshot.data['module'];
     this.values.exportar = this.activatedRoute.snapshot.data['export'];
+    this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
@@ -78,10 +81,22 @@ export class ElementListComponent {
 
   setExportDataInput(event: InputExport | JsonParams) {
     this.inputExport = event;
+    if (this.inputExport.order && this.inputExport.order.length > 0) {
+      const column = this.inputExport.order[0]?.column || 0;
+      const dir = this.inputExport.order[0]?.dir || '';
+      const columnData: any = this.inputExport?.columns?.length ? this.inputExport?.columns[column] : {};
+      const data = columnData ? columnData.data || '' : '';
+      this.exportValues = [
+        this.inputExport.length,
+        this.inputExport?.pages,
+        this.inputExport.pageCurrent,
+        `${data} ${dir}`
+      ];
+    }
   }
 
+
   export(event: string | any) {
-    console.log(event, this.endPoint);
     this.fileType = undefined;
     this.displayModalExport = true;
     this.fileType = event; 

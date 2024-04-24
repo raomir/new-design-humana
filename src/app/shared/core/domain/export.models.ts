@@ -27,13 +27,23 @@ export interface Input {
     pageCurrent?: number;
     params?: any[];
     totalRows?: number;
+    pages?: number;
+}
+
+export interface Exportadores {
+  registrosPorPagina: number;
+  paginas: number;
+  paginaActual: number;
+  tipoArchivo: string | String | undefined;
+  rango: string;
+  orderBy: string;
 }
 
 export interface ExportDataInterface {
     exportar?: boolean;
     input?: Input | JsonParams | undefined;
     tipoExportacion?: any;
-    exportadores?: any;
+    exportadores?: Exportadores;
 }
 
 export class ExportData implements ExportDataInterface {

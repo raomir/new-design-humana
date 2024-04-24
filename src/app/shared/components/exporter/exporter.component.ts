@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
-import { ExportData, ExportDataInterface, Input as InputExport } from '../../core/domain/export.models';
+import { ExportData, ExportDataInterface, Exportadores, Input as InputExport } from '../../core/domain/export.models';
 import { JsonParams } from '../table-general/col/col';
 
 declare let Stimulsoft: any;
@@ -60,7 +60,7 @@ export class ExporterComponent implements OnInit {
     @Input() public recordsPerPage: number = 0;
     @Input() public currentPage: number = 0;
     @Input() public fieldToSortBy: string = '';
-    @Input() public exportValues = [];
+    @Input() public exportValues: Array<any> = [];
     @Input() public selection: any;
     @Input() public range: any;
     @Input() public pdfFile: any;
@@ -97,6 +97,16 @@ export class ExporterComponent implements OnInit {
         this.pages = this.exportValues[1];
         this.currentPage = this.exportValues[2];
         this.values.input = this.inputExport;
+    }
+
+    changeExport() {
+        this.form.get('range').setValue('');
+        if (this.form.get('export').value !== '3') {
+            this.form.get('range').disable();
+        } else {
+            this.form.get('range').enable();
+        }
+        this.isDisabled = false;
     }
 
     validateReportHasData() {
@@ -299,11 +309,11 @@ export class ExporterComponent implements OnInit {
                 this.selection = this.form.controls["export"].value ? this.form.controls["export"].value: null;
                 this.range = this.form.controls["range"].value ? this.form.controls["range"].value : null;
 
-                if (this.selection == 1) { this.range = "all"; }
-                if (this.selection == 2) { this.range = "currentList"; }
-                if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+                if (this.selection == 1) { this.range = "todos"; }
+                if (this.selection == 2) { this.range = "listaActual"; }
+                if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
             }else{
-                this.range = "currentList";
+                this.range = "listaActual";
             }
 
             let fileTypeTmp = this.fileType;
@@ -319,12 +329,12 @@ export class ExporterComponent implements OnInit {
                 break;
             }
 
-            let exporters ={
-                recordsPerPage: this.recordsPerPage,
-                pages: this.exportValues[1],
-                currentPage: this.exportValues[2],
-                fileType: fileTypeTmp,
-                range: this.range,
+            let exporters: Exportadores = {
+                registrosPorPagina: this.inputExport?.length as number,
+                paginas: this.exportValues[1],
+                paginaActual: this.exportValues[2],
+                tipoArchivo: fileTypeTmp,
+                rango: this.range,
                 orderBy: this.exportValues[3],
             }
             if ( this.values.exportar ) { this.values = {...this.values, exportadores: exporters } }
@@ -352,9 +362,9 @@ export class ExporterComponent implements OnInit {
         this.selection = this.form ? this.form.get('export').value : null;
         this.range = this.form ? this.form.get('range').value : null;
 
-        if (this.selection == 1) { this.range = "all"; }
-        if (this.selection == 2) { this.range = "currentList"; }
-        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+        if (this.selection == 1) { this.range = "todos"; }
+        if (this.selection == 2) { this.range = "listaActual"; }
+        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
 
         this.recordsPerPage = this.exportValues[0];
         this.pages = this.exportValues[1];
@@ -372,9 +382,9 @@ export class ExporterComponent implements OnInit {
         this.selection = this.form ? this.form.get('export').value : null;
         this.range = this.form ? this.form.get('range').value : null;
 
-        if (this.selection == 1) { this.range = "all"; }
-        if (this.selection == 2) { this.range = "currentList"; }
-        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+        if (this.selection == 1) { this.range = "todos"; }
+        if (this.selection == 2) { this.range = "listaActual"; }
+        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
 
         this.recordsPerPage = this.exportValues[0];
         this.pages = this.exportValues[1];
@@ -432,7 +442,6 @@ export class ExporterComponent implements OnInit {
     }
 
     public controlFileType(fileName: string, url: string, viewer: boolean ) {
-        console.log(this.values);
         if ( this.module == "url2") { 
             if (this.fileType == "excel") {  this.helpersService.openXLS(fileName, url, this.values); }
             if (this.fileType == "csv") {    this.helpersService.openCSV(fileName, url, this.values); }
@@ -461,7 +470,6 @@ export class ExporterComponent implements OnInit {
     }
 
     closeModal(event: boolean) {
-        console.log(event);
         if (event) {
         if (this.form.valid) {
             //this.save();
