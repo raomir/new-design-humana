@@ -87,6 +87,21 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'possible-effects',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Efectos posibles',
+                            endpoint: 'efectoposible',
+                            permissions: {
+                                name: 'talentohumano.efecto_posible',
+                                only: 'talentohumano.efecto_posible.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'inspection-objects',
                         loadComponent: () =>
                             import(
