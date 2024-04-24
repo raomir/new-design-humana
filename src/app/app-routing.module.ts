@@ -147,24 +147,15 @@ const routes: Routes = [
                                 only: 'talentohumano.mecanismos.index'
                             }
                         }
-                    },
-                    {
-                        path: 'affected-part',
-                        loadComponent: () =>
-                            import(
-                                './shared/components/element-list/datatable/element-list.component'
-                            ).then((m) => m.ElementListComponent),
-                        data: {
-                            title: 'Parte afectada',
-                            endpoint: 'parteafectada',
-                            name: 'talentohumano.parte_afectada',
-                        }
                     }
                 ]
+            }
+        ]
     },
     {
         loadComponent: () =>
             import(
+                './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'
             ).then((m) => m.AppErrorComponent),
     },
     {
