@@ -27,7 +27,8 @@ export class AccidentCausesRepositoryService implements AccidentCausesRepository
     return this.http.put<any>(this.apiUrl + id, data, {headers: header});
   }
   delete(id: Number): Observable<any> {
-    return this.http.delete<any>(this.apiUrl + id);
+    const header = helpers.headersHttp('application/json'); 
+    return this.http.delete<any>(this.apiUrl + id, {headers: header});
   }
 
   findAll(): Observable<AccidentCausesModel[]> {
