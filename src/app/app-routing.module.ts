@@ -108,21 +108,26 @@ const routes: Routes = [
                         data: {
                             title: 'Mecanismos',
                             endpoint: 'mecanismo',
-                            permissions: {
-                                name: 'talentohumano.mecanismos',
-                                only: 'talentohumano.mecanismos.index'
-                            }
+                            only: 'talentohumano.tipo_evaluacion_ocupacional.index'
                         }
                     },
-                ],
-            },
-        ],
+                    {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            name: 'talentohumano.parte_afectada',
+                        }
+                    }
+                ]
     },
     {
-        path: 'error',
         loadComponent: () =>
             import(
-                './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'
             ).then((m) => m.AppErrorComponent),
     },
     {
