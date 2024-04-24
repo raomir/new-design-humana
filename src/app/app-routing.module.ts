@@ -155,9 +155,13 @@ const routes: Routes = [
                                 './shared/components/element-list/datatable/element-list.component'
                             ).then((m) => m.ElementListComponent),
                         data: {
-
                             title: 'Agentes De Lesión',
                             endpoint: 'agentelesion',
+                            addtypeinjuryAgent: true,
+                            endpointexport: 'agentelesion/agenteLesion',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Agentes De Lesíon',
                             permissions: {
                                 name: 'talentohumano.agentes_lesion',
                                 only: 'talentohumano.agentes_lesion.index'

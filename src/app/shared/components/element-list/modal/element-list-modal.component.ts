@@ -1,21 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModalGeneralComponent } from '../../modal-general/modal-general.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
 import { ListService } from '../../../core/application/list.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-element-list-modal',
   templateUrl: './element-list-modal.component.html',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
     ModalGeneralComponent,
     InputSwitchModule,
+    DropdownModule
   ]
 })
 export class ElementListModalComponent {
@@ -25,12 +29,14 @@ export class ElementListModalComponent {
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
+  @Input() addTypeInjuryAgent: boolean = false;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
   public title: string = '';
 
   public frm!: FormGroup;
+  public tipoPeligro : Array<any> = [];
 
   public codePatterns = { '0': { pattern: new RegExp('[a-zA-Z0-9-]') } }
 
@@ -72,6 +78,12 @@ export class ElementListModalComponent {
       ])],
       favorito: [false],
     })
+    if (this.addTypeInjuryAgent) {
+      this.listService.getHazardClassList().subscribe(resp => {
+        this.tipoPeligro = resp;
+      })
+      this.frm.addControl('tipoPeligro', new FormControl(null, Validators.required))
+    }
   }
 
   loadData(id: Number) {
@@ -84,6 +96,9 @@ export class ElementListModalComponent {
           nombre: resp.nombre,
           descripcion: resp.descripcion
         })
+        if (this.addTypeInjuryAgent) {
+          this.frm.get('tipoPeligro')?.setValue(resp.listaPeligro);
+        }
       },
       error: error => {
 
@@ -103,15 +118,19 @@ export class ElementListModalComponent {
   }
 
   async save(): Promise<void> {
-    const data = {
+    const data: any = {
       codigo: this.frm.value.codigo,
       nombre: this.frm.value.nombre,
       descripcion: this.frm.value.descripcion,
       favorito: this.frm.value.favorito ? 1 : 2,
       activo: this.frm.value.activo ? 1 : 2
     }
-
+    if (this.addTypeInjuryAgent) {
+      data.listaPeligro = { id: this.frm.value.tipoPeligro.id }
+    }
+    
     if (this.id) {
+      data.id = this.id
       this.listService.update(data, this.endPoint, this.id).subscribe({
         next: resp => {
           this.helperService.showAlert('success', 'Registro actualizado exitosamente!');

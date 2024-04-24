@@ -27,6 +27,14 @@
                 </div>
             </div>
             <!-- END nombre -->
+            <ng-container *ngIf="addTypeInjuryAgent">
+                <div class="grid col-12 m-0 p-0">
+                    <label for="descripcion" class="form-label md:col-3">Tipo</label>
+                    <div class="p-inputgroup md:col-9">
+                        <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
+                    </div>
+                </div>
+            </ng-container>
             <!-- descripcion -->
             <div class="grid col-12 m-0 p-0">
                 <label for="descripcion" class="form-label md:col-3">Descripción</label>

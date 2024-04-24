@@ -29,4 +29,8 @@ export class ListService implements ListCrudPort {
     return this.repository.delete(endPoint, id);
   }
 
+  getHazardClassList(): Observable<any[]> {
+    return this.repository.getHazardClassList();
+  }
+
 }

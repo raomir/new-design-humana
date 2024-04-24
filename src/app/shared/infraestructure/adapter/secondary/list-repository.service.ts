@@ -34,4 +34,8 @@ export class ListRepositoryService implements ListRepositoryPort {
     delete(endPoint: string, id: Number): Observable<any> {
         return this.http.delete<any>(this.apiUrl + `${endPoint}/${id}`);
     }
+
+    getHazardClassList(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'clasepeligro');
+    }
 }

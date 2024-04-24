@@ -56,6 +56,9 @@ export class ElementListComponent {
   public exportValues: Array<any> = [];
   public titleExport: string = 'report'
 
+  // Campo adicional
+  public addTypeInjuryAgent: boolean = false;
+
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
@@ -64,6 +67,7 @@ export class ElementListComponent {
     this.module = this.activatedRoute.snapshot.data['module'];
     this.values.exportar = this.activatedRoute.snapshot.data['export'];
     this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
+    this.addTypeInjuryAgent = this.activatedRoute.snapshot.data['addtypeinjuryAgent'];
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },

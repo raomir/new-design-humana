@@ -7,4 +7,5 @@ export interface ListRepositoryPort {
   save(data: List, endPoint: string): Observable<any>;
   update(data: List, endPoint: string, id: Number): Observable<any>;
   delete(endPoint: string, id: Number): Observable<any>;
+  getHazardClassList(): Observable<any[]>;
 }
