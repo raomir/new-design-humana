@@ -99,6 +99,21 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            permissions: {
+                                name: 'talentohumano.parte_afectada',
+                                only: 'talentohumano.parte_afectada.index'
+                            }
+                        }
+                    },
                 ],
             },
         ],
