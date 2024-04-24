@@ -100,6 +100,21 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            permissions: {
+                                name: 'talentohumano.parte_afectada',
+                                only: 'talentohumano.parte_afectada.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'mechanisms',
                         loadComponent: () =>
                             import(
@@ -108,7 +123,10 @@ const routes: Routes = [
                         data: {
                             title: 'Mecanismos',
                             endpoint: 'mecanismo',
-                            only: 'talentohumano.tipo_evaluacion_ocupacional.index'
+                            permissions: {
+                                name: 'talentohumano.mecanismos',
+                                only: 'talentohumano.mecanismos.index'
+                            }
                         }
                     },
                     {
