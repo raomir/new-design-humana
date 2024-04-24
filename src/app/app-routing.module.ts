@@ -76,6 +76,36 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'disease-monitoring',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Monitoreo enfermedad',
+                            endpoint: 'monitoreoenfermedad',
+                            permissions: {
+                                name: 'talentohumano.monitoreo_enfermedad',
+                                only: 'talentohumano.monitoreo_enfermedad.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'possible-effects',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Efectos posibles',
+                            endpoint: 'efectoposible',
+                            permissions: {
+                                name: 'talentohumano.efecto_posible',
+                                only: 'talentohumano.efecto_posible.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'inspection-objects',
                         loadComponent: () =>
                             import(
@@ -88,15 +118,53 @@ const routes: Routes = [
                             }
                         }
                     },
-                ],
-            },
-        ],
+                    {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            permissions: {
+                                name: 'talentohumano.parte_afectada',
+                                only: 'talentohumano.parte_afectada.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'mechanisms',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Mecanismos',
+                            endpoint: 'mecanismo',
+                            permissions: {
+                                name: 'talentohumano.mecanismos',
+                                only: 'talentohumano.mecanismos.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            name: 'talentohumano.parte_afectada',
+                        }
+                    }
+                ]
     },
     {
-        path: 'error',
         loadComponent: () =>
             import(
-                './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'
             ).then((m) => m.AppErrorComponent),
     },
     {
