@@ -103,8 +103,16 @@ const routes: Routes = [
                         path: 'injury-agent',
                         loadComponent: () =>
                             import(
-                                './ssgt/parameter/infraestructure/adapter/primary/feature/injury-agent/injury-agent-index/injury-agent-index.component'
-                            ).then((m) => m.InjuryAgentIndexComponent),
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Agentes De Lesión',
+                            endpoint: 'agentelesion',
+                            permissions: {
+                                name: 'talentohumano.agentes_lesion',
+                                only: 'talentohumano.agentes_lesion.index'
+                            }
+                        }
                     },
                 ],
             },
