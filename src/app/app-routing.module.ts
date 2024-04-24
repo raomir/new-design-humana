@@ -153,6 +153,7 @@ const routes: Routes = [
         ]
     },
     {
+        path: '**',
         loadComponent: () =>
             import(
                 './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'
