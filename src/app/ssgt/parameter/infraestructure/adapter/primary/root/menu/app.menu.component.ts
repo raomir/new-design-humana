@@ -46,6 +46,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/mechanisms'],
                     },
                     {
+                        label: 'Efectos posibles',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/possible-effects'],
+                    },
+                    {
                         label: 'Monitoreo enfermedad',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/disease-monitoring'],
