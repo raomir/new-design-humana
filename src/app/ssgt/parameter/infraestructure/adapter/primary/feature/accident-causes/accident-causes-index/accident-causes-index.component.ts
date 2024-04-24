@@ -6,6 +6,7 @@ import { TreeTableGeneralComponent } from '../../../../../../../../shared/compon
 import { HeaderCardComponent } from '../../../../../../../../shared/components/header-card/header-card.component';
 import { AccidentCausesService } from '../../../../../../core/application/accident-causes/accident-causes.service';
 import { NewClassCauseModalComponent } from '../modal/new-class-cause-modal/new-class-cause-modal.component';
+import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
 
 @Component({
   selector: 'app-accident-causes-index',
@@ -34,7 +35,8 @@ export class AccidentCausesIndexComponent implements OnInit {
 
   constructor(
     private breadcrumbService: AppBreadcrumbService,
-    private accidentCausesService: AccidentCausesService
+    private accidentCausesService: AccidentCausesService,
+    private helperService: HelpersServiceImp
   ) {
 
     this.breadcrumbService.setItems([
@@ -174,6 +176,20 @@ export class AccidentCausesIndexComponent implements OnInit {
         break;
       case 'btn_eliminar':
         const itemDataId = event.data.id;
+        this.helperService.showConfirmationDelete()
+        .then((confirmed: boolean) => {
+          if (confirmed) {
+            this.accidentCausesService.delete(itemDataId).subscribe(
+              (resp: any) => {
+                this.helperService.showAlert('success', resp.mensaje);
+                this.getData();
+              }
+            );
+          }
+        })
+        .catch((error: any) => {
+          console.error('Error al mostrar el cuadro de confirmación:', error);
+        });
         break;
     }
   }
