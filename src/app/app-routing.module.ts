@@ -84,6 +84,21 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'mechanisms',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Mecanismos',
+                            endpoint: 'mecanismo',
+                            permissions: {
+                                name: 'talentohumano.mecanismos',
+                                only: 'talentohumano.mecanismos.index'
+                            }
+                        }
+                    },
                 ],
             },
         ],
