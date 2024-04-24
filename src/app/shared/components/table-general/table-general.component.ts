@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter,  Input,  OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Action, Column, DatatableSort, ExtendedPostData, JsonParams, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { ApisServicesServiceImp } from '../../core/application/config/apis-services.service.imp';
 import { DialogModule } from 'primeng/dialog';
+import { Input as InputDatatable } from '../../core/domain/export.models';
 
 @Component({
   selector: 'app-table-general',
@@ -42,6 +43,7 @@ export class TableGeneralComponent implements OnInit {
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
   @Output() public exportAction = new EventEmitter<any>();
+  @Output() public exportDataInput = new EventEmitter<InputDatatable | JsonParams>();
   public rowIndexHovered: number = -1;
   public cursorStyle: string = 'default';
   public searchForm: FormGroup = new FormGroup({}); // Atributo: Formulario de búsqueda
@@ -304,6 +306,7 @@ export class TableGeneralComponent implements OnInit {
         pageCurrent: page,
         params: [],
       };
+      this.exportDataInput.emit(jsonParams);
 
       this.services.getDataJsonParams(jsonParams)
         .subscribe((res: any) => {

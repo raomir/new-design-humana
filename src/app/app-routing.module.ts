@@ -65,6 +65,9 @@ const routes: Routes = [
                         data: {
                             title: 'Tipos de evaluación ocupacional',
                             endpoint: 'tipodeevaluacionocupacional',
+                            endpointexport: 'reportesSggt/reporteParametros1/tipodeevaluacionocupacional/46',
+                            module: 'url2',
+                            export: true,
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'
