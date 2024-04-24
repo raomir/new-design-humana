@@ -41,6 +41,16 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/danger-class'],
                     },
                     {
+                        label: 'Mecanismos',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/mechanisms'],
+                    },
+                    {
+                        label: 'Efectos posibles',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/possible-effects'],
+                    },
+                    {
                         label: 'Monitoreo enfermedad',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/disease-monitoring'],
@@ -54,6 +64,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Objetos de inspección',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/inspection-objects'],
+                    },
+                    {
+                        label: 'Parte afectada',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/affected-part'],
                     },
                     {
                         label: 'Sedes',

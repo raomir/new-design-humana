@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure/adapter/primary/root/breadcrumb/app.breadcrumb.service';
 import { HeaderCardComponent } from '../../header-card/header-card.component';
 import { TableGeneralComponent } from '../../table-general/table-general.component';
-import { Column } from '../../table-general/col/col';
+import { Column, JsonParams } from '../../table-general/col/col';
 import { ActivatedRoute } from '@angular/router';
 import { ElementListModalComponent } from '../modal/element-list-modal.component';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { ListService } from '../../../core/application/list.service';
 import { ExporterErpComponent } from '../../exporter-erp/exporter-erp.component';
 import { ExporterComponent } from '../../exporter/exporter.component';
+import { ExportData, ExportDataInterface, Input as InputExport } from 'src/app/shared/core/domain/export.models';
 
 @Component({
   selector: 'app-element-list',
@@ -30,8 +31,11 @@ export class ElementListComponent {
 
   public title: string;
   public endPoint: string;
+  public endPointExport: string;
+  public module: string;
 
   public buttons: Array<string> = ['btn_print', 'btn_new'];
+  public fileType: string | undefined;
 
   public columnsTable: Array<Column> = [
     { title: 'Código', data: 'codigo', sort: 'codigo' },
@@ -47,11 +51,19 @@ export class ElementListComponent {
   public idEdit: number | null = null;
   public displayModal: boolean = false;
   public displayModalExport: boolean = false;
+  public inputExport: InputExport | JsonParams | undefined;
+  public values: ExportData | ExportDataInterface = new ExportData(false, {});
+  public exportValues: Array<any> = [];
+  public titleExport: string = 'report'
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
+    this.endPointExport = this.activatedRoute.snapshot.data['endpointexport'];
+    this.module = this.activatedRoute.snapshot.data['module'];
+    this.values.exportar = this.activatedRoute.snapshot.data['export'];
+    this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
@@ -67,9 +79,27 @@ export class ElementListComponent {
     this.displayModal = true;
   }
 
-  export(event: any) {
-    console.log(event);
-    this.displayModalExport = true;    
+  setExportDataInput(event: InputExport | JsonParams) {
+    this.inputExport = event;
+    if (this.inputExport.order && this.inputExport.order.length > 0) {
+      const column = this.inputExport.order[0]?.column || 0;
+      const dir = this.inputExport.order[0]?.dir || '';
+      const columnData: any = this.inputExport?.columns?.length ? this.inputExport?.columns[column] : {};
+      const data = columnData ? columnData.data || '' : '';
+      this.exportValues = [
+        this.inputExport.length,
+        this.inputExport?.pages,
+        this.inputExport.pageCurrent,
+        `${data} ${dir}`
+      ];
+    }
+  }
+
+
+  export(event: string | any) {
+    this.fileType = undefined;
+    this.displayModalExport = true;
+    this.fileType = event; 
   }
 
   modalResponse(event: boolean): void {

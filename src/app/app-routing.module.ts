@@ -65,6 +65,10 @@ const routes: Routes = [
                         data: {
                             title: 'Tipos de evaluación ocupacional',
                             endpoint: 'tipodeevaluacionocupacional',
+                            endpointexport: 'reportesSggt/reporteParametros1/tipodeevaluacionocupacional/46',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Tipo De Evaluación Ocupacional',
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'
@@ -87,6 +91,21 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'possible-effects',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Efectos posibles',
+                            endpoint: 'efectoposible',
+                            permissions: {
+                                name: 'talentohumano.efecto_posible',
+                                only: 'talentohumano.efecto_posible.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'inspection-objects',
                         loadComponent: () =>
                             import(
@@ -100,12 +119,43 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'affected-part',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Parte afectada',
+                            endpoint: 'parteafectada',
+                            permissions: {
+                                name: 'talentohumano.parte_afectada',
+                                only: 'talentohumano.parte_afectada.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'mechanisms',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Mecanismos',
+                            endpoint: 'mecanismo',
+                            permissions: {
+                                name: 'talentohumano.mecanismos',
+                                only: 'talentohumano.mecanismos.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'injury-agent',
                         loadComponent: () =>
                             import(
                                 './shared/components/element-list/datatable/element-list.component'
                             ).then((m) => m.ElementListComponent),
                         data: {
+
                             title: 'Agentes De Lesión',
                             endpoint: 'agentelesion',
                             permissions: {
@@ -114,12 +164,12 @@ const routes: Routes = [
                             }
                         }
                     },
-                ],
-            },
-        ],
+                ]
+            }
+        ]
     },
     {
-        path: 'error',
+        path: '**',
         loadComponent: () =>
             import(
                 './ssgt/parameter/infraestructure/adapter/primary/root/error/app.error.component'

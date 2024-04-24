@@ -1,5 +1,6 @@
 import { Message } from "primeng/api";
 import { Observable } from "rxjs";
+import { ExportDataInterface } from "../../../domain/export.models";
 
 export interface HelpersService {
   token_erp: string;
@@ -14,12 +15,12 @@ export interface HelpersService {
   exportDataTable(action: any, exportType: any, input?: any, route?: string): Observable<any>;
   export(action: any, exportType: any, pInput?: any, model?: any, validity?: any, institution?: any, order?: any, listType?: any, module?: any, route?: string, filters?: any, extraData?: any[]): Observable<any>;
   checkIfDataExistsInExporter(title: string, url: any): boolean;
-  openPDF(title: string, url: any, viewer: boolean, values:any): void;
+  openPDF(title: string, url: any, viewer: boolean, values: ExportDataInterface | any): void;
   openPDFJsonDataAdapter(title: string,json: any, url: any, viewer: boolean): void;
   openXLSJsonDataAdapter(title: string,json: any, url: any ): any;
   openCSVJsonDataAdapter(title: string,json: any, url: any ): any;
-  openXLS(title: string, url: any, values: Array<any> | any[] | any): any;
-  openCSV(title: string, url: any, values: Array<any> | any[] | any): any;
+  openXLS(title: string, url: any, values: ExportDataInterface | any): any;
+  openCSV(title: string, url: any, values: ExportDataInterface | any): any;
 
   showAlert(type: string, message: string): void;
   showConfirmation(title: string, message: string): Promise<any>;

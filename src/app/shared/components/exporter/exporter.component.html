@@ -1,20 +1,29 @@
-<app-modal-general [displayModal]="displayModal" [title]="'Exportar'" (closeModal)="closeModal($event)" [buttons]="[]" [widthVwModal]="'17vw'">
+<app-modal-general [displayModal]="displayModal" [title]="'Exportar'" (closeModal)="closeModal($event)" [buttons]="[]" [widthVwModal]="'20vw'">
     <form [formGroup]="form">
         <div class="p-dialog-content">
-            <div class="p-field-radiobutton">
-                <p-radioButton inputId="export-all" name="export" formControlName="export" value="1" label="Todo"></p-radioButton>
-            </div>
-            <div class="p-field-radiobutton">
-                <p-radioButton inputId="export-current" name="export" formControlName="export" value="2" label="Actual"></p-radioButton>
-            </div>
-            <div class="p-field-radiobutton">
-                <p-radioButton inputId="export-custom" name="export" formControlName="export" value="3"></p-radioButton>
-                <input type="text" pInputText formControlName="range" placeholder="ej. 1-4, 8, 12-14" [disabled]="form.get('export').value !== '3'" maxlength="10" (keyup)="customValidation()" />
-                <span style="font-size: 12px;" *ngIf="frmValidation" class="col-12 text-danger">{{ notificationMessage }}</span>
+            <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
+                <div class="col-3">
+                    <label for="export-all" style="margin-right: 5px;">Páginas</label>
+                </div>
+                <div class="col-9">
+                    <div class="p-field-radiobutton pb-3">
+                        <p-radioButton (onClick)="changeExport()" inputId="export-all" name="export" formControlName="export" value="1" label="Todo"></p-radioButton>
+                    </div>
+                    <div class="p-field-radiobutton pb-3">
+                        <p-radioButton (onClick)="changeExport()" inputId="export-current" name="export" formControlName="export" value="2" label="Actual"></p-radioButton>
+                    </div>
+                    <div class="p-field-radiobutton" style="display: flex; align-items: center;">
+                        <p-radioButton (onClick)="changeExport()" inputId="export-custom" name="export" formControlName="export" value="3"></p-radioButton>
+                        <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                            <input type="text" pInputText formControlName="range" placeholder="ej. 1-4, 8, 12-14" maxlength="10" (keyup)="customValidation()">
+                            <small id="username-help" class="p-error" *ngIf="validationForm">{{ notificationMessage }}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="p-dialog-footer">
-            <p-button type="button" label="Exportar" class="btn btn-primary" (click)="export()" [disabled]="isDisabled"></p-button>
+            <p-button type="button" icon="pi pi-cloud-download" iconPos="left" label="Exportar" class="p-button-success button-rounded-general" severity="success"  (click)="export()" [outlined]="true" [disabled]="isDisabled"></p-button>
         </div>
     </form>
 </app-modal-general>

@@ -6,6 +6,7 @@ import { HelpersService } from '../../port/in/config/helpers.service';
 import { environment } from '../../../../../environments/environment';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { saveAs } from "file-saver";
+import { ExportDataInterface } from '../../domain/export.models';
 
 
 @Injectable({
@@ -122,14 +123,14 @@ export class HelpersServiceImp implements HelpersService {
       return false;
   }
 
-  openPDF(title: string, url: any, viewer: boolean, values:any = {}): void {
+  openPDF(title: string, url: any, viewer: boolean, values: ExportDataInterface | any = {}): void {
     
     var mediaType = "application/pdf";
     var blob: Blob;
     this.http
       .post(
         this.API_URL + url,
-        { location: "archivo.pdf", values },
+        { location: "archivo.pdf", valores: values },
         { responseType: "blob" }
       )
       .subscribe(
@@ -222,7 +223,7 @@ export class HelpersServiceImp implements HelpersService {
       );
   }
 
-  public openXLS(title: string, url: any, values = []): any {
+  public openXLS(title: string, url: any, values: ExportDataInterface | any = []): any {
     var mediaType = "application/vnd.ms-excel";
     this.http
       .post(
@@ -245,7 +246,7 @@ export class HelpersServiceImp implements HelpersService {
       );
   }
 
-  public openCSV(title: string, url: any, values = []): any {
+  public openCSV(title: string, url: any, values: ExportDataInterface | any = []): any {
     var mediaType = "text/csv";
     this.http
       .post(

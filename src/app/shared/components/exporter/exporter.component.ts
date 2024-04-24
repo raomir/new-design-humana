@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
+import { ExportData, ExportDataInterface, Exportadores, Input as InputExport } from '../../core/domain/export.models';
+import { JsonParams } from '../table-general/col/col';
 
 declare let Stimulsoft: any;
 
@@ -38,42 +40,44 @@ declare let Stimulsoft: any;
     ]
 })
 export class ExporterComponent implements OnInit {
-    @Input() exportAllOption = true;
-    @Input() exportCurrentOption = true;
-    @Input() exportRangeOption = true;
-    @Input() public displayModal: boolean = false;
-    @Output() modalExportResponse = new EventEmitter<boolean>();
 
-    public module: string = '';
-    public report: string = '';
-    public parameter1: number = 0;
-    public parameter2: number = 0;
-    public parameter3: number = 0;
-    public fileType: String = '';
-    public pageList: Array<any> = [];
-    public reportForm: FormGroup | any;
-    public form: FormGroup | any;
-    public pages: number = 0;
-    public recordsPerPage: number = 0;
-    public currentPage: number = 0;
-    public fieldToSortBy: string = ''; 
-    public exportValues = [];
-    public selection: any;
-    public range: any;
-    public pdfFile: any;
-    public viewer: boolean = false;
-    public visualize: boolean = true;
-    public url: string = '';
-    public title: string = 'report';
-    public validatingReport: boolean = false;
-    public jsonDataAdapter: any = '';
-    public check = 1;
-    public frmValidation = false;
-    public notificationMessage = '';
-    public values: any = {export: false};
-    public notification: any = false;
-    public isDisabled = false;
-    public validationForm: boolean = false;
+    @Input() public exportAllOption: boolean = true;
+    @Input() public exportCurrentOption: boolean = true;
+    @Input() public exportRangeOption: boolean = true;
+    @Input() public displayModal: boolean = false;
+    @Input() public values: ExportData | ExportDataInterface = new ExportData(false, {});
+    @Input() public module: string = '';
+    @Input() public report: string | undefined;
+    @Input() public parameter1: number | undefined;
+    @Input() public parameter2: number | undefined;
+    @Input() public parameter3: number | undefined;
+    @Input() public parameter4: number | undefined;
+    @Input() public fileType: String | undefined = '';
+    @Input() public pageList: Array<any> = [];
+    @Input() public reportForm: FormGroup | any;
+    @Input() public form: FormGroup | any;
+    @Input() public pages: number = 0;
+    @Input() public recordsPerPage: number = 0;
+    @Input() public currentPage: number = 0;
+    @Input() public fieldToSortBy: string = '';
+    @Input() public exportValues: Array<any> = [];
+    @Input() public selection: any;
+    @Input() public range: any;
+    @Input() public pdfFile: any;
+    @Input() public viewer: boolean = false;
+    @Input() public visualize: boolean = true;
+    @Input() public url: string = '';
+    @Input() public title: string = 'report';
+    @Input() public validatingReport: boolean = false;
+    @Input() public jsonDataAdapter: any = '';
+    @Input() public check = 1;
+    @Input() public frmValidation = false;
+    @Input() public notificationMessage = '';
+    @Input() public notification: any = false;
+    @Input() public isDisabled = false;
+    @Input() public validationForm: boolean = false;
+    @Input() public inputExport: InputExport | JsonParams | undefined;
+    @Output() public modalExportResponse = new EventEmitter<boolean>();
 
     constructor(
         private helpersService: HelpersServiceImp
@@ -92,6 +96,17 @@ export class ExporterComponent implements OnInit {
         this.recordsPerPage = this.exportValues[0];
         this.pages = this.exportValues[1];
         this.currentPage = this.exportValues[2];
+        this.values.input = this.inputExport;
+    }
+
+    changeExport() {
+        this.form.get('range').setValue('');
+        if (this.form.get('export').value !== '3') {
+            this.form.get('range').disable();
+        } else {
+            this.form.get('range').enable();
+        }
+        this.isDisabled = false;
     }
 
     validateReportHasData() {
@@ -275,9 +290,9 @@ export class ExporterComponent implements OnInit {
     }
 
     public export() {
-        if ( this.values.export ) { 
+        if ( this.values.exportar ) { 
             if (!this.form.valid) { return; }
-            this.values = {...this.values, exportType: this.form.controls['export'].value} 
+            this.values = {...this.values, tipoExportacion: this.form.controls['export'].value} 
         }
 
         if (this.jsonDataAdapter != "") {
@@ -294,11 +309,11 @@ export class ExporterComponent implements OnInit {
                 this.selection = this.form.controls["export"].value ? this.form.controls["export"].value: null;
                 this.range = this.form.controls["range"].value ? this.form.controls["range"].value : null;
 
-                if (this.selection == 1) { this.range = "all"; }
-                if (this.selection == 2) { this.range = "currentList"; }
-                if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+                if (this.selection == 1) { this.range = "todos"; }
+                if (this.selection == 2) { this.range = "listaActual"; }
+                if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
             }else{
-                this.range = "currentList";
+                this.range = "listaActual";
             }
 
             let fileTypeTmp = this.fileType;
@@ -314,15 +329,15 @@ export class ExporterComponent implements OnInit {
                 break;
             }
 
-            let exporters ={
-                recordsPerPage: this.recordsPerPage,
-                pages: this.exportValues[1],
-                currentPage: this.exportValues[2],
-                fileType: fileTypeTmp,
-                range: this.range,
+            let exporters: Exportadores = {
+                registrosPorPagina: this.inputExport?.length as number,
+                paginas: this.exportValues[1],
+                paginaActual: this.exportValues[2],
+                tipoArchivo: fileTypeTmp,
+                rango: this.range,
                 orderBy: this.exportValues[3],
             }
-            if ( this.values.export ) { this.values = {...this.values, exporters:exporters } }
+            if ( this.values.exportar ) { this.values = {...this.values, exportadores: exporters } }
 
 
             this.pages = this.exportValues[1];
@@ -347,9 +362,9 @@ export class ExporterComponent implements OnInit {
         this.selection = this.form ? this.form.get('export').value : null;
         this.range = this.form ? this.form.get('range').value : null;
 
-        if (this.selection == 1) { this.range = "all"; }
-        if (this.selection == 2) { this.range = "currentList"; }
-        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+        if (this.selection == 1) { this.range = "todos"; }
+        if (this.selection == 2) { this.range = "listaActual"; }
+        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
 
         this.recordsPerPage = this.exportValues[0];
         this.pages = this.exportValues[1];
@@ -367,9 +382,9 @@ export class ExporterComponent implements OnInit {
         this.selection = this.form ? this.form.get('export').value : null;
         this.range = this.form ? this.form.get('range').value : null;
 
-        if (this.selection == 1) { this.range = "all"; }
-        if (this.selection == 2) { this.range = "currentList"; }
-        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "all"; }
+        if (this.selection == 1) { this.range = "todos"; }
+        if (this.selection == 2) { this.range = "listaActual"; }
+        if (this.selection != 1 && this.selection != 2 && this.selection != 3) { this.range = "todos"; }
 
         this.recordsPerPage = this.exportValues[0];
         this.pages = this.exportValues[1];
@@ -427,7 +442,6 @@ export class ExporterComponent implements OnInit {
     }
 
     public controlFileType(fileName: string, url: string, viewer: boolean ) {
-    
         if ( this.module == "url2") { 
             if (this.fileType == "excel") {  this.helpersService.openXLS(fileName, url, this.values); }
             if (this.fileType == "csv") {    this.helpersService.openCSV(fileName, url, this.values); }
@@ -456,7 +470,6 @@ export class ExporterComponent implements OnInit {
     }
 
     closeModal(event: boolean) {
-        console.log(event);
         if (event) {
         if (this.form.valid) {
             //this.save();
