@@ -50,7 +50,7 @@ export class NewClassCauseModalComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loadForm()
+    this.loadForm() 
     if (this.id) {
       this.title = 'Editar: ' + this.listName;
       this.loadData(this.id);
@@ -95,6 +95,9 @@ export class NewClassCauseModalComponent implements OnInit {
           grupo_clase: res.llave?.llave?.codigo + ' - ' + res.llave?.llave?.nombre,
           clase_causa: res.llave?.codigo + ' - ' + res.llave?.nombre
         })
+        if(this.fatherId === null || this.fatherId === undefined){
+          this.fatherId = res.llave?.id 
+        }
     })
   }
 
@@ -117,10 +120,16 @@ export class NewClassCauseModalComponent implements OnInit {
       codigo: this.frm.value.codigo,
       nombre: this.frm.value.nombre,
       descripcion: this.frm.value.descripcion,
-      nivel: this.level + 1,
+      nivel: this.action === 'btn_nuevo' ? this.level + 1 : this.level,
       activo: this.helperService.getSwitch(this.frm.value.activo, false),
       llave: (this.fatherId !== null && this.fatherId !== undefined) ? { id: this.fatherId } as AccidentCausesModel : null,
     };
+    if(data.nivel === 1){
+      data.llave = null
+    }
+    if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
+      data.llave = { id: this.fatherId } as AccidentCausesModel
+    }
 
     if(this.id){
 

@@ -72,6 +72,21 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'disease-monitoring',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Monitoreo enfermedad',
+                            endpoint: 'monitoreoenfermedad',
+                            permissions: {
+                                name: 'talentohumano.monitoreo_enfermedad',
+                                only: 'talentohumano.monitoreo_enfermedad.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'inspection-objects',
                         loadComponent: () =>
                             import(
