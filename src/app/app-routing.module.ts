@@ -168,6 +168,25 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'worst-consequences',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Peores Consecuencias',
+                            endpoint: 'peorconsecuencia',
+                            endpointexport: 'reportesSggt/reporteParametros1/peoresConsecuencias/32',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Peores Consecuencias',
+                            permissions: {
+                                name: 'talentohumano.peores_consecuencias',
+                                only: 'talentohumano.peores_consecuencias.index'
+                            }
+                        }
+                    },
                 ]
             }
         ]
