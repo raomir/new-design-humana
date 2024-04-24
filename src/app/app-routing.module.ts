@@ -84,6 +84,13 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'injury-agent',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/injury-agent/injury-agent-index/injury-agent-index.component'
+                            ).then((m) => m.InjuryAgentIndexComponent),
+                    },
                 ],
             },
         ],

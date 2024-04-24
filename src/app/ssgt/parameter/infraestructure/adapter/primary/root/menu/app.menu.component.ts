@@ -60,6 +60,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/accident-causes'],
                     },
+                    {
+                        label: 'Agentes De Lesión',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/injury-agent'],
+                    },
                 ],
             },
             {
