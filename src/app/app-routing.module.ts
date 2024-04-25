@@ -284,9 +284,8 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles De Riesgo',
                             endpoint: 'nivelriesgo',
-                            endpointexport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
+                            endpointExport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
                             module: 'url2',
-                            export: true,
                             titleexport: 'Niveles De Riesgo',
                             permissions: {
                                 name: 'talentohumano.niveles_riesgo',
