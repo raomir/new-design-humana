@@ -37,16 +37,9 @@ export class ElementListComponent {
   public buttons: Array<string> = ['btn_print', 'btn_new'];
   public fileType: string | undefined;
 
-  public columnsTable: Array<Column> = [
-    { title: 'Código', data: 'codigo', sort: 'codigo' },
-    { title: 'Nombre', data: 'nombre', sort: 'nombre' },
-    { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
-    { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
-    { title: 'Activo', data: 'activo', sort: 'activo', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
-    {
-      title: 'Acciones', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar']
-    }
-  ]
+  public loading: boolean = true;
+
+  public columnsTable: Array<Column> = []
 
   public idEdit: number | null = null;
   public displayModal: boolean = false;
@@ -54,10 +47,7 @@ export class ElementListComponent {
   public inputExport: InputExport | JsonParams | undefined;
   public values: ExportData | ExportDataInterface = new ExportData(false, {});
   public exportValues: Array<any> = [];
-  public titleExport: string = 'report'
-
-  // Campo adicional
-  public addTypeInjuryAgent: boolean = false;
+  public titleExport: string = 'report';
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
@@ -67,7 +57,6 @@ export class ElementListComponent {
     this.module = this.activatedRoute.snapshot.data['module'];
     this.values.exportar = this.activatedRoute.snapshot.data['export'];
     this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
-    this.addTypeInjuryAgent = this.activatedRoute.snapshot.data['addtypeinjuryAgent'];
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
@@ -77,6 +66,41 @@ export class ElementListComponent {
   }
 
   ngOnInit(): void {
+    this.validationsComponent();
+  }
+
+  validationsComponent() {
+    this.columnsTable = [
+      { title: 'Código', data: 'codigo', sort: 'codigo' },
+      { title: 'Nombre', data: 'nombre', sort: 'nombre' }
+    ];
+    switch (this.endPoint) {
+      case 'objectoInpeccion':
+        this.columnsTable = this.columnsTable.concat([
+          { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
+          { title: 'Formulario específico', data: 'metadatos', sort: 'metadatos.formularioNombre', render: (data: any) => data?.formularioNombre },
+        ])
+        break;
+
+      case 'niveldeficiencia':
+        this.columnsTable = this.columnsTable.concat([
+          { title: 'Valor', data: 'metadatos', sort: 'metadatos.valor', render: (data: any) => data?.valor },
+          { title: 'Significado', data: 'descripcion', sort: 'descripcion' },
+        ])
+        break;
+
+      default:
+        this.columnsTable = this.columnsTable.concat([
+          { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
+        ])
+        break;
+    }
+    this.columnsTable = this.columnsTable.concat([
+      { title: 'Activo', data: 'activo', sort: 'activo', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
+      { title: 'Acciones', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
+    ])
+    this.loading = false;
   }
 
   create() {
@@ -103,7 +127,7 @@ export class ElementListComponent {
   export(event: string | any) {
     this.fileType = undefined;
     this.displayModalExport = true;
-    this.fileType = event; 
+    this.fileType = event;
   }
 
   modalResponse(event: boolean): void {
@@ -113,7 +137,6 @@ export class ElementListComponent {
     }
     this.idEdit = null;
   }
-  
 
   modalExportResponse(event: boolean): void {
     this.displayModalExport = false;

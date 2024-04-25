@@ -10,6 +10,7 @@
                 </div>
             </div>
             <!-- END Estado -->
+
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
                 <label for="codigo" class="form-label md:col-3">Código</label>
@@ -18,6 +19,7 @@
                 </div>
             </div>
             <!-- END Código -->
+
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
                 <label for="nombre" class="form-label md:col-3">Nombre</label>
@@ -27,16 +29,18 @@
                 </div>
             </div>
             <!-- END nombre -->
-            <ng-container *ngIf="addTypeInjuryAgent">
-                <div class="grid col-12 m-0 p-0">
-                    <label for="descripcion" class="form-label md:col-3">Tipo</label>
-                    <div class="p-inputgroup md:col-9">
-                        <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
-                    </div>
+
+            <!-- tipo peligro -->
+            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'agentelesion'">
+                <label for="descripcion" class="form-label md:col-3">Tipo</label>
+                <div class="p-inputgroup md:col-9">
+                    <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
                 </div>
-            </ng-container>
+            </div>
+            <!-- END tipo peligro -->
+
             <!-- descripcion -->
-            <div class="grid col-12 m-0 p-0">
+            <div class="grid col-12 m-0 p-0" *ngIf="!hideDescription">
                 <label for="descripcion" class="form-label md:col-3">Descripción</label>
                 <div class="p-inputgroup md:col-9">
                     <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
@@ -44,8 +48,29 @@
                 </div>
             </div>
             <!-- END descripcion -->
+
+            <!-- nivel deficiencia -->
+            <!-- valor -->
+            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia'">
+                <label for="valor" class="form-label md:col-3">Valor</label>
+                <div class="p-inputgroup md:col-9">
+                    <p-inputNumber inputId="valor" formControlName="valor" [min]="0" [max]="100" />
+                </div>
+            </div>
+            <!-- END valor -->
+            <!-- significado -->
+            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia'">
+                <label for="significado" class="form-label md:col-3">Significado</label>
+                <div class="p-inputgroup md:col-9">
+                    <textarea style="min-height: 60px;" id="significado" placeholder="Significado" name="descripcion"
+                        formControlName="descripcion" pInputText type="text"></textarea>
+                </div>
+            </div>
+            <!-- END significado -->
+            <!-- END nivel deficiencia -->
+
             <!-- favorito -->
-            <div class="grid col-12 m-0 p-0">
+            <div class="grid col-12 m-0 p-0" *ngIf="!hideFavorite">
                 <label for="favorito" class="form-label md:col-3">Favorito</label>
                 <div class="md:col-9">
                     <p-inputSwitch formControlName="favorito" id="favorito" name="favorito" class="w-full"
@@ -53,6 +78,20 @@
                 </div>
             </div>
             <!-- END favorito -->
+
+            <!-- formulario -->
+            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'objectoInpeccion'">
+                <label for="formulario" class="form-label md:col-3">Formulario</label>
+                <div class="md:col-9">
+                    <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="'Formulario'"
+                        (itemSelected)="formSelected($event)" [endPoint]="endPointAutocompleteForms" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
+                        [inputModel]="formTxt" />
+                </div>
+            </div>
+            <!-- END formulario -->
+
         </div>
     </form>
 </app-modal-general>
+
+<app-advanced-search-forms *ngIf="endPoint == 'objectoInpeccion'" [displayModal]="displayModalAdvancedForms" (modalResponse)="formSelected($event)" />
