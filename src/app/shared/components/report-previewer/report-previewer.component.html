@@ -1,0 +1,59 @@
+<p-dialog (onHide)="hideModal()" [(visible)]="displayModal" [modal]="true" [style]="{ width: '60vw' }"
+          [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <h4>{{ individualReportTitle ? individualReportTitle : 'Reporte general ' }}</h4>
+  </ng-template>
+  <ng-template pTemplate="body">
+    <div *ngIf="loading" class="field col-12 md:col-12">
+      <div class="custom-skeleton p-4">
+        <div class="flex mb-3">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div>
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton height=".5rem"></p-skeleton>
+          </div>
+        </div>
+        <p-skeleton width="100%" height="150px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="100%" height="150px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="100%" height="150px" styleClass="mb-2"></p-skeleton>
+        <div class="flex justify-content-between mt-3">
+          <p-skeleton width="40rem" height="2rem"></p-skeleton>
+          <p-skeleton width="4rem" height="2rem"></p-skeleton>
+        </div>
+      </div>
+    </div>
+  <div id="outerContainer">
+    <div class="pdf-container">
+      <pdf-viewer #pdfComponent *ngIf="displayViewer" [src]="src" [rotation]="0" [original-size]="true"
+          (after-load-complete)="pageLoadComplete($event)" [show-all]="true" (on-progress)="pageRendered($event)"
+          [fit-to-page]="true" [zoom]="this.zoomSize" [zoom-scale]="'page-width'" [render-text]="true"
+          [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false"
+          style="width: 100%; height: 600px;">
+      </pdf-viewer>
+    </div>
+  </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div *ngIf="!loading" class="grid mt-2">
+      <div class="col-12 lg:col-8 md:col-8">
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" class="w-full input-search-table" (input)="search($event)"
+                placeholder="Realizar una busqueda en el reporte " />
+        </span>
+      </div>
+      <div class="col-12 lg:col-1 md:col-1">
+        <p-button class="p-button-outlined w-full" type="button" (click)="download()" icon="pi pi-download"></p-button>
+      </div>
+      <div class="col-12 lg:col-3 md:col-3 flex justify-content-between">
+        <p-button pRipple (click)="zoom(zoomSize - 1)" type="button" icon="pi pi-search-minus"
+                  class="p-button-outlined m-0 w-full"></p-button>
+        <input pInputText type="text" class="text-center w-10 mx-2 input-search-table" [disabled]="true"
+              [(ngModel)]="zoomSize" placeholder="Buscar " />
+        <p-button pRipple (click)="zoom(zoomSize + 1)" type="button" icon="pi pi-search-plus"
+                  class="p-button-outlined m-0 w-full"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

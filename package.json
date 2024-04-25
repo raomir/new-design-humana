@@ -31,6 +31,7 @@
         "@ngx-pwa/local-storage": "^16.1.0",
         "chart.js": "^4.4.2",
         "crypto-js": "^4.2.0",
+        "ng2-pdf-viewer": "^10.0.0",
         "ngx-filesaver": "^16.0.0",
         "ngx-permissions": "^17.1.0",
         "primeflex": "^3.3.1",
