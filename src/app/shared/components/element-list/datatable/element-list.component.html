@@ -6,5 +6,5 @@
         (modalResponse)="modalResponse($event)"  [addTypeInjuryAgent]="addTypeInjuryAgent"/>
 
     <app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="titleExport" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
-    <app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData"></app-report-previewer>
+    <app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData" [title]="titleExport"></app-report-previewer>
 </div>
