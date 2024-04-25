@@ -206,6 +206,26 @@ const routes: Routes = [
                                 only: 'talentohumano.niveles_exposicion.index'
                             }
                         }
+                    },
+                    {
+                        path: 'consequence-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles De Consecuencia',
+                            endpoint: 'nivelconsecuencia',
+                            addworth: true,
+                            endpointexport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles De Consecuencia',
+                            permissions: {
+                                name: 'talentohumano.niveles_consecuencia',
+                                only: 'talentohumano.niveles_consecuencia.index'
+                            }
+                        }
                     }
                 ],
             }

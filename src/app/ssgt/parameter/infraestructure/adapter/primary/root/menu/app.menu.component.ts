@@ -95,6 +95,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/worst-consequences'],
                     },
+                    { 
+                        label: 'Niveles De Consecuencia',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/consequence-levels'],
+                    },
                 ],
             },
             {
