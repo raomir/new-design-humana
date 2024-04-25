@@ -61,8 +61,11 @@ export class ElementListComponent {
   public titleExport: string = 'report'
   public printData: PrintData | PrintDataInterface = new PrintData();
 
-  // Campo adicional
+  //* Campo adicional
   public addTypeInjuryAgent: boolean = false;
+  // Campos adicionales para Nivel de exposición
+  public addWorth: boolean = false;// Valor
+  
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
@@ -73,7 +76,7 @@ export class ElementListComponent {
     this.values.exportar = this.activatedRoute.snapshot.data['export'];
     this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
     this.addTypeInjuryAgent = this.activatedRoute.snapshot.data['addtypeinjuryAgent'];
-
+    this.addWorth = this.activatedRoute.snapshot.data['addworth'];
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
       { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente

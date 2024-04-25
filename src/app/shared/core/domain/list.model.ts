@@ -6,6 +6,9 @@ export class List {
       public activo: Number,
       public favorito: Number,
       public id?: Number,
-      public listaPeligro?: Array<any>
+      public listaPeligro?: Array<any>,
+      public metadatos?: {
+        valor: Number
+      }
     ) {}
    }
