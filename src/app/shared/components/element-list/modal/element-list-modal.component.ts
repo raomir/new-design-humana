@@ -191,6 +191,7 @@ export class ElementListModalComponent {
 
   closeModal(event: boolean) {
     if (event) {
+      this.frm.markAllAsTouched();
       if (this.frm.valid) {
         this.save();
       }
