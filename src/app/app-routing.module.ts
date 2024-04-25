@@ -203,7 +203,83 @@ const routes: Routes = [
                             }
                         }
                     },
-                ]
+                    {
+                        path: 'levels-exposure',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles de exposición',
+                            endpoint: 'nivelexposicion',
+                            endpointexport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles de exposición',
+                            permissions: {
+                                name: 'talentohumano.niveles_exposicion',
+                                only: 'talentohumano.niveles_exposicion.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'consequence-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles De Consecuencia',
+                            endpoint: 'nivelconsecuencia',
+                            endpointexport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles De Consecuencia',
+                            permissions: {
+                                name: 'talentohumano.niveles_consecuencia',
+                                only: 'talentohumano.niveles_consecuencia.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'regular-work-day',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Jornada De Trabajo Habitual',
+                            endpoint: 'jornadatrabajo',
+                            endpointexport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Jornada De Trabajo Habitual',
+                            permissions: {
+                                name: 'talentohumano.jornada_trabajo_habitual',
+                                only: 'talentohumano.jornada_trabajo_habitual.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'gravity-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles De Gravedad',
+                            endpoint: 'nivelgravedad',
+                            endpointexport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles De Gravedad',
+                            permissions: {
+                                name: 'talentohumano.nivel_gravedad',
+                                only: 'talentohumano.nivel_gravedad.index'
+                            }
+                        }
+                    }
+                ],
             }
         ]
     },

@@ -91,9 +91,29 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/injury-agent'],
                     },
                     {
+                        label: 'Niveles De Exposición',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/levels-exposure']
+                    },  
+                    { 
                         label: 'Peores Consecuencias',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/worst-consequences'],
+                    },
+                    { 
+                        label: 'Niveles De Consecuencia',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/consequence-levels'],
+                    },
+                    { 
+                        label: 'Jornada De Trabajo Habitual',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/regular-work-day'],
+                    },
+                    { 
+                        label: 'Niveles De Gravedad',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/gravity-levels'],
                     },
                 ],
             },

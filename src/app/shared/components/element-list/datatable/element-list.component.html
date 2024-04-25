@@ -1,10 +1,10 @@
 <div class="card">
-    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()"
-        (actionPrint)="print()" />
-        <div *ngIf="!loading">
-            <app-table-general #table [endPoint]="endPoint + '/page'" [columns]="columnsTable" (runActions)="runActions($event)" (exportAction)="export($event)" (exportDataInput)="setExportDataInput($event)" />
-            <app-element-list-modal *ngIf="displayModal" [listName]="title" [displayModal]="displayModal" [id]="idEdit" [endPoint]="endPoint"
-                (modalResponse)="modalResponse($event)" />
-            <app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="titleExport" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
-        </div>
+    <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()" (actionPrint)="print()" />
+    <div *ngIf="!loading">
+        <app-table-general #table [endPoint]="endPoint + '/page'" [columns]="columnsTable" (runActions)="runActions($event)" (exportAction)="export($event)" (exportDataInput)="setExportDataInput($event)" />
+        <app-element-list-modal *ngIf="displayModal" [listName]="title" [displayModal]="displayModal" [id]="idEdit" [endPoint]="endPoint"
+            (modalResponse)="modalResponse($event)" />
+        <app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="titleExport" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
+        <app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData"></app-report-previewer>
+    </div>
 </div>

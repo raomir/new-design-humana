@@ -39,35 +39,24 @@
             </div>
             <!-- END tipo peligro -->
 
-            <!-- descripcion -->
-            <div class="grid col-12 m-0 p-0" *ngIf="!hideDescription">
-                <label for="descripcion" class="form-label md:col-3">Descripción</label>
+            <!-- valor -->
+            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia' || endPoint == 'nivelexposicion' || endPoint == 'nivelconsecuencia'">
+                <label for="valor" class="form-label md:col-3">Valor</label>
                 <div class="p-inputgroup md:col-9">
-                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
+                    <p-inputNumber inputId="valor" formControlName="valor" placeholder="Valor" [min]="0" [max]="100" />
+                </div>
+            </div>
+            <!-- END valor -->
+
+            <!-- descripcion -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="descripcion" class="form-label md:col-3">{{labelDescription}}</label>
+                <div class="p-inputgroup md:col-9">
+                    <textarea style="min-height: 60px;" id="descripcion" placeholder="{{labelDescription}}" name="descripcion"
                         formControlName="descripcion" pInputText type="text"></textarea>
                 </div>
             </div>
             <!-- END descripcion -->
-
-            <!-- nivel deficiencia -->
-            <!-- valor -->
-            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia'">
-                <label for="valor" class="form-label md:col-3">Valor</label>
-                <div class="p-inputgroup md:col-9">
-                    <p-inputNumber inputId="valor" formControlName="valor" [min]="0" [max]="100" />
-                </div>
-            </div>
-            <!-- END valor -->
-            <!-- significado -->
-            <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia'">
-                <label for="significado" class="form-label md:col-3">Significado</label>
-                <div class="p-inputgroup md:col-9">
-                    <textarea style="min-height: 60px;" id="significado" placeholder="Significado" name="descripcion"
-                        formControlName="descripcion" pInputText type="text"></textarea>
-                </div>
-            </div>
-            <!-- END significado -->
-            <!-- END nivel deficiencia -->
 
             <!-- favorito -->
             <div class="grid col-12 m-0 p-0" *ngIf="!hideFavorite">

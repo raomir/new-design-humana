@@ -54,3 +54,21 @@ export class ExportData implements ExportDataInterface {
         public exportadores?: any
     ) {}
 }
+
+export interface PrintDataInterface {
+    location?: string;
+    valores?: {
+        exportar: boolean;
+        input: Input | JsonParams | undefined,
+    };
+}
+
+export class PrintData implements PrintDataInterface {
+    constructor(
+        public location?: string,
+        public valores?: {
+            exportar: boolean;
+            input: Input | JsonParams | undefined,
+        }
+    ) {}
+}

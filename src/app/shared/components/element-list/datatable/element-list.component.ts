@@ -12,6 +12,8 @@ import { ListService } from '../../../core/application/list.service';
 import { ExporterErpComponent } from '../../exporter-erp/exporter-erp.component';
 import { ExporterComponent } from '../../exporter/exporter.component';
 import { ExportData, ExportDataInterface, Input as InputExport } from 'src/app/shared/core/domain/export.models';
+import { ReportPreviewerComponent } from '../../report-previewer/report-previewer.component';
+import { PrintData, PrintDataInterface } from '../../../core/domain/export.models';
 
 @Component({
   selector: 'app-element-list',
@@ -22,12 +24,14 @@ import { ExportData, ExportDataInterface, Input as InputExport } from 'src/app/s
     HeaderCardComponent,
     TableGeneralComponent,
     ElementListModalComponent,
-    ExporterComponent
+    ExporterComponent,
+    ReportPreviewerComponent
   ]
 })
 export class ElementListComponent {
 
   @ViewChild('table') table?: TableGeneralComponent;
+  @ViewChild('reportPreviewer') reportPreviewer?: ReportPreviewerComponent;
 
   public title: string;
   public endPoint: string;
@@ -47,7 +51,8 @@ export class ElementListComponent {
   public inputExport: InputExport | JsonParams | undefined;
   public values: ExportData | ExportDataInterface = new ExportData(false, {});
   public exportValues: Array<any> = [];
-  public titleExport: string = 'report';
+  public titleExport: string = 'report'
+  public printData: PrintData | PrintDataInterface = new PrintData();
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
@@ -57,7 +62,6 @@ export class ElementListComponent {
     this.module = this.activatedRoute.snapshot.data['module'];
     this.values.exportar = this.activatedRoute.snapshot.data['export'];
     this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
-
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
       { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente
@@ -121,6 +125,11 @@ export class ElementListComponent {
         `${data} ${dir}`
       ];
     }
+    this.printData.location = "archivo.pdf";
+    this.printData.valores = {
+      exportar: false,
+      input: this.inputExport
+    };
   }
 
 
@@ -171,7 +180,7 @@ export class ElementListComponent {
   }
 
   print(): void {
-
+    this.reportPreviewer?.showModalDialog();
   }
 
 }

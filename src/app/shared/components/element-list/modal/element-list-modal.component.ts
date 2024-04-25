@@ -42,8 +42,8 @@ export class ElementListModalComponent {
 
   public frm!: FormGroup;
 
-  public hideDescription: boolean = false;
   public hideFavorite: boolean = false;
+  public labelDescription: string = 'Descripción';
 
   public codePatterns = { '0': { pattern: new RegExp('[a-zA-Z0-9-]') } }
 
@@ -111,8 +111,10 @@ export class ElementListModalComponent {
         this.hideFavorite = true;
         this.frm.addControl('formulario', new FormControl(null, Validators.required))
         break;
+      case 'nivelexposicion':
       case 'niveldeficiencia':
-        this.hideDescription = true;
+      case 'nivelconsecuencia':
+        this.labelDescription = 'Significado';
         this.frm.addControl('valor', new FormControl(null, Validators.required))
         break;
       default:
@@ -150,6 +152,8 @@ export class ElementListModalComponent {
         break;
 
       case 'niveldeficiencia':
+      case 'nivelexposicion':
+      case 'nivelconsecuencia':
         this.frm.get('valor')?.setValue(resp.metadatos.valor);
         break;
 
@@ -226,6 +230,8 @@ export class ElementListModalComponent {
         data.metadatos = { formulario: this.frm.controls['formulario'].value }
         break;
       case 'niveldeficiencia':
+      case 'nivelexposicion':
+      case 'nivelconsecuencia':
         data.metadatos = { valor: this.frm.controls['valor'].value }
         break;
       default:
