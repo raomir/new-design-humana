@@ -200,6 +200,7 @@ export class ElementListModalComponent {
   }
 
   async save(): Promise<void> {
+    this.frm.markAllAsTouched();
     let data: any = {
       codigo: this.frm.value.codigo,
       nombre: this.frm.value.nombre,
