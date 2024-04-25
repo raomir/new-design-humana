@@ -14,18 +14,20 @@
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
                 <label for="codigo" class="form-label md:col-3">Código</label>
-                <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
+                <div class="p-inputgroup md:col-9 field-container">
                     <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('codigo')"></app-validation-message>
                 </div>
             </div>
             <!-- END Código -->
 
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
-                <label for="nombre" class="form-label md:col-3">Nombre</label>
-                <div class="p-inputgroup md:col-9">
+                <label for="nombre" class="form-label md:col-3">{{ endPoint == 'nivelriesgo' ? 'Nivel de riesgo' :  'Nombre' }}</label>
+                <div class="p-inputgroup md:col-9 field-container">
                     <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
                         id="nombre" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('nombre')"></app-validation-message>
                 </div>
             </div>
             <!-- END nombre -->
@@ -33,8 +35,9 @@
             <!-- tipo peligro -->
             <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'agentelesion'">
                 <label for="descripcion" class="form-label md:col-3">Tipo</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
+                    <app-validation-message class="validation-message" [control]="frm.get('tipoPeligro')"></app-validation-message>
                 </div>
             </div>
             <!-- END tipo peligro -->
@@ -42,18 +45,43 @@
             <!-- valor -->
             <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'niveldeficiencia' || endPoint == 'nivelexposicion' || endPoint == 'nivelconsecuencia'">
                 <label for="valor" class="form-label md:col-3">Valor</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <p-inputNumber inputId="valor" formControlName="valor" placeholder="Valor" [min]="0" [max]="100" />
+                    <app-validation-message  class="validation-message"[control]="frm.get('valor')"></app-validation-message>
                 </div>
             </div>
             <!-- END valor -->
 
+            <!-- Maximo Minimo -->
+            <ng-container *ngIf="endPoint == 'nivelriesgo'">
+                <div class="grid col-12 m-0 p-0">
+                    <!-- Maximo -->
+                    <div class="grid col-6 m-0 p-0">
+                        <label for="valor" class="form-label md:col-6">Valor máximo</label>
+                        <div class="p-inputgroup md:col-6 field-container">
+                            <p-inputNumber inputId="valor" formControlName="maximo" placeholder="Valor máximo" [min]="0" [max]="99999999" (ngModelChange)="validateMax()"/>
+                            <app-validation-message class="validation-message" [control]="frm.get('maximo')"></app-validation-message>
+                        </div>
+                    </div>
+                    <!-- Minimo -->
+                    <div class="grid col-6 m-0 p-0">
+                        <label for="valor" class="form-label md:col-6">Valor mínimo</label>
+                        <div class="p-inputgroup md:col-6 field-container">
+                            <p-inputNumber inputId="valor" formControlName="minimo" placeholder="Valor mínimo" [min]="0" [max]="99999999" />
+                            <app-validation-message class="validation-message" [control]="frm.get('minimo')"></app-validation-message>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- END Maximo Minimo -->
+
             <!-- descripcion -->
             <div class="grid col-12 m-0 p-0">
                 <label for="descripcion" class="form-label md:col-3">{{labelDescription}}</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <textarea style="min-height: 60px;" id="descripcion" placeholder="{{labelDescription}}" name="descripcion"
                         formControlName="descripcion" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('descripcion')"></app-validation-message>
                 </div>
             </div>
             <!-- END descripcion -->
@@ -61,9 +89,10 @@
             <!-- favorito -->
             <div class="grid col-12 m-0 p-0" *ngIf="!hideFavorite">
                 <label for="favorito" class="form-label md:col-3">Favorito</label>
-                <div class="md:col-9">
+                <div class="md:col-9 field-container">
                     <p-inputSwitch formControlName="favorito" id="favorito" name="favorito" class="w-full"
                         [(ngModel)]="frm.value.favorito"></p-inputSwitch>
+                    <app-validation-message class="validation-message" [control]="frm.get('favorito')"></app-validation-message>
                 </div>
             </div>
             <!-- END favorito -->
@@ -71,10 +100,11 @@
             <!-- formulario -->
             <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'objectoInpeccion'">
                 <label for="formulario" class="form-label md:col-3">Formulario</label>
-                <div class="md:col-9">
+                <div class="md:col-9 field-container">
                     <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="'Formulario'"
                         (itemSelected)="formSelected($event)" [endPoint]="endPointAutocompleteForms" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
                         [inputModel]="formTxt" />
+                    <app-validation-message class="validation-message" [control]="frm.get('formulario')"></app-validation-message>
                 </div>
             </div>
             <!-- END formulario -->

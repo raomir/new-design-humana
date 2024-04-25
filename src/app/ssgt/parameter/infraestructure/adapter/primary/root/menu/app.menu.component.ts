@@ -115,6 +115,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/gravity-levels'],
                     },
+                    { 
+                        label: 'Niveles De Riesgo',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/risk-levels'],
+                    },
                 ],
             },
             {

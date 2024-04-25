@@ -295,3 +295,28 @@ input[type="text"] {
 .autocomplete-w-100 {
   width: 100% !important;
 }
+
+.field-container {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.field-container.has-error {
+  margin-bottom: 20px;
+}
+
+.validation-message {
+  position: absolute;
+  bottom: -6px;
+  left: 7px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+}
+
+.validation-message.p-error :scope {
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  max-width: calc(100% - 14px);
+}

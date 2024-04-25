@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { AutocompleteComponent } from '../../autocomplete/autocomplete.component';
 import { AdvancedSearchFormsComponent } from '../../advanced-search-forms/advanced-search-forms.component';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ValidationMessageComponent } from '../../validation-message/validation-message.component';
 
 @Component({
   selector: 'app-element-list-modal',
@@ -25,7 +26,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputSwitchModule,
     DropdownModule,
     AutocompleteComponent,
-    AdvancedSearchFormsComponent
+    AdvancedSearchFormsComponent,
+    ValidationMessageComponent
   ]
 })
 export class ElementListModalComponent {
@@ -117,9 +119,19 @@ export class ElementListModalComponent {
         this.labelDescription = 'Significado';
         this.frm.addControl('valor', new FormControl(null, Validators.required))
         break;
+      case 'nivelriesgo':
+        this.labelDescription = 'Significado';
+        this.frm.addControl('maximo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
+        this.frm.addControl('minimo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
+        break;
       default:
         break;
     }
+  }
+
+  validateMax() {
+    let valorMax = this.frm.controls['maximo'].value;
+    this.frm.controls['minimo'].setValidators(Validators.max(valorMax));
   }
 
   loadData(id: Number) {
@@ -155,6 +167,10 @@ export class ElementListModalComponent {
       case 'nivelexposicion':
       case 'nivelconsecuencia':
         this.frm.get('valor')?.setValue(resp.metadatos.valor);
+        break;
+      case 'nivelriesgo':
+        this.frm.get('maximo')?.setValue(resp.metadatos.maximo);
+        this.frm.get('minimo')?.setValue(resp.metadatos.minimo);
         break;
 
       default:
@@ -233,6 +249,9 @@ export class ElementListModalComponent {
       case 'nivelexposicion':
       case 'nivelconsecuencia':
         data.metadatos = { valor: this.frm.controls['valor'].value }
+        break;
+      case 'nivelriesgo':
+        data.metadatos = { maximo: this.frm.controls['maximo'].value, minimo: this.frm.controls['minimo'].value }
         break;
       default:
         break;

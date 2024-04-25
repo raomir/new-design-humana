@@ -278,6 +278,25 @@ const routes: Routes = [
                                 only: 'talentohumano.nivel_gravedad.index'
                             }
                         }
+                    },
+                    {
+                        path: 'risk-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles De Riesgo',
+                            endpoint: 'nivelriesgo',
+                            endpointexport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles De Riesgo',
+                            permissions: {
+                                name: 'talentohumano.niveles_riesgo',
+                                only: 'talentohumano.niveles_riesgo.index'
+                            }
+                        }
                     }
                 ],
             }
