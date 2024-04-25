@@ -100,6 +100,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/consequence-levels'],
                     },
+                    { 
+                        label: 'Jornada De Trabajo Habitual',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/regular-work-day'],
+                    },
                 ],
             },
             {

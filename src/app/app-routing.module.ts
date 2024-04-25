@@ -226,6 +226,25 @@ const routes: Routes = [
                                 only: 'talentohumano.niveles_consecuencia.index'
                             }
                         }
+                    },
+                    {
+                        path: 'regular-work-day',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Jornada De Trabajo Habitual',
+                            endpoint: 'jornadatrabajo',
+                            endpointexport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Jornada De Trabajo Habitual',
+                            permissions: {
+                                name: 'talentohumano.jornada_trabajo_habitual',
+                                only: 'talentohumano.jornada_trabajo_habitual.index'
+                            }
+                        }
                     }
                 ],
             }
