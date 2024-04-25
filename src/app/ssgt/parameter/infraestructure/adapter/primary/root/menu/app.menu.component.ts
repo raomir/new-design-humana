@@ -88,7 +88,12 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Niveles De Exposición',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/main/administration/levels-exposure'],
+                        routerLink: ['/main/administration/levels-exposure']
+                    },  
+                    { 
+                        label: 'Peores Consecuencias',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/worst-consequences'],
                     },
                 ],
             },
