@@ -105,6 +105,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/regular-work-day'],
                     },
+                    { 
+                        label: 'Niveles De Gravedad',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/gravity-levels'],
+                    },
                 ],
             },
             {

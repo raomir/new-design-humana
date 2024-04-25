@@ -245,6 +245,25 @@ const routes: Routes = [
                                 only: 'talentohumano.jornada_trabajo_habitual.index'
                             }
                         }
+                    },
+                    {
+                        path: 'gravity-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles De Gravedad',
+                            endpoint: 'nivelgravedad',
+                            endpointexport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles De Gravedad',
+                            permissions: {
+                                name: 'talentohumano.nivel_gravedad',
+                                only: 'talentohumano.nivel_gravedad.index'
+                            }
+                        }
                     }
                 ],
             }
