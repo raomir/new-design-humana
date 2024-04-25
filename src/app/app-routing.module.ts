@@ -43,6 +43,8 @@ const routes: Routes = [
                         data: {
                             title: 'Clases peligro',
                             endpoint: 'clasepeligro',
+                            endpointExport: 'reportesSggt/reporteParametros1/Clase peligro/1',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.clase_peligro',
                                 only: 'talentohumano.clase_peligro.index'
@@ -65,10 +67,8 @@ const routes: Routes = [
                         data: {
                             title: 'Tipos de evaluación ocupacional',
                             endpoint: 'tipodeevaluacionocupacional',
-                            endpointexport: 'reportesSggt/reporteParametros1/tipodeevaluacionocupacional/46',
+                            endpointExport: 'reportesSggt/reporteParametros1/tipodeevaluacionocupacional/46',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Tipo De Evaluación Ocupacional',
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'
@@ -84,6 +84,8 @@ const routes: Routes = [
                         data: {
                             title: 'Monitoreo enfermedad',
                             endpoint: 'monitoreoenfermedad',
+                            endpointExport: 'reportesSggt/reporteParametros1/monitoreoEnfermedad/45',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.monitoreo_enfermedad',
                                 only: 'talentohumano.monitoreo_enfermedad.index'
@@ -99,6 +101,8 @@ const routes: Routes = [
                         data: {
                             title: 'Efectos posibles',
                             endpoint: 'efectoposible',
+                            endpointExport: 'reportesSggt/reporteParametros1/efectosPosibles/5',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.efecto_posible',
                                 only: 'talentohumano.efecto_posible.index'
@@ -114,6 +118,8 @@ const routes: Routes = [
                         data: {
                             title: 'Objetos de inspección',
                             endpoint: 'objectoInpeccion',
+                            endpointExport: 'reportesSggt/resportesObjectosInspeccion/objectosInspeccion/67',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'
@@ -129,6 +135,8 @@ const routes: Routes = [
                         data: {
                             title: 'Parte afectada',
                             endpoint: 'parteafectada',
+                            endpointExport: 'reportesSggt/reporteParametros1/Partes Afectadas/8',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.parte_afectada',
                                 only: 'talentohumano.parte_afectada.index'
@@ -174,10 +182,8 @@ const routes: Routes = [
                         data: {
                             title: 'Agentes De Lesión',
                             endpoint: 'agentelesion',
-                            endpointexport: 'agentelesion/agenteLesion',
+                            endpointExport: 'agentelesion/agenteLesion',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Agentes De Lesíon',
                             permissions: {
                                 name: 'talentohumano.agentes_lesion',
                                 only: 'talentohumano.agentes_lesion.index'
@@ -193,10 +199,8 @@ const routes: Routes = [
                         data: {
                             title: 'Peores Consecuencias',
                             endpoint: 'peorconsecuencia',
-                            endpointexport: 'reportesSggt/reporteParametros1/peoresConsecuencias/32',
+                            endpointExport: 'reportesSggt/reporteParametros1/peoresConsecuencias/32',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Peores Consecuencias',
                             permissions: {
                                 name: 'talentohumano.peores_consecuencias',
                                 only: 'talentohumano.peores_consecuencias.index'
@@ -212,10 +216,8 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles de exposición',
                             endpoint: 'nivelexposicion',
-                            endpointexport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
+                            endpointExport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Niveles de exposición',
                             permissions: {
                                 name: 'talentohumano.niveles_exposicion',
                                 only: 'talentohumano.niveles_exposicion.index'
@@ -231,10 +233,8 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles De Consecuencia',
                             endpoint: 'nivelconsecuencia',
-                            endpointexport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
+                            endpointExport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Niveles De Consecuencia',
                             permissions: {
                                 name: 'talentohumano.niveles_consecuencia',
                                 only: 'talentohumano.niveles_consecuencia.index'
@@ -250,10 +250,8 @@ const routes: Routes = [
                         data: {
                             title: 'Jornada De Trabajo Habitual',
                             endpoint: 'jornadatrabajo',
-                            endpointexport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
+                            endpointExport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Jornada De Trabajo Habitual',
                             permissions: {
                                 name: 'talentohumano.jornada_trabajo_habitual',
                                 only: 'talentohumano.jornada_trabajo_habitual.index'
@@ -269,10 +267,8 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles De Gravedad',
                             endpoint: 'nivelgravedad',
-                            endpointexport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
+                            endpointExport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
                             module: 'url2',
-                            export: true,
-                            titleexport: 'Niveles De Gravedad',
                             permissions: {
                                 name: 'talentohumano.nivel_gravedad',
                                 only: 'talentohumano.nivel_gravedad.index'

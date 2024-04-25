@@ -49,19 +49,16 @@ export class ElementListComponent {
   public displayModal: boolean = false;
   public displayModalExport: boolean = false;
   public inputExport: InputExport | JsonParams | undefined;
-  public values: ExportData | ExportDataInterface = new ExportData(false, {});
+  public values: ExportData | ExportDataInterface = new ExportData(true, {});
   public exportValues: Array<any> = [];
-  public titleExport: string = 'report'
   public printData: PrintData | PrintDataInterface = new PrintData();
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
-    this.endPointExport = this.activatedRoute.snapshot.data['endpointexport'];
+    this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
-    this.values.exportar = this.activatedRoute.snapshot.data['export'];
-    this.titleExport = this.activatedRoute.snapshot.data['titleexport'];
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
       { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente
