@@ -109,9 +109,11 @@ const routes: Routes = [
                         path: 'inspection-objects',
                         loadComponent: () =>
                             import(
-                                './ssgt/parameter/components/inspection-objects/datatable/inspection-objects.component'
-                            ).then((m) => m.InspectionObjectsComponent),
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
                         data: {
+                            title: 'Objetos de inspección',
+                            endpoint: 'objectoInpeccion',
                             permissions: {
                                 name: 'talentohumano.tipo_evaluacion_ocupacional',
                                 only: 'talentohumano.tipo_evaluacion_ocupacional.index'
@@ -149,6 +151,21 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'deficiency-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles de deficiencia',
+                            endpoint: 'niveldeficiencia',
+                            permissions: {
+                                name: 'talentohumano.niveles_deficiencia',
+                                only: 'talentohumano.niveles_deficiencia.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'injury-agent',
                         loadComponent: () =>
                             import(
@@ -157,7 +174,6 @@ const routes: Routes = [
                         data: {
                             title: 'Agentes De Lesión',
                             endpoint: 'agentelesion',
-                            addtypeinjuryAgent: true,
                             endpointexport: 'agentelesion/agenteLesion',
                             module: 'url2',
                             export: true,
@@ -196,7 +212,6 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles de exposición',
                             endpoint: 'nivelexposicion',
-                            addworth: true,
                             endpointexport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
                             module: 'url2',
                             export: true,
@@ -216,7 +231,6 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles De Consecuencia',
                             endpoint: 'nivelconsecuencia',
-                            addworth: true,
                             endpointexport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
                             module: 'url2',
                             export: true,
