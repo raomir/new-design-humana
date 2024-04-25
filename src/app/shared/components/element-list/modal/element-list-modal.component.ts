@@ -30,6 +30,7 @@ export class ElementListModalComponent {
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
   @Input() addTypeInjuryAgent: boolean = false;
+  @Input() addWorth: boolean = false;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
@@ -37,6 +38,7 @@ export class ElementListModalComponent {
 
   public frm!: FormGroup;
   public tipoPeligro : Array<any> = [];
+  public labelDescription: string = 'Descripción';
 
   public codePatterns = { '0': { pattern: new RegExp('[a-zA-Z0-9-]') } }
 
@@ -78,11 +80,17 @@ export class ElementListModalComponent {
       ])],
       favorito: [false],
     })
+    if (this.addWorth) {
+      this.labelDescription = 'Significado'
+    }
     if (this.addTypeInjuryAgent) {
       this.listService.getHazardClassList().subscribe(resp => {
         this.tipoPeligro = resp;
       })
       this.frm.addControl('tipoPeligro', new FormControl(null, Validators.required))
+    }
+    if (this.addWorth) {
+      this.frm.addControl('valor', new FormControl(null, Validators.required))
     }
   }
 
@@ -98,6 +106,9 @@ export class ElementListModalComponent {
         })
         if (this.addTypeInjuryAgent) {
           this.frm.get('tipoPeligro')?.setValue(resp.listaPeligro);
+        }
+        if (this.addWorth) {
+          this.frm.get('valor')?.setValue(resp.metadatos?.valor);
         }
       },
       error: error => {
@@ -127,6 +138,9 @@ export class ElementListModalComponent {
     }
     if (this.addTypeInjuryAgent) {
       data.listaPeligro = { id: this.frm.value.tipoPeligro.id }
+    }
+    if (this.addWorth) {
+      data.metadatos = { valor: this.frm.value.valor}
     }
     
     if (this.id) {

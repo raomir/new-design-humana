@@ -168,6 +168,26 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'levels-exposure',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles de exposición',
+                            endpoint: 'nivelexposicion',
+                            addworth: true,
+                            endpointexport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
+                            module: 'url2',
+                            export: true,
+                            titleexport: 'Niveles de exposición',
+                            permissions: {
+                                name: 'talentohumano.niveles_exposicion',
+                                only: 'talentohumano.niveles_exposicion.index'
+                            }
+                        }
+                    },
                 ]
             }
         ]
