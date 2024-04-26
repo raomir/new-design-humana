@@ -111,6 +111,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/regular-work-day'],
                     },
                     { 
+                        label: 'Jornada de accidente',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/accident-workday'],
+                    },
+                    { 
                         label: 'Niveles De Gravedad',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/gravity-levels'],

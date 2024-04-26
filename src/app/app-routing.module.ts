@@ -286,10 +286,26 @@ const routes: Routes = [
                             endpoint: 'nivelriesgo',
                             endpointExport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
                             module: 'url2',
-                            titleexport: 'Niveles De Riesgo',
                             permissions: {
                                 name: 'talentohumano.niveles_riesgo',
                                 only: 'talentohumano.niveles_riesgo.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'accident-workday',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Jornada de accidente',
+                            endpoint: 'jornadaaccidente',
+                            endpointExport: 'reportesSggt/reporteParametros1/jornadasAccidentes/7',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.jornada_accidente',
+                                only: 'talentohumano.jornada_accidente.index'
                             }
                         }
                     }
