@@ -308,6 +308,24 @@ const routes: Routes = [
                                 only: 'talentohumano.jornada_accidente.index'
                             }
                         }
+                    },
+                    {
+                        path: 'occupation-cie88',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Occupation-CIE88',
+                            endpoint: 'ocupacioncie88',
+                            endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
+                            module: 'url2',
+                            titleexport: 'Occupation-CIE88',
+                            permissions: {
+                                name: 'talentohumano.ocupacion_cie88',
+                                only: 'talentohumano.ocupacion_cie88.index'
+                            }
+                        }
                     }
                 ],
             }
