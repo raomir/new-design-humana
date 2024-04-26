@@ -120,6 +120,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/risk-levels'],
                     },
+                    { 
+                        label: 'Ocupación CIE88',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/occupation-cie88'],
+                    },
                 ],
             },
             {
