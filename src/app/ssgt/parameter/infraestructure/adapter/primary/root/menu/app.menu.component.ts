@@ -41,6 +41,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/danger-class'],
                     },
                     {
+                        label: 'Controles en el individuo',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/controls-on-the-individual'],
+                    },
+                    {
                         label: 'Mecanismos',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/mechanisms'],

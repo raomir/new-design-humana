@@ -93,6 +93,23 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'controls-on-the-individual',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Controles en el individuo',
+                            endpoint: 'controlindividuo',
+                            endpointExport: 'controlindividuo/reporteControlindividuo',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.controles_individuo',
+                                only: 'talentohumano.controles_individuo.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'possible-effects',
                         loadComponent: () =>
                             import(
