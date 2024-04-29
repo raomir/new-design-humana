@@ -333,14 +333,86 @@ const routes: Routes = [
                                 './shared/components/element-list/datatable/element-list.component'
                             ).then((m) => m.ElementListComponent),
                         data: {
-                            title: 'Occupation-CIE88',
+                            title: 'Occupation CIE88',
                             endpoint: 'ocupacioncie88',
                             endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
                             module: 'url2',
-                            titleexport: 'Occupation-CIE88',
+                            titleexport: 'Occupation CIE88',
                             permissions: {
                                 name: 'talentohumano.ocupacion_cie88',
                                 only: 'talentohumano.ocupacion_cie88.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'controls-middle',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Controles en el medio',
+                            endpoint: 'controlmedio',
+                            endpointExport: 'reportesSggt/reporteParametros1/Controles en el medio/4',
+                            module: 'url2',
+                            titleexport: 'Controles en el medio',
+                            permissions: {
+                                name: 'talentohumano.controles_medio',
+                                only: 'talentohumano.controles_medio.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'investigation-events',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Eventos de investigación',
+                            endpoint: 'eventosinvestigacion',
+                            endpointExport: 'reportesSggt/reporteParametros1/Eventos de Investigacion/16',
+                            module: 'url2',
+                            titleexport: 'Eventos de investigación',
+                            permissions: {
+                                name: 'talentohumano.eventos_investigacion',
+                                only: 'talentohumano.eventos_investigacion.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'source-controls',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Controles en la fuente',
+                            endpoint: 'controlfuente',
+                            endpointExport: 'reportesSggt/reporteParametros1/Controles en la Fuente/2',
+                            module: 'url2',
+                            titleexport: 'Controles en la fuente',
+                            permissions: {
+                                name: 'talentohumano.controles_fuente',
+                                only: 'talentohumano.controles_fuente.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'injury-types',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Tipos de lesión',
+                            endpoint: 'tipolesion',
+                            endpointExport: 'reportesSggt/reporteParametros1/Tipos de lesión/10',
+                            module: 'url2',
+                            titleexport: 'Tipos de lesión',
+                            permissions: {
+                                name: 'talentohumano.tipos_lesion',
+                                only: 'talentohumano.tipos_lesion.index'
                             }
                         }
                     }

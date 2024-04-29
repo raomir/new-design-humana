@@ -135,6 +135,26 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/occupation-cie88'],
                     },
+                    { 
+                        label: 'Controles en el medio',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/controls-middle'],
+                    },
+                    { 
+                        label: 'Eventos de investigación',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/investigation-events'],
+                    },
+                    { 
+                        label: 'Controles en la fuente',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/source-controls'],
+                    },
+                    { 
+                        label: 'Tipos de lesión',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/injury-types'],
+                    }
                 ],
             },
             {
