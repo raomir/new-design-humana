@@ -341,7 +341,6 @@ const routes: Routes = [
                             endpoint: 'ocupacioncie88',
                             endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
                             module: 'url2',
-                            titleexport: 'Occupation CIE88',
                             permissions: {
                                 name: 'talentohumano.ocupacion_cie88',
                                 only: 'talentohumano.ocupacion_cie88.index'
@@ -415,7 +414,37 @@ const routes: Routes = [
                                 only: 'talentohumano.tipos_lesion.index'
                             }
                         }
-                    }
+                    },
+                    {
+                        path: 'endowments-per-charge',
+                        children: [
+                            {
+                                path: '',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/endowments-per-charge/datatable/endowments-per-charge.component'
+                                    ).then((m) => m.EndowmentsPerChargeComponent),
+                                data: {
+                                    permissions: {
+                                        only: 'talentohumano.dotacion_cargo.index'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'edit/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/endowments-per-charge/edit/endowments-per-charge-edit.component'
+                                    ).then((m) => m.EndowmentsPerChargeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.dotacion_cargo'
+                                    }
+                                },
+                            },
+                        ]
+
+                    },
                 ],
             }
         ]
