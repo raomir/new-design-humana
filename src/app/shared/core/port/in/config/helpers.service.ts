@@ -1,6 +1,7 @@
 import { Message } from "primeng/api";
 import { Observable } from "rxjs";
 import { ExportDataInterface } from "../../../domain/export.models";
+import { FormControl } from "@angular/forms";
 
 export interface HelpersService {
   token_erp: string;
@@ -21,6 +22,7 @@ export interface HelpersService {
   openCSVJsonDataAdapter(title: string,json: any, url: any ): any;
   openXLS(title: string, url: any, values: ExportDataInterface | any): any;
   openCSV(title: string, url: any, values: ExportDataInterface | any): any;
+  validateDescription(control: FormControl): any | null;
 
   showAlert(type: string, message: string): void;
   showConfirmation(title: string, message: string): Promise<any>;

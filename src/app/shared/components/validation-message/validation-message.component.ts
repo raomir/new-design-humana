@@ -38,7 +38,8 @@ export class ValidationMessageComponent {
       required: 'El campo es obligatorio',
       minlength: `El mínimo de caracteres permitido es ${errorValue.requiredLength}`,
       maxlength: `El máximo de caracteres permitido es ${errorValue.requiredLength}`,
-      max: `El campo no debe ser mayor a ${errorValue.max}`
+      max: `El campo no debe ser mayor a ${errorValue.max}`,
+      invalidDescription: 'La descripción debe contener al menos dos palabras.'
       // Otros mensajes de error según necesidad
     };
     return messages[errorKey];

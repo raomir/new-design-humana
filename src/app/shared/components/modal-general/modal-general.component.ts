@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog'
 import { TooltipModule } from 'primeng/tooltip';
 import { DividerModule } from 'primeng/divider';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-modal-general',
@@ -14,7 +15,8 @@ import { DividerModule } from 'primeng/divider';
     DialogModule,
     TooltipModule,
     DividerModule,
-    ButtonsGeneralComponent
+    ButtonsGeneralComponent,
+    LoadingComponent
   ]
 })
 export class ModalGeneralComponent {
@@ -24,6 +26,7 @@ export class ModalGeneralComponent {
   @Input() widthVwModal: string = '50vw';
   @Input() sizeLimitTitle: number = 40;
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
+  @Input() isLoading: boolean = false;
 
   @Output() closeModal = new EventEmitter<boolean>();
 
