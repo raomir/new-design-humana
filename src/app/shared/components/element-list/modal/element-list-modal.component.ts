@@ -133,7 +133,6 @@ export class ElementListModalComponent {
         break;
     }
     if (!this.id) {
-      console.log('llega nuevo')
       this.isLoading = false;
     }
   }
@@ -185,7 +184,6 @@ export class ElementListModalComponent {
       default:
         break;
     }
-    console.log('llega editaar')
     this.isLoading = false;
   }
 
