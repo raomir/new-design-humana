@@ -169,6 +169,8 @@ const routes: Routes = [
                         data: {
                             title: 'Mecanismos',
                             endpoint: 'mecanismo',
+                            endpointExport: 'reportesSggt/reporteParametros1/Mecanismos/11',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.mecanismos',
                                 only: 'talentohumano.mecanismos.index'
@@ -184,6 +186,8 @@ const routes: Routes = [
                         data: {
                             title: 'Niveles de deficiencia',
                             endpoint: 'niveldeficiencia',
+                            endpointExport: 'reportesSggt/reporteNiveles/nivelesDeficiencia/34',
+                            module: 'url2',
                             permissions: {
                                 name: 'talentohumano.niveles_deficiencia',
                                 only: 'talentohumano.niveles_deficiencia.index'
@@ -337,7 +341,6 @@ const routes: Routes = [
                             endpoint: 'ocupacioncie88',
                             endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
                             module: 'url2',
-                            titleexport: 'Occupation CIE88',
                             permissions: {
                                 name: 'talentohumano.ocupacion_cie88',
                                 only: 'talentohumano.ocupacion_cie88.index'
@@ -355,7 +358,6 @@ const routes: Routes = [
                             endpoint: 'controlmedio',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en el medio/4',
                             module: 'url2',
-                            titleexport: 'Controles en el medio',
                             permissions: {
                                 name: 'talentohumano.controles_medio',
                                 only: 'talentohumano.controles_medio.index'
@@ -373,7 +375,6 @@ const routes: Routes = [
                             endpoint: 'eventosinvestigacion',
                             endpointExport: 'reportesSggt/reporteParametros1/Eventos de Investigacion/16',
                             module: 'url2',
-                            titleexport: 'Eventos de investigación',
                             permissions: {
                                 name: 'talentohumano.eventos_investigacion',
                                 only: 'talentohumano.eventos_investigacion.index'
@@ -391,7 +392,6 @@ const routes: Routes = [
                             endpoint: 'controlfuente',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en la Fuente/2',
                             module: 'url2',
-                            titleexport: 'Controles en la fuente',
                             permissions: {
                                 name: 'talentohumano.controles_fuente',
                                 only: 'talentohumano.controles_fuente.index'
@@ -409,12 +409,41 @@ const routes: Routes = [
                             endpoint: 'tipolesion',
                             endpointExport: 'reportesSggt/reporteParametros1/Tipos de lesión/10',
                             module: 'url2',
-                            titleexport: 'Tipos de lesión',
                             permissions: {
                                 name: 'talentohumano.tipos_lesion',
                                 only: 'talentohumano.tipos_lesion.index'
                             }
                         }
+                    },
+                    {
+                        path: 'endowments-per-charge',
+                        children: [
+                            {
+                                path: '',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/endowments-per-charge/datatable/endowments-per-charge.component'
+                                    ).then((m) => m.EndowmentsPerChargeComponent),
+                                data: {
+                                    permissions: {
+                                        only: 'talentohumano.dotacion_cargo.index'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'edit/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/endowments-per-charge/edit/endowments-per-charge-edit.component'
+                                    ).then((m) => m.EndowmentsPerChargeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.dotacion_cargo'
+                                    }
+                                },
+                            },
+                        ]
+
                     },
                     {
                         path: 'processes-subprocesses',

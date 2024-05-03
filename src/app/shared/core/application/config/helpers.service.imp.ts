@@ -7,6 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { saveAs } from "file-saver";
 import { ExportDataInterface } from '../../domain/export.models';
+import { FormControl } from '@angular/forms';
 
 
 @Injectable({
@@ -266,6 +267,14 @@ export class HelpersServiceImp implements HelpersService {
         },
         (e) => {}
       );
+  }
+
+  validateDescription(control: FormControl) {
+    const value = control.value;
+    if (value && value.trim().split(/\s+/).length < 2) {
+      return { invalidDescription: true };
+    }
+    return null;
   }
 
   showAlert(type: string, message: string): void {

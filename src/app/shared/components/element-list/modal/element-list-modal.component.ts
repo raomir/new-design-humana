@@ -40,6 +40,8 @@ export class ElementListModalComponent {
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
+  public isLoading: boolean = true;
+
   public title: string = '';
 
   public frm!: FormGroup;
@@ -90,11 +92,12 @@ export class ElementListModalComponent {
         Validators.minLength(3),
         Validators.required
       ])],
-      descripcion: [null, Validators.compose([
+      descripcion: [null, [
         Validators.maxLength(150),
-        Validators.minLength(3),
+        Validators.minLength(8),
+        this.helperService.validateDescription.bind(this.helperService),
         Validators.required
-      ])],
+      ]],
       favorito: [false],
     })
     this.validationsComponent();
@@ -104,8 +107,10 @@ export class ElementListModalComponent {
   validationsComponent() {
     switch (this.endPoint) {
       case 'agentelesion':
+        this.isLoading = true;
         this.listService.getHazardClassList().subscribe(resp => {
           this.tipoPeligro = resp;
+          this.isLoading = false;
         })
         this.frm.addControl('tipoPeligro', new FormControl(null, Validators.required))
         break;
@@ -126,6 +131,9 @@ export class ElementListModalComponent {
         break;
       default:
         break;
+    }
+    if (!this.id) {
+      this.isLoading = false;
     }
   }
 
@@ -176,6 +184,7 @@ export class ElementListModalComponent {
       default:
         break;
     }
+    this.isLoading = false;
   }
 
   loadFormField(idForm: Number) {

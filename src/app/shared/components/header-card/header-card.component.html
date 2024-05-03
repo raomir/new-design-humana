@@ -1,8 +1,9 @@
-<div class="flex mb-2">
+<div class="flex mb-2" [style]="{'min-height': '33.5px !important'}">
     <div class="col-auto">
-        <p class="title-list">Listado {{title}}</p>
+        <p class="title-list">{{typeComponent}} {{title}}</p>
     </div>
     <div class="col-auto ml-auto">
         <app-buttons-general [buttons]="buttons" (newAction)="actionNew.next()" (printAction)="actionPrint.next()"></app-buttons-general>
     </div>
 </div>
+<p-divider *ngIf="divider" class="p-divider p-component p-divider-solid p-divider-left" styleClass="divider-general" />

@@ -405,7 +405,14 @@ export class TableGeneralComponent implements OnInit {
     return dateValue;
   }
 
-  handleRunActions(event: RegistroData) {
-    this.runActions.emit(event);
+  handleRunActions(event: RegistroData | null, btnNew = false) {
+    if (event) this.runActions.emit(event);
+    if (btnNew) {
+      let data: RegistroData = {
+        action: 'btn_new',
+        data: null
+      }
+      this.runActions.emit(data)
+    }
   }
 }

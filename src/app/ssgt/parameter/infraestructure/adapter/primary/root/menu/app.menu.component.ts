@@ -156,6 +156,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/main/administration/injury-types'],
                     },
                     { 
+                        label: 'Dotaciones por cargo',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/endowments-per-charge'],
+                    },
+                    {
                         label: 'Procesos y Subprocesos',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/processes-subprocesses'],

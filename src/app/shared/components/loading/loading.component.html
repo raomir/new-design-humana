@@ -1,0 +1,30 @@
+<div class="loading-container pt-2 mt-2" *ngIf="isLoading">
+    <!-- Spinner -->
+    <div class="sombreado">
+        <div class="custom-spinner-container">
+            <div class="spinner-overlay">
+                <p-progressSpinner styleClass="w-4rem h-4rem custom-spinner" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+            </div>
+        </div>
+    </div>
+
+    <!-- p-skeleton -->
+    <div class="card-body my-0 py-0 d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center">
+            <p-skeleton class="full-width full-height" height="19rem" borderRadius="16px"></p-skeleton><br>
+        </div>
+    </div>
+
+    <!-- Footer with skeleton buttons -->
+    <div class="footer-buttons p-d-flex p-jc-end grid m-0" style="text-align: right;">
+        <div class="d-flex flex-row justify-content-end align-items-center grid col-12 m-0 mt-2 p-0">
+            <div class="col-8 d-none"></div>
+            <div class="col-2 pr-0">
+                <p-skeleton class="skeleton-button" width="100%" height="2rem"></p-skeleton>
+            </div>
+            <div class="col-2 pr-0">
+                <p-skeleton class="skeleton-button" width="100%" height="2rem"></p-skeleton>
+            </div>
+        </div>
+    </div>
+</div>
