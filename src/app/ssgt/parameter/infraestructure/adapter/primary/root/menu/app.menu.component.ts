@@ -154,6 +154,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Tipos de lesión',
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/injury-types'],
+                    },
+                    { 
+                        label: 'Procesos y Subprocesos',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/processes-subprocesses'],
                     }
                 ],
             },

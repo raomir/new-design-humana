@@ -415,7 +415,14 @@ const routes: Routes = [
                                 only: 'talentohumano.tipos_lesion.index'
                             }
                         }
-                    }
+                    },
+                    {
+                        path: 'processes-subprocesses',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/processes-subprocesses/processes-subprocesses-index/processes-subprocesses-index.component'
+                            ).then((m) => m.ProcessesSubprocessesIndexComponent),
+                    },
                 ],
             }
         ]

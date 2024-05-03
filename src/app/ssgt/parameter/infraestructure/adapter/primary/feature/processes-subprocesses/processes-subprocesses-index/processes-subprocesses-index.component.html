@@ -1,1 +1,25 @@
-<p>processes-subprocesses-index works!</p>
+<div class="card">
+    <app-header-card 
+        [title]="'Procesos y Subprocesos'" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+     <app-tree-table-general  
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        [buttonsDatatable]="buttonsDatatable">
+    </app-tree-table-general>
+    <app-new-processes-subprocesses-modal
+        *ngIf="displayModal"
+        [displayModal]="displayModal"
+        [id]="idEdit"
+        [level]="level"
+        [action]="action"
+        [listName]="title"
+        [padreId]="padreId"
+        [dataId]="dataId"
+        (modalResponse)="modalResponse($event)">
+    </app-new-processes-subprocesses-modal>
+</div>
