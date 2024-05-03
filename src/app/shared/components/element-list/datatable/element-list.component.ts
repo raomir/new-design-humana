@@ -98,6 +98,15 @@ export class ElementListComponent {
           { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
         ]
         break;
+      case 'nivelprobabilidad':
+        this.columnsTable = this.columnsTable = [
+          { title: 'Código', data: 'codigo', sort: 'codigo' },
+          { title: 'Nombre', data: 'nombre', sort: 'nombre' },
+          { title: 'Valor', data: 'metadatos', sort: 'metadatos.valor', render: (data: any) => `≤${data?.maximo} y ${data?.minimo}≥` },
+          { title: 'Significado', data: 'descripcion', sort: 'descripcion' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
+        ]
+        break;
 
       default:
         this.columnsTable = this.columnsTable.concat([

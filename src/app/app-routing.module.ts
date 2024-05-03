@@ -445,6 +445,23 @@ const routes: Routes = [
                         ]
 
                     },
+                    {
+                        path: 'probability-levels',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Niveles de Probabilidad',
+                            endpoint: 'nivelprobabilidad',
+                            endpointExport: 'reportesSggt/reporteParametros1/Niveles de Probabilidad/30',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.niveles_probabilidad',
+                                only: 'talentohumano.niveles_probabilidad.index'
+                            }
+                        }
+                    }
                 ],
             }
         ]

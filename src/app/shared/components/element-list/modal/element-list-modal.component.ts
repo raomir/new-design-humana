@@ -125,6 +125,7 @@ export class ElementListModalComponent {
         this.frm.addControl('valor', new FormControl(null, Validators.required))
         break;
       case 'nivelriesgo':
+      case 'nivelprobabilidad':
         this.labelDescription = 'Significado';
         this.frm.addControl('maximo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
         this.frm.addControl('minimo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
@@ -177,6 +178,7 @@ export class ElementListModalComponent {
         this.frm.get('valor')?.setValue(resp.metadatos.valor);
         break;
       case 'nivelriesgo':
+      case 'nivelprobabilidad':
         this.frm.get('maximo')?.setValue(resp.metadatos.maximo);
         this.frm.get('minimo')?.setValue(resp.metadatos.minimo);
         break;
@@ -262,6 +264,7 @@ export class ElementListModalComponent {
         data.metadatos = { valor: this.frm.controls['valor'].value }
         break;
       case 'nivelriesgo':
+      case 'nivelprobabilidad':
         data.metadatos = { maximo: this.frm.controls['maximo'].value, minimo: this.frm.controls['minimo'].value }
         break;
       default:

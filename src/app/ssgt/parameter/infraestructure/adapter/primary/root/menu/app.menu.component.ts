@@ -160,6 +160,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/endowments-per-charge'],
                     },
+                    {
+                        label: 'Niveles de Probabilidad',
+                        icon: 'pi pi-fw pi-chart-bar',
+                        routerLink: ['/main/administration/probability-levels'],
+                    }
                 ],
             },
             {
