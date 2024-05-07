@@ -50,3 +50,30 @@ export interface BackendNode {
   llave?: BackendNode | null;
   activo: number;
 }
+
+//* Modelo general para Procesos y subprocesos
+export interface BackendNodeProces {
+  modificadoEn: any;
+  eliminadoEn: any;
+  id: number;
+  codigo: string;
+  nombre: string;
+  nivel: number;
+  padre?: BackendNodeProces | null;
+  activo: number;
+}
+
+export interface TreeNodeGeneralProce {
+  data: {
+    id: number;
+    code?: string;
+    name?: string;
+    level: number;
+    active?: number;
+    favorite?: number | null;
+    isLast?: boolean;
+    hiddenButtons?: string[];
+    padre?: TreeNodeGeneralProce | null;
+  };
+  children?: TreeNodeGeneralProce[];
+}

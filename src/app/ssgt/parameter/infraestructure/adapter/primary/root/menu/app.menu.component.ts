@@ -169,6 +169,12 @@ export class AppMenuComponent implements OnInit {
                         label: 'Actividad',
                         icon: 'pi pi-fw pi-calendar',
                         routerLink: ['/main/administration/activity'],
+                    },
+                    {
+                        label: 'Procesos y Subprocesos',
+                        icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/main/administration/processes-subprocesses'],
+
                     }
                 ],
             },
