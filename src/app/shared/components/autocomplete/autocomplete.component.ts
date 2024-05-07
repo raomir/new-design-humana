@@ -42,12 +42,19 @@ export class AutocompleteComponent {
         draw: 1,
         length: 10,
         start: 0,
-        todoJunto: event.query
+        todoJunto: event.query,
+        term: event.query
       }
       await this.autocompleteService.searchByPost(this.endPoint, data).subscribe({
         next: async res => {
+          if (!res.content) {
+            res.content = res;
+          }
           this.suggestions = await res.content.map((e: any) => {
-            e.valor_montar = e.codigo + ' - ' + e.nombre
+            e.valor_montar = e.codigo + ' - ' + e.nombre;
+            if (e.valorMontar) {
+              e.valor_montar = e.valorMontar;
+            }
             return e;
           });
         },

@@ -4,9 +4,11 @@ import { ModalGeneralComponent } from '../../../../../../../../../shared/compone
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { AccidentCausesModel } from '../../../../../../../core/domain/accident-causes/accident-causes.model';
+import { ActivityModel } from '../../../../../../../core/domain/activity/activity.model';
 import { HelpersServiceImp } from '../../../../../../../../../shared/core/application/config/helpers.service.imp';
 import { ActivityService } from '../../../../../../../core/application/activity/activity.service';
+import { AutocompleteComponent } from '../../../../../../../../../shared/components/autocomplete/autocomplete.component';
+import { AdvancedSearchFormsActivityComponent } from '../../../../../../../../../shared/components/advanced-search-forms-activity/advanced-search-forms-activity.component';
 
 @Component({
   selector: 'activity-modal',
@@ -16,7 +18,9 @@ import { ActivityService } from '../../../../../../../core/application/activity/
           FormsModule,
           ReactiveFormsModule,
           InputTextModule,
-          InputSwitchModule
+          InputSwitchModule,
+          AutocompleteComponent,
+          AdvancedSearchFormsActivityComponent
         ],
   templateUrl: './activity-modal.component.html'
 })
@@ -38,7 +42,8 @@ export class ActivityModalComponent implements OnInit {
   public title: string = '';
   public frm!: FormGroup;
   public llave? : any;
-  public nivel? : any;
+  formTxt: any;
+  public displayModalAdvancedForms: boolean = false;
 
   constructor( 
       private formBuilder: FormBuilder,
@@ -61,7 +66,7 @@ export class ActivityModalComponent implements OnInit {
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activo: [true],
+      activoActividad: [true],
       codigo: [null, Validators.compose([
         Validators.maxLength(20),
         Validators.minLength(3),
@@ -72,33 +77,62 @@ export class ActivityModalComponent implements OnInit {
         Validators.minLength(3),
         Validators.required
       ])],
-      descripcion: [null, Validators.compose([
-        Validators.maxLength(150),
-        Validators.minLength(3),
-        Validators.required
-      ])],
-      grupo_clase: [{value: this.sonName, disabled: true}], 
-      clase_causa: [{value: this.fatherName, disabled: true}],
+      subProceso: [{value: this.sonName, disabled: true}], 
+      proceso: [{value: this.fatherName, disabled: true}],
+      nivel: [this.level ? this.level : 1],
+      izquierda: [1],
+      derecha: [0],
+      actividadId: [this.fatherId],
       id: [null]
     })
   }
 
   loadData(id: Number) {
     this.activityService.findID(id).subscribe(
-      (res: AccidentCausesModel | any) => {
+      (res: ActivityModel | any) => {
         this.frm.patchValue({
-          activo: res.activo === 1,
+          activoActividad: res.activoActividad === 1,
           codigo: res.codigo,
           nombre: res.nombre,
-          descripcion: res.descripcion,
-          id: res.id,
-          grupo_clase: res.llave?.llave?.codigo + ' - ' + res.llave?.llave?.nombre,
-          clase_causa: res.llave?.codigo + ' - ' + res.llave?.nombre
+          izquierda: res.izquierda,
+          derecha: res.derecha,
+          nivel: res.nivel,
+          id: res.id
         })
+        if (res.actividadId != null) {
+          this.frm.controls['actividadId'].setValue(res.actividadId.id);
+        }
         if(this.fatherId === null || this.fatherId === undefined){
           this.fatherId = res.llave?.id 
         }
+        if (res.procesoId != null) {
+          const dataProceso =
+          {
+            'id': res.procesoId.id,
+            'valorMontar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
+            'valor_montar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
+            'valorMontarPadre': `${res.procesoId.padre.codigo} ${res.procesoId.padre.nombre}`
+          };
+          this.subprocessResponse(dataProceso);
+        }
     })
+  }
+
+  public subprocessResponse(event: any) {
+    this.displayModalAdvancedForms = false;
+    this.formTxt = event;
+    let idSubproceso: number = Number(event.id);
+    this.frm.controls['subProceso'].setValue(idSubproceso);
+    this.frm.controls['proceso'].setValue(event.valorMontarPadre);
+  }
+
+  public openModalAdvancedForm(open: boolean) {
+    this.displayModalAdvancedForms = open;
+  }
+
+  clearSelectedForm() {
+    this.formTxt = null;
+    this.frm.controls['subProceso'].setValue(null);
   }
 
   closeModal(event: boolean) {
@@ -115,20 +149,25 @@ export class ActivityModalComponent implements OnInit {
 
   save(): void {
 
-    const data: AccidentCausesModel = {
-      id: this.frm.value.id,
-      codigo: this.frm.value.codigo,
-      nombre: this.frm.value.nombre,
-      descripcion: this.frm.value.descripcion,
-      nivel: this.action === 'btn_nuevo' ? this.level + 1 : this.level,
-      activo: this.helperService.getSwitch(this.frm.value.activo, false),
-      llave: (this.fatherId !== null && this.fatherId !== undefined) ? { id: this.fatherId } as AccidentCausesModel : null,
+    const actividadPadre: ActivityModel | null = this.frm.value.actividadId;
+
+    const data: ActivityModel = 
+    {
+      id: this.frm.getRawValue().id,
+      codigo: this.frm.getRawValue().codigo,
+      nombre: this.frm.getRawValue().nombre,
+      procesoId: { 'id': this.frm.getRawValue().subProceso },
+      activoActividad: this.helperService.getSwitch(this.frm.getRawValue().activoActividad, false),
+      izquierda: this.frm.getRawValue().izquierda,
+      derecha: this.frm.getRawValue().derecha,
+      nivel: this.frm.getRawValue().nivel,
+      actividadId: (actividadPadre != null) ? { id: actividadPadre } as ActivityModel | any : null,
     };
     if(data.nivel === 1){
-      data.llave = null
+      data.actividadId = null
     }
     if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
-      data.llave = { id: this.fatherId } as AccidentCausesModel
+      data.actividadId = { id: this.fatherId } as ActivityModel
     }
 
     if(this.id){

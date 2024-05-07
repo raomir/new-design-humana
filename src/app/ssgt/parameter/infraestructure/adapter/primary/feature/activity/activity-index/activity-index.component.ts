@@ -50,7 +50,7 @@ export class ActivityIndexComponent implements OnInit {
       { field: 'code', header: 'Código' },
       { field: 'name', header: 'Actividad' },
       { field: 'description', header: 'Proceso' },
-      { field: 'activoActividad', header: 'Activo' },
+      { field: 'active', header: 'Activo' },
     ];
 
   }
@@ -100,7 +100,12 @@ export class ActivityIndexComponent implements OnInit {
     const topLevelNodes: TreeNode[] = [];
     dataList.forEach((item) => {
       if (item.nivel === 1) {
-        nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
+        if (this.hasChildren(nodesById, item.id)) {
+          nodesById[item.id].data.hiddenButtons = [];
+        } else {
+          nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
+        }
+        // nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
         topLevelNodes.push(nodesById[item.id]);
       } else {
         const parentNode: any = nodesById[item.actividadId.id];
@@ -130,10 +135,22 @@ export class ActivityIndexComponent implements OnInit {
 
     // Marcar los últimos nodos de cada rama
     topLevelNodes.forEach((node: any) => {
+      if (!node.children.length) {
+        node.data.hiddenButtons = [];
+      }
       markLastLevel(node.children);
     });
 
     return topLevelNodes;
+  }
+
+  hasChildren(nodesById: any, id: number): boolean {
+    for (const nodeId in nodesById) {
+      if (nodesById[nodeId].data.llave.id === id && nodesById[nodeId].children.length > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   //* Accion Nuevo 
@@ -153,10 +170,10 @@ export class ActivityIndexComponent implements OnInit {
   //* Acciones de datatable
   onAction(event: any) {
     switch (event.action) {
-      case 'btn_nuevo': 
+      case 'btn_nuevo':
         this.displayModal = true;
  
-        this.level = event.data.level;
+        this.level = event.data.level + 1;
         this.fatherId = event.data.id;
         if (this.level == 1) {
           this.fatherName =  event.data.name;
@@ -181,7 +198,7 @@ export class ActivityIndexComponent implements OnInit {
           if (confirmed) {
             this.activityService.delete(itemDataId).subscribe(
               (resp: any) => {
-                this.helperService.showAlert('success', resp.mensaje);
+                this.helperService.showAlert('success', resp.message);
                 this.getData();
               }
             );

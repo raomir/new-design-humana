@@ -3,29 +3,11 @@
         <div class="grid m-0">
             <!-- Estado -->
             <div class="grid col-12 m-0 mt-2 p-0">
-                <label for="activo" class="form-label md:col-3">Activo</label>
+                <label for="activoActividad" class="form-label md:col-3">Activo</label>
                 <div class="md:col-9">
-                    <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"></p-inputSwitch>
+                    <p-inputSwitch formControlName="activoActividad" id="activoActividad" name="activoActividad" class="w-full"></p-inputSwitch>
                 </div>
             </div>
-            <!-- END Estado -->
-            <!-- Subgrupo clase  causa -->
-            <ng-container *ngIf="level > 1 || action == 'btn_nuevo'">
-                <div *ngIf="(action === 'btn_nuevo' && level === 1) || ( level > 1)" class="grid col-12 m-0 p-0">
-                    <label for="clase_causa" class="form-label md:col-3">Clase causa</label>
-                    <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
-                        <input pInputText  maxlength="10" formControlName="clase_causa" id="clase_causa" name="clase_causa" type="text" />
-                    </div>
-                </div>
-                <div  *ngIf="(level === 3 || (level === 2 && action === 'btn_nuevo') ) || (action != 'btn_editar' && level > 2)"  class="grid col-12 m-0 p-0">
-                    <label for="grupo_clase" class="form-label md:col-3">Grupo clase</label>
-                    <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
-                        <input pInputText  maxlength="10" formControlName="grupo_clase" id="grupo_clase" name="grupo_clase" type="text" />
-                    </div>
-                </div>
-            </ng-container>
-           
-            <!-- END Subgrupo clase  causa-->
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
                 <label for="codigo" class="form-label md:col-3">Código</label>
@@ -43,15 +25,26 @@
                 </div>
             </div>
             <!-- END nombre -->
-            <!-- descripcion -->
+            <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
-                <label for="descripcion" class="form-label md:col-3">Descripción</label>
+                <label for="proceso" class="form-label md:col-3">Proceso</label>
                 <div class="p-inputgroup md:col-9">
-                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
-                        formControlName="descripcion" pInputText type="text"></textarea>
+                    <input pInputText placeholder="Proceso" maxlength="50" name="proceso" formControlName="proceso"
+                        id="proceso" type="text" />
                 </div>
             </div>
-            <!-- END descripcion -->
+            <!-- END nombre -->
+            <!-- Subproceso -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="subproceso" class="form-label md:col-3">Subproceso</label>
+                <div class="p-inputgroup md:col-9">
+                    <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="'Subproceso'"
+                        (itemSelected)="subprocessResponse($event)" [endPoint]="'procesos/autocomplete'" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
+                        [inputModel]="formTxt" />
+                </div>
+            </div>
+            <!-- END Subproceso -->
         </div>
     </form>
 </app-modal-general>
+<app-advanced-search-forms-activity  [displayModal]="displayModalAdvancedForms" (modalResponse)="subprocessResponse($event)" />

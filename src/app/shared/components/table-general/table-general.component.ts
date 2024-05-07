@@ -282,6 +282,7 @@ export class TableGeneralComponent implements OnInit {
         this.dataRequest.emit(postData);
       });
     } else {
+      if (datatable) this.parameters = datatable;
       // Construir objeto JSONParams
       const jsonParams: JsonParams = {
         draw: 1, // Asigna el valor adecuado para draw
@@ -306,7 +307,7 @@ export class TableGeneralComponent implements OnInit {
         },
         pageCurrent: page,
         pages: this.totalPages,
-        params: [] 
+        params: this.parameters
       };
 
       this.services.getDataJsonParams(jsonParams)
