@@ -461,6 +461,23 @@ const routes: Routes = [
                                 only: 'talentohumano.niveles_probabilidad.index'
                             }
                         }
+                    },
+                    {
+                        path: 'activity',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/activity/activity-index/activity-index.component'
+                            ).then((m) => m.ActivityIndexComponent),
+                        data: {
+                            title: 'Niveles de Probabilidad',
+                            endpoint: 'actividad',
+                            endpointExport: 'actividad/reporte',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.actividad',
+                                only: 'talentohumano.actividad.index'
+                            }
+                        }
                     }
                 ],
             }

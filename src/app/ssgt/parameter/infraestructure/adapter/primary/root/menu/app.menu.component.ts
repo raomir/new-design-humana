@@ -164,6 +164,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Niveles de Probabilidad',
                         icon: 'pi pi-fw pi-chart-bar',
                         routerLink: ['/main/administration/probability-levels'],
+                    },
+                    {
+                        label: 'Actividad',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/activity'],
                     }
                 ],
             },

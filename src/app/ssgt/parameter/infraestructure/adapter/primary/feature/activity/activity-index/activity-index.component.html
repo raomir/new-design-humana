@@ -1,0 +1,27 @@
+<div class="card">
+    <app-header-card 
+        [title]="'Actividad'" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <app-tree-table-general  
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        [buttonsDatatable]="buttonsDatatable">
+    </app-tree-table-general>
+    <activity-modal
+        *ngIf="displayModal"
+        [displayModal]="displayModal"
+        [id]="idEdit"
+        [listName]="'Actividad'"
+        [level]="level"
+        [action]="action"
+        [fatherName]="fatherName"
+        [sonName]="sonName"
+        [fatherId]="fatherId"
+        (modalResponse)="modalResponse($event)"
+    ></activity-modal>
+</div>
+
