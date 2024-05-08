@@ -469,7 +469,7 @@ const routes: Routes = [
                                 './ssgt/parameter/infraestructure/adapter/primary/feature/activity/activity-index/activity-index.component'
                             ).then((m) => m.ActivityIndexComponent),
                         data: {
-                            title: 'Niveles de Probabilidad',
+                            title: 'Actividad',
                             endpoint: 'actividad',
                             endpointExport: 'actividad/reporte',
                             module: 'url2',

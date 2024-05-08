@@ -9,6 +9,8 @@
         [data]="data" 
         [cols]="colums" 
         (onAction)="onAction($event)" 
+        (valueSearch)="valueSearch($event)"
+        (exportAction)="export($event)"
         [buttonsDatatable]="buttonsDatatable">
     </app-tree-table-general>
     <activity-modal
@@ -24,4 +26,6 @@
         (modalResponse)="modalResponse($event)"
     ></activity-modal>
 </div>
+<app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="title" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
+<app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData" [title]="title"></app-report-previewer>
 

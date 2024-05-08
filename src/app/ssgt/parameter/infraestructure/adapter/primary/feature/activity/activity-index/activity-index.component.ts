@@ -1,22 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppBreadcrumbService } from '../../../root/breadcrumb/app.breadcrumb.service';
 import { TreeNodeGeneral, BackendNode } from '../../../../../../../../shared/components/tree-table-general/tree/tree.interface';
 import { TreeTableGeneralComponent } from '../../../../../../../../shared/components/tree-table-general/tree-table-general.component';
 import { HeaderCardComponent } from '../../../../../../../../shared/components/header-card/header-card.component';
-import { AccidentCausesService } from '../../../../../../core/application/accident-causes/accident-causes.service';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
 import { ActivityModalComponent } from '../modal/activity-modal/activity-modal.component';
-import { ActivityService } from '../../../../../..//core/application/activity/activity.service';
+import { ActivityService } from '../../../../../../core/application/activity/activity.service';
 import { TreeNode } from 'primeng/api';
+import { ExportData, ExportDataInterface, PrintData, PrintDataInterface, Input as InputExport } from '../../../../../../../../shared/core/domain/export.models';
+import { ActivatedRoute } from '@angular/router';
+import { ReportPreviewerComponent } from '../../../../../../../../shared/components/report-previewer/report-previewer.component';
+import { JsonParams } from '../../../../../../../../shared/components/table-general/col/col';
+import { ExporterComponent } from '../../../../../../../../shared/components/exporter/exporter.component';
 
 @Component({
   selector: 'app-activity-index',
   standalone: true,
-  imports: [CommonModule, TreeTableGeneralComponent, HeaderCardComponent, ActivityModalComponent],
+  imports: [
+    CommonModule,
+    TreeTableGeneralComponent,
+    HeaderCardComponent,
+    ActivityModalComponent,
+    ExporterComponent,
+    ReportPreviewerComponent
+  ],
   templateUrl: './activity-index.component.html'
 })
 export class ActivityIndexComponent implements OnInit {
+
+  @ViewChild('reportPreviewer') reportPreviewer?: ReportPreviewerComponent;
 
   //variables
   public dataList: BackendNode[] = [];
@@ -34,16 +47,27 @@ export class ActivityIndexComponent implements OnInit {
   public sonName: string = '';
   public fatherId: Number | null = null;
 
+  public displayModalExport: boolean = false;
+  public printData: PrintData | PrintDataInterface = new PrintData();
+  public fileType: string | undefined;
+  public values: ExportData | ExportDataInterface = new ExportData(true, {});
+  public exportValues: Array<any> = [];
+  public inputExport: InputExport | JsonParams | undefined;
+
+  public endPointExport: string;
+  public module: string;
+
 
   constructor(
     private breadcrumbService: AppBreadcrumbService,
     private activityService: ActivityService,
-    private helperService: HelpersServiceImp
+    private helperService: HelpersServiceImp,
+    private activatedRoute: ActivatedRoute
   ) {
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
-      { label: 'Causas accidentes', routerLink: ['/administration/accident-causes'] },
+      { label: 'Actividad', routerLink: ['/administration/activity'] },
     ])
 
     this.colums = [
@@ -52,10 +76,27 @@ export class ActivityIndexComponent implements OnInit {
       { field: 'description', header: 'Proceso' },
       { field: 'active', header: 'Activo' },
     ];
-
+    this.title = this.activatedRoute.snapshot.data['title'];
+    this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
+    this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
+    this.module = this.activatedRoute.snapshot.data['module'];
   }
 
   ngOnInit() {
+    this.inputExport = {
+      "order": [
+        {
+          "column": 0,
+          "dir": "asc"
+        }
+      ],
+      "search": {
+        "regex": false,
+        "value": ""
+      },
+      "pageCurrent": 0,
+      "length": 10
+    }
     this.getData();
   }
 
@@ -67,6 +108,23 @@ export class ActivityIndexComponent implements OnInit {
             this.dataList = res;
             // Convertir datos del backend a TreeNodeGeneral
             this.data = this.convertToTreeNodeGeneral(this.dataList);
+            this.printData.location = "archivo.pdf";
+            this.printData.valores = {
+              exportar: false,
+              input: this.inputExport
+            };
+            if (this.inputExport?.order && this.inputExport.order.length > 0) {
+              const column = this.inputExport.order[0]?.column || 0;
+              const dir = this.inputExport.order[0]?.dir || '';
+              const columnData: any = this.inputExport?.columns?.length ? this.inputExport?.columns[column] : {};
+              const data = columnData ? columnData.data || '' : '';
+              this.exportValues = [
+                this.inputExport.length,
+                this.inputExport?.pages,
+                this.inputExport.pageCurrent,
+                `${data} ${dir}`
+              ];
+            }
           }else{
             this.data = [];
           }
@@ -165,6 +223,7 @@ export class ActivityIndexComponent implements OnInit {
 
   //* Accion Imprimir
   actionPrint(event: any) {
+    this.print();
   }
 
   //* Acciones de datatable
@@ -219,5 +278,38 @@ export class ActivityIndexComponent implements OnInit {
     this.idEdit = undefined;
   }
 
+  valueSearch(value: string) {
+    if (this.printData.valores && this.printData.valores.input && this.printData.valores.input.search) {
+      this.printData.valores.input.search.value = value;
+      this.inputExport = this.printData.valores.input;
+      if (this.inputExport?.order && this.inputExport.order.length > 0) {
+        const column = this.inputExport.order[0]?.column || 0;
+        const dir = this.inputExport.order[0]?.dir || '';
+        const columnData: any = this.inputExport?.columns?.length ? this.inputExport?.columns[column] : {};
+        const data = columnData ? columnData.data || '' : '';
+        this.exportValues = [
+          this.inputExport.length,
+          this.inputExport?.pages,
+          this.inputExport.pageCurrent,
+          `${data} ${dir}`
+        ];
+      }
+    }
+  }
 
+  print(): void {
+    this.reportPreviewer?.showModalDialog();
+  }
+
+  modalExportResponse(event: boolean): void {
+    this.displayModalExport = false;
+    if (event) {
+    }
+  }
+
+  export(event: string | any) {
+    this.fileType = undefined;
+    this.displayModalExport = true;
+    this.fileType = event;
+  }
 }

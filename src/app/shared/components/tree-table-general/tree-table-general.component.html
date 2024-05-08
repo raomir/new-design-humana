@@ -1,5 +1,6 @@
 
     <p-treeTable
+        #tt
         [value]="data" 
         [columns]="cols" 
         [paginator]="true" 
@@ -13,12 +14,12 @@
         <ng-template pTemplate="caption">
             <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">
                 <div class="col-6 p-0">
-                    <app-buttons-general [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']"></app-buttons-general> 
+                    <app-buttons-general (exportAction)="exportAction.emit($event)" [buttons]="['btn_export_full', 'btn_export_excel', 'btn_export_text', 'btn_export_pdf']"></app-buttons-general> 
                 </div>
                 <div  class="col-6 p-0 flex align-items-center justify-content-end">
                     <span class="p-input-icon-left w-7">
                         <i class="pi pi-search"></i>
-                        <input  pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" placeholder="Search" />
+                        <input  pInputText type="text" class="p-inputtext p-component p-element w-full input-search-table" placeholder="Search" (input)="search($event, 'contains')" />
                     </span>
                 </div>
             </div>

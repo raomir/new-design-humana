@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { TreeTableModule } from 'primeng/treetable';
+import { TreeTable, TreeTableModule } from 'primeng/treetable';
 import { ActivoIcon, ColumnGeneral, ItemData, TreeNodeGeneral } from './tree/tree.interface';
 import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.component';
 
@@ -17,8 +17,12 @@ import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.comp
 })
 export class TreeTableGeneralComponent implements OnInit {
 
+  @ViewChild('tt') treeTable: TreeTable | TreeTableModule | any;
+
   //Outputs
   @Output() onAction = new EventEmitter<ItemData>();
+  @Output() valueSearch = new EventEmitter<string>();
+  @Output() public exportAction = new EventEmitter<any>();
 
   //Inputs
   @Input() data?: TreeNodeGeneral[];
@@ -68,6 +72,9 @@ export class TreeTableGeneralComponent implements OnInit {
         return '';
     }
   }
-  
 
+  search(event: InputEvent | any, contain = 'contains') {
+    this.treeTable.filterGlobal(event.target?.value, contain);
+    this.valueSearch.emit(event.target?.value);
+  }
 }
