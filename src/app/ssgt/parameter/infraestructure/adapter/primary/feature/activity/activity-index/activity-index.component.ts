@@ -217,7 +217,7 @@ export class ActivityIndexComponent implements OnInit {
     this.fatherId = null
     if (this.level == 0) {
       this.displayModal = true;
-      this.title = 'Clase causa del accidente';
+      this.title = 'Actividad';
     }
   }
 

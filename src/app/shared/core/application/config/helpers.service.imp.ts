@@ -410,7 +410,7 @@ export class HelpersServiceImp implements HelpersService {
 }
 }
 
-export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null) {
+export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null): HttpHeaders {
   environment.token = localStorage.getItem('ACCESS_TOKEN') || '';
   let token = tokenService ? tokenService : environment.token;
   return new HttpHeaders({

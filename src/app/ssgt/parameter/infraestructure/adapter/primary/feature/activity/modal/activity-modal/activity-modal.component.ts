@@ -9,6 +9,7 @@ import { HelpersServiceImp } from '../../../../../../../../../shared/core/applic
 import { ActivityService } from '../../../../../../../core/application/activity/activity.service';
 import { AutocompleteComponent } from '../../../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { AdvancedSearchFormsActivityComponent } from '../../../../../../../../../shared/components/advanced-search-forms-activity/advanced-search-forms-activity.component';
+import { ValidationMessageComponent } from '../../../../../../../../../shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'activity-modal',
@@ -20,6 +21,7 @@ import { AdvancedSearchFormsActivityComponent } from '../../../../../../../../..
           InputTextModule,
           InputSwitchModule,
           AutocompleteComponent,
+          ValidationMessageComponent,
           AdvancedSearchFormsActivityComponent
         ],
   templateUrl: './activity-modal.component.html'
@@ -44,6 +46,7 @@ export class ActivityModalComponent implements OnInit {
   public llave? : any;
   formTxt: any;
   public displayModalAdvancedForms: boolean = false;
+  public isLoading: boolean = false;
 
   constructor( 
       private formBuilder: FormBuilder,
@@ -88,6 +91,7 @@ export class ActivityModalComponent implements OnInit {
   }
 
   loadData(id: Number) {
+    this.isLoading = true;
     this.activityService.findID(id).subscribe(
       (res: ActivityModel | any) => {
         this.frm.patchValue({
@@ -114,6 +118,7 @@ export class ActivityModalComponent implements OnInit {
             'valorMontarPadre': `${res.procesoId.padre.codigo} ${res.procesoId.padre.nombre}`
           };
           this.subprocessResponse(dataProceso);
+          this.isLoading = false;;
         }
     })
   }

@@ -1,4 +1,4 @@
-<app-modal-general [displayModal]="displayModal" [title]="title" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
+<app-modal-general [displayModal]="displayModal" [title]="title" [isLoading]="isLoading" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
     <form name="frm" id="frm" [formGroup]="frm">
         <div class="grid m-0">
             <!-- Estado -->
@@ -11,36 +11,40 @@
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
                 <label for="codigo" class="form-label md:col-3">Código</label>
-                <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
+                <div class="p-inputgroup md:col-9 field-container"> 
                     <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('codigo')"></app-validation-message>
                 </div>
             </div>
             <!-- END Código -->
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
                 <label for="nombre" class="form-label md:col-3">Nombre</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
                         id="nombre" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('nombre')"></app-validation-message>
                 </div>
             </div>
             <!-- END nombre -->
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
                 <label for="proceso" class="form-label md:col-3">Proceso</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <input pInputText placeholder="Proceso" maxlength="50" name="proceso" formControlName="proceso"
                         id="proceso" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('proceso')"></app-validation-message>
                 </div>
             </div>
             <!-- END nombre -->
             <!-- Subproceso -->
             <div class="grid col-12 m-0 p-0">
                 <label for="subproceso" class="form-label md:col-3">Subproceso</label>
-                <div class="p-inputgroup md:col-9">
+                <div class="p-inputgroup md:col-9 field-container">
                     <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="'Subproceso'"
                         (itemSelected)="subprocessResponse($event)" [endPoint]="'procesos/autocomplete'" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
-                        [inputModel]="formTxt" />
+                        [inputModel]="formTxt" appendTo="body" />
+                    <app-validation-message class="validation-message" [control]="frm.get('subProceso')"></app-validation-message>
                 </div>
             </div>
             <!-- END Subproceso -->

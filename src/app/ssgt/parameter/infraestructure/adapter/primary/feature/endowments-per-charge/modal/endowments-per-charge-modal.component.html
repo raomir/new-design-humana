@@ -14,8 +14,8 @@
             <div class="md:col-4 field-container">
                 <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvanced($event)"
                     [params]="paramsAutocomplete" [placeholder]="'Producto'" (itemSelected)="productSelected($event)"
-                    [endPoint]="endPointAutocomplete" [usePostRequest]="true"
-                    (clearSelectedItem)="clearSelectedProduct()" [inputModel]="productTxt" />
+                    [endPoint]="endPointAutocomplete" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
+                    (clearSelectedItem)="clearSelectedProduct()" [inputModel]="productTxt" appendTo="body" />
             </div>
             <!-- END Producto -->
 

@@ -48,7 +48,15 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
   public displayModalAdvanced: boolean = false;
   public productTxt: any;
   public endPointAutocomplete: string = 'comproductos/autocompleta/false/false/false';
-  public paramsAutocomplete: any = { tipo_clase: [43364, 43365] } // dotación, protección
+  public paramsAutocomplete: any = { 
+    grupo: {
+      tipo_clase: [43364, 43365] 
+    },
+    validaciones_extras: null,
+    dataBusqueda: null,
+    vinculacion_id: null,
+    tipo_concepto: null
+  } // dotación, protección
 
   constructor(
     private formBuilder: FormBuilder,
