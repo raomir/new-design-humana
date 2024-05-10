@@ -168,6 +168,7 @@ export class AdvancedSearchFormsProdutsComponent {
       console.log(value);
       this.selectedCategory = value.node.label;
       this.frm.controls['com_categoria_id'].setValue(value.node.data);
+      this.treeVisible = false;
     }
   }
 
