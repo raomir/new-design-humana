@@ -19,7 +19,7 @@
     border: 1px solid #ced4da;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 5px;
-    width: auto;
+    width: 100% !important;
     height: auto;
     max-height: 350px;
     max-width: 450px;
@@ -38,4 +38,8 @@
 .p-dropdown .p-dropdown-trigger {
     background-color: #1d68be !important;
     color: white !important;
+}
+
+.p-dropdown {
+    width: 100% !important;
 }

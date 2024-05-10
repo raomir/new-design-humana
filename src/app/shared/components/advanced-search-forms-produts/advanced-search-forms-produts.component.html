@@ -21,12 +21,12 @@
                     </div>
                     <!-- END Producto -->
                     <!-- Categoria -->
-                    <div class="col-12 sm:col-12 md:4 lg:4">
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4">
                         <div class="field form-group">
                             <label for="codigo" class="m-0">Categoria</label>
                             <div class="p-inputgroup mt-2">
-                                <div class="container">
-                                    <div class="p-dropdown" (click)="toggleTree()">
+                                <div class="container col-12 px-0 py-0">
+                                    <div class="p-dropdown w-100" (click)="toggleTree()">
                                         <input styleClass="p-dropdown-default w-100" type="text" pInputText placeholder="Seleccionar" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}" readonly>
                                         <div class="p-dropdown-trigger-icon p-dropdown-trigger">
                                             <span class="pi pi-chevron-down"></span>
@@ -40,6 +40,17 @@
                         </div>
                     </div>
                     <!-- END Categoria -->
+                    <!-- nombre -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4">
+                        <div class="field form-group">
+                            <label for="nombre" class="m-0">Nombre</label>
+                            <div class="p-inputgroup mt-2">
+                                <input pInputText placeholder="Nombre" maxlength="50" name="nombre"
+                                    formControlName="nombre" id="nombre" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END nombre -->
                     <!-- nombre -->
                     <div class="col-12 sm:col-12 md:col-4 lg:col-4">
                         <div class="field form-group">
