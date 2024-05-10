@@ -1,0 +1,41 @@
+/* Esconder el árbol por defecto */
+.p-dropdown-panel {
+    display: none;
+}
+
+/* Mostrar el árbol cuando el componente está desplegado */
+.p-dropdown-panel-visible {
+    display: block;
+}
+
+.container {
+    position: relative;
+}
+
+.p-dropdown-panel {
+    position: absolute;
+    z-index: 1;
+    background-color: #ececf8;
+    border: 1px solid #ced4da;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    width: auto;
+    height: auto;
+    max-height: 350px;
+    max-width: 450px;
+    overflow-y: auto;
+    top: calc(80% + 5px);
+}
+
+.p-dropdown-trigger-icon {
+    position: relative;
+}
+
+.p-dropdown-trigger-icon .pi {
+    margin-left: 4px;
+}
+
+.p-dropdown .p-dropdown-trigger {
+    background-color: #1d68be !important;
+    color: white !important;
+}

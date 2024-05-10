@@ -12,6 +12,7 @@ import { ListService } from '../../../../../../../../shared/core/application/lis
 import { EndowmentsPerChargeService } from '../../../../../../core/application/endowments-per-charge/endowments-per-charge.service';
 import { EndowmentsPerChargeModel } from '../../../../../../core/domain/endowments-per-charge/endowments-per-charge.model';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
+import { AdvancedSearchFormsProdutsComponent } from '../../../../../../../../shared/components/advanced-search-forms-produts/advanced-search-forms-produts.component';
 
 @Component({
   selector: 'app-endowments-per-charge-modal',
@@ -26,7 +27,8 @@ import { HelpersServiceImp } from '../../../../../../../../shared/core/applicati
     InputTextModule,
     InputSwitchModule,
     DropdownModule,
-    InputNumberModule
+    InputNumberModule,
+    AdvancedSearchFormsProdutsComponent
   ],
 })
 export class EndowmentsPerChargeModalComponent implements OnInit {
@@ -131,6 +133,12 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
       }
       this.frm.controls['producto'].setValue(info.id);
     }
+  }
+
+  public subprocessResponse(event: any) {
+    this.displayModalAdvanced = false;
+    this.productTxt = event;
+    this.frm.controls['producto'].setValue(event.id);
   }
 
   clearSelectedProduct() {
