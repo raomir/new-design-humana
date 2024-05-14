@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ModalGeneralComponent } from '../modal-general/modal-general.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { List } from '../../core/domain/list.model';
 import { CommonModule } from '@angular/common';
@@ -67,13 +67,17 @@ export class AdvancedSearchFormsProdutsComponent {
   public treeVisible: boolean = false;
   public selectedCategory: TreeNode | null = null;
 
+  public productTypeList: Array<any> = [];
+  public brandGroupList: Array<any> = [];
+  public brandList: Array<any> = [];
+  public purchaseUnitList: Array<any> = [];
+  public distributionUnitList: Array<any> = [];
+  public usageList: Array<any> = [];
+
   public dataForm = {
     producto: null,
-    codigo: null,
-    tipoFormularioId: 0,
-    nombre: null,
-    descripcion: null,
-    com_categoria_id: null
+    com_categoria_id: null,
+    tipo_producto_id: null
   }
 
   public columns: Array<Column> = [
@@ -100,15 +104,63 @@ export class AdvancedSearchFormsProdutsComponent {
     this.loadForm();
   }
 
-  loadForm() {
-    this.frm = this.formBuilder.group({
-      producto: [null],
-      com_categoria_id: [null],
-      codigo: [null],
-      nombre: [null, Validators.compose([
-        Validators.maxLength(150),
-      ])]
-    })
+  /**
+   * Method to initialize the form
+   */
+  public loadForm() {
+      this.frm = new FormGroup({
+          producto: new FormControl(null),
+          com_categoria_id: new FormControl(null),
+          tipo_producto_id: new FormControl(null),
+          nombre: new FormControl(null, Validators.compose([
+              Validators.maxLength(150),
+          ]))
+      });
+      this.prepareForm();
+  }
+
+  /**
+   * Method that loads the variables with their corresponding values
+   * obtained from the API.
+   */
+  private prepareForm() {
+      this.productSearchService.getInitialData().subscribe(
+          async (res: any) => {
+              res = res.data;
+              this.loadLists(res.listas).then(() => {
+                  this.loadData(res);
+              });
+          }
+      );
+  }
+
+  /**
+   * Gets the system lists and stores them in a variable
+   * @param lists
+   */
+  public loadLists(lists: any): Promise<void> {
+      return new Promise<void>(resolve => {
+          this.brandGroupList = lists.grupos_marcas;
+          this.brandList = lists.marcas;
+          this.productTypeList = lists.tipos_productos;
+          this.purchaseUnitList = lists.unidades_compras;
+          this.distributionUnitList = lists.unidades_distribucion;
+          this.usageList = lists.usos;          
+
+          resolve();
+      });
+  }
+
+  /**
+   * Method that loads default values into the form
+   */
+  public loadData(res: any) {
+    console.log(res);
+      /* if (res != null) {
+          this.frm.get('producto').setValue(res.com_producto_id);
+          this.frm.get('tipo_producto_id').setValue(res.product_type_id);
+          this.frm.controls['com_categoria_id'].setValue(res.com_category_id);
+      } */
   }
 
   toggleTree() {

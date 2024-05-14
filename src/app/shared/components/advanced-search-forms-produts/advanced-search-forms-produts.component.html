@@ -40,17 +40,16 @@
                         </div>
                     </div>
                     <!-- END Categoria -->
-                    <!-- nombre -->
+                    <!-- Tipo de producto -->
                     <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
                         <div class="field form-group">
-                            <label for="nombre" class="m-0">Nombre</label>
+                            <label for="Tipo de producto" class="m-0">Tipo de producto</label>
                             <div class="p-inputgroup mt-2">
-                                <input pInputText placeholder="Nombre" maxlength="50" name="nombre"
-                                    formControlName="nombre" id="nombre" type="text" />
+                                <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="productTypeList" formControlName="tipo_producto_id" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
                             </div>
                         </div>
                     </div>
-                    <!-- END nombre -->
+                    <!-- END Tipo de producto -->
                     <!-- nombre -->
                     <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
                         <div class="field form-group">
