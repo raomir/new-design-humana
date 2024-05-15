@@ -264,6 +264,18 @@ input[type="text"] {
   }
 }
 
+p-multiselect .p-multiselect-default .p-multiselect-trigger {
+  background-color: #1d68be !important;
+  color: white !important;
+}
+
+.p-multiselect-default {
+  .p-multiselect-trigger {
+    background-color: transparent !important;
+    color: #676B89 !important;
+  }
+}
+
 .divider-general {
   background-color: #bdbdbd !important;
   margin: 0 !important;
