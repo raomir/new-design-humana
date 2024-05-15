@@ -50,17 +50,54 @@
                         </div>
                     </div>
                     <!-- END Tipo de producto -->
-                    <!-- nombre -->
+                    <!-- usos -->
                     <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
                         <div class="field form-group">
-                            <label for="nombre" class="m-0">Nombre</label>
+                            <label for="usos_ids" class="m-0">Usos</label>
                             <div class="p-inputgroup mt-2">
-                                <input pInputText placeholder="Nombre" maxlength="50" name="nombre"
-                                    formControlName="nombre" id="nombre" type="text" />
+                                <p-multiSelect id="usos_ids" [style]="{width: '100%'}" styleClass="p-multiselect-default" [options]="usageList" formControlName="usos_ids" optionLabel="nombre" placeholder="Usos"></p-multiSelect>
                             </div>
                         </div>
                     </div>
-                    <!-- END nombre -->
+                    <!-- END usos -->
+                    <!-- Grupo de marca -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="grupo_marca_id" class="m-0">Grupo de marca</label>
+                            <div class="p-inputgroup mt-2">
+                                <p-dropdown id="grupo_marca_id" [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="brandGroupList" formControlName="grupo_marca_id" optionLabel="nombre" [showClear]="false" (onChange)="getBrands($event)" placeholder="Grupo de marca"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Grupo de marca -->
+                    <!-- Marca -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="inv_marca_id" class="m-0">Marca</label>
+                            <div class="p-inputgroup mt-2" [ngClass]="loadingBrand ? 'custom-spinner-brand' : ''">
+                                <ng-container *ngIf="loadingBrand; else dropdownTemplate">
+                                    <p-progressSpinner id="inv_marca_id_loading" styleClass="custom-spinner-brand w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+                                </ng-container>
+                                <ng-template #dropdownTemplate>
+                                    <p-dropdown id="inv_marca_id" [style]="{width: '100%'}" styleClass="p-dropdown-default" 
+                                        [options]="brandList" formControlName="inv_marca_id" 
+                                        optionLabel="nombre" [showClear]="false" placeholder="Marca">
+                                    </p-dropdown>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Marca -->
+                    <!-- Unidad de compra -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="unidad_compra_id" class="m-0">Unidad de compra</label>
+                            <div class="p-inputgroup mt-2">
+                                <p-dropdown id="unidad_compra_id" [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="purchaseUnitList" formControlName="unidad_compra_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de compra"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Unidad de compra -->
                     <div class="col-auto ml-auto">
                         <app-buttons-general [buttons]="buttonsForm" (searchAction)="searchForms()"
                             (cleanAction)="cleanForm()" />

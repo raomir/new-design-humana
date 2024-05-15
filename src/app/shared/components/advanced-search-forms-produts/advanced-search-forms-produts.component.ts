@@ -6,7 +6,7 @@ import { List } from '../../core/domain/list.model';
 import { CommonModule } from '@angular/common';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.component';
 import { TableGeneralComponent } from '../table-general/table-general.component';
 import { Column } from '../table-general/col/col';
@@ -15,6 +15,8 @@ import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
 import { TreeModule, TreeNodeSelectEvent } from 'primeng/tree';
 import { ProductSearchService } from '../../core/application/product-search.service';
 import { TreeNode } from 'primeng/api';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-advanced-search-forms-produts',
@@ -29,17 +31,38 @@ import { TreeNode } from 'primeng/api';
     DividerModule,
     InputTextModule,
     AccordionModule,
+    MultiSelectModule,
     TreeModule,
     AutocompleteComponent,
     ModalGeneralComponent,
     ButtonsGeneralComponent,
-    TableGeneralComponent
+    TableGeneralComponent,
+    ProgressSpinnerModule
   ]
 })
 export class AdvancedSearchFormsProdutsComponent {
 
   @Input() displayModal: boolean = false;
   @Input() typeProductId = null;
+  @Input() data = {
+      'com_tercero_id': null,
+      'inv_bodega1_id': null,
+      'inv_bodega2_id': null,
+      'inv_ubicacion1_id': null,
+      'inv_ubicacion2_id': null,
+      'tipo_comprobante_id': null,
+      'categoria': null,
+      'tipo_clase': [43364, 43365]
+  };
+  @Input() paramsSearch = {
+      'con_variante': null,
+      'con_exigencia': null,
+      'maneja_lotes': null,
+      'compuestos': null,
+      'exigencias': null,
+      'tarifas': null,
+      'tipo_clase': [43364, 43365]
+  };
   @Output() modalResponse = new EventEmitter<any | null>();
 
   @ViewChild('table') table?: TableGeneralComponent;
@@ -74,10 +97,13 @@ export class AdvancedSearchFormsProdutsComponent {
   public distributionUnitList: Array<any> = [];
   public usageList: Array<any> = [];
 
+  public loadingBrand: boolean = false;
+
   public dataForm = {
-    producto: null,
+    com_producto_id: null,
     com_categoria_id: null,
-    tipo_producto_id: null
+    tipo_producto_id: null,
+    usos_ids: null
   }
 
   public columns: Array<Column> = [
@@ -109,12 +135,19 @@ export class AdvancedSearchFormsProdutsComponent {
    */
   public loadForm() {
       this.frm = new FormGroup({
-          producto: new FormControl(null),
-          com_categoria_id: new FormControl(null),
-          tipo_producto_id: new FormControl(null),
-          nombre: new FormControl(null, Validators.compose([
-              Validators.maxLength(150),
-          ]))
+            com_producto_id: new FormControl(null, Validators.required),
+            tipo_producto_id: new FormControl(null, Validators.required),
+            usos_ids: new FormControl(null, Validators.required),
+            con_variantes: new FormControl(null, Validators.required),
+            grupo_marca_id: new FormControl(null, Validators.required),
+            inv_marca_id: new FormControl(null, Validators.required),
+            unidad_compra_id: new FormControl(null, Validators.required),
+            unidad_distribucion_id: new FormControl(null, Validators.required),
+            com_tercero_id: new FormControl(null, Validators.required),
+            con_compuestos: new FormControl(null, Validators.required),
+            con_existencias: new FormControl(null, Validators.required),
+            maneja_lotes: new FormControl(null, Validators.required),
+            con_tarifas: new FormControl(null, Validators.required)
       });
       this.prepareForm();
   }
@@ -157,7 +190,7 @@ export class AdvancedSearchFormsProdutsComponent {
   public loadData(res: any) {
     console.log(res);
       /* if (res != null) {
-          this.frm.get('producto').setValue(res.com_producto_id);
+          this.frm.get(com_producto_id).setValue(res.com_producto_id);
           this.frm.get('tipo_producto_id').setValue(res.product_type_id);
           this.frm.controls['com_categoria_id'].setValue(res.com_category_id);
       } */
@@ -213,6 +246,44 @@ export class AdvancedSearchFormsProdutsComponent {
   }
 
   /**
+   * Carga las marcas segun el grupo de marca seleccionado
+   * @param brandGroup
+   */
+  getBrands(brandGroup: DropdownChangeEvent | any) {
+    console.log(brandGroup);
+    if (brandGroup !== null && brandGroup !== undefined && brandGroup.value !== null && brandGroup.value !== undefined) {
+      if (brandGroup.value.id != 0) {
+        this.loadingBrand = true;
+        this.productSearchService.getBrands(brandGroup.value.id)?.subscribe(
+          (res: any) => {
+            this.loadingBrand = false;
+            let marcasFinal: any[] = [{ id: 0, nombre: 'Todas' }];
+            let marcasTemp = res.marcas;
+            marcasTemp.forEach((element: any) => {
+              marcasFinal.push(element);
+            });
+
+            this.brandList = marcasFinal;
+            this.frm.controls['inv_marca_id'].setValue(0);
+            this.frm.controls['inv_marca_id'].updateValueAndValidity();
+          },
+          () => {
+            this.loadingBrand = false;
+            this.brandList = [];
+            this.frm.get('inv_marca_id')?.setValue(null);
+          }
+        );
+      } else {
+        this.brandList = [];
+        this.frm.get('inv_marca_id')?.setValue(null);
+        this.frm.controls['inv_marca_id'].updateValueAndValidity();
+      }
+    } else {
+      this.loadingBrand = false;
+    }
+  }
+
+  /**
    * Method that resets data based on the product type of the category
    */
   getCuentaC(value: TreeNodeSelectEvent | any) {
@@ -230,13 +301,13 @@ export class AdvancedSearchFormsProdutsComponent {
         id: info.id,
         valor_montar: info.codigoUnspsc + ' - ' + info.nombre
       }
-      this.frm.controls['producto'].setValue(info.id);
+      this.frm.controls['com_producto_id'].setValue(info.id);
     }
   }
 
   clearSelectedProduct() {
     this.productTxt = null;
-    this.frm.controls['producto'].setValue(null);
+    this.frm.controls['com_producto_id'].setValue(null);
   }
 
   async searchForms() {

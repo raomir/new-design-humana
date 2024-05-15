@@ -43,3 +43,19 @@
 .p-dropdown {
     width: 100% !important;
 }
+
+.custom-spinner-brand {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.p-progress-spinner-circle {
+    stroke-dasharray: 89, 200!important;
+    stroke-dashoffset: 0!important;
+    stroke: #d62d20!important;
+    animation: p-progress-spinner-dash 1.5s ease-in-out infinite, p-progress-spinner-color 6s ease-in-out infinite !important;
+    stroke-linecap: round !important;
+}
