@@ -17,6 +17,8 @@ import { ProductSearchService } from '../../core/application/product-search.serv
 import { TreeNode } from 'primeng/api';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { HelpersServiceImp } from '../../core/application/config/helpers.service.imp';
 
 @Component({
   selector: 'app-advanced-search-forms-produts',
@@ -37,12 +39,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ModalGeneralComponent,
     ButtonsGeneralComponent,
     TableGeneralComponent,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    InputSwitchModule
   ]
 })
 export class AdvancedSearchFormsProdutsComponent {
 
   @Input() displayModal: boolean = false;
+  @Input() usageIds: Array<any> = [];
   @Input() typeProductId = null;
   @Input() data = {
       'com_tercero_id': null,
@@ -74,17 +78,25 @@ export class AdvancedSearchFormsProdutsComponent {
 
   public title: string = 'Buscador avanzado de productos';
 
-  public endPointDatatable: string = 'procesos/busquedaAvanzada/page';
+  public endPointDatatable: string = 'comproductos/buscador/data';
   public endPointAutocomplete: string = 'comproductos/autocompleta/false';
   public productTxt: any;
-    public paramsAutocomplete: any = { 
+  public paramsAutocomplete: any = { 
     grupo: null,
     validaciones_extras: null,
     dataBusqueda: null,
     vinculacion_id: null,
     tipo_concepto: null
   }
-
+  public proveedorTxt: any;
+  public paramsAutocompleteProveedor: any = { 
+    grupo: ['proveedor'],
+    validaciones_extras: null,
+    dataBusqueda: null,
+    vinculacion_id: null,
+    tipo_concepto: null,
+    noBuscar: []
+  }
   public valueProduct: any;
   public selectedCategoryTree: Array<TreeNode> = [];
   public treeVisible: boolean = false;
@@ -99,22 +111,98 @@ export class AdvancedSearchFormsProdutsComponent {
 
   public loadingBrand: boolean = false;
 
-  public dataForm = {
-    com_producto_id: null,
-    com_categoria_id: null,
-    tipo_producto_id: null,
-    usos_ids: null
-  }
+  public dataForm: any =  {
+      "producto": "",
+      "categoria": "",
+      "tipo_producto": null,
+      "usos": null,
+      "grupo_marca": "",
+      "marca": "",
+      "unidad_compra": "",
+      "unidad_distribucion": "",
+      "con_variantes": 2,
+      "proveedor": "",
+      "tipo_clase": [43364, 43365]
+  };
 
   public columns: Array<Column> = [
-    { title: "Código", data: "codigo" },
-    { title: "Nombre", data: "nombre" },
-    { title: "Padre", data: "nombrePadre" }
+      {
+          title: 'Categoria',
+          width: '100px',
+          data: 'categoria'
+      },
+      {
+          title: 'Codigo UNSPSC',
+          width: '300px',
+          data: 'codigo_unspsc'
+      },
+      {
+          title: 'Nombre',
+          width: '300px',
+          data: 'nombre'
+      },
+      {
+          title: 'Unidad de compra',
+          width: '300px',
+          data: 'unidad_compra'
+      },
+      {
+          title: 'Contenido',
+          width: '300px',
+          data: 'contenido'
+      },
+      {
+          title: 'Unidad de distribucion',
+          width: '300px',
+          data: 'unidad_distribucion'
+      },
+      {
+          title: 'Grupo de marca',
+          width: '300px',
+          data: 'grupo_marca'
+      },
+      {
+          title: 'Marca',
+          width: '300px',
+          data: 'marca'
+      },
+      {
+          title: 'Forma farmaceutica',
+          width: '300px',
+          data: 'forma_farmaceutica'
+      },
+      {
+          title: 'Concentración',
+          width: '300px',
+          data: 'concentracion_medicamento'
+      },
+      {
+          title: 'Via Adm',
+          width: '300px',
+          data: 'via_administracion'
+      },
+      {
+          title: 'Finalidad consulta',
+          width: '300px',
+          data: 'finalidad_consulta'
+      },
+      {
+          title: 'Finalidad procedimiento',
+          width: '300px',
+          data: 'finalidad_procedimiento'
+      },
+      {
+          title: 'Valor',
+          width: '300px',
+          data: 'contenido'
+      }
   ];
+  
 
   constructor(
     private formBuilder: FormBuilder,
-    private productSearchService: ProductSearchService
+    private productSearchService: ProductSearchService,
+    private helperService: HelpersServiceImp
   ) {
 
   }
@@ -122,9 +210,7 @@ export class AdvancedSearchFormsProdutsComponent {
   ngOnInit(): void {
     this.productSearchService.searchCategories({ tipo_producto_id: this.typeProductId }).subscribe(
         (result) => {
-          console.log(result);
           this.selectedCategoryTree = this.createClassTree(result.categorias);
-          console.log(this.selectedCategoryTree);
         }
     );
     this.loadForm();
@@ -138,7 +224,7 @@ export class AdvancedSearchFormsProdutsComponent {
             com_producto_id: new FormControl(null, Validators.required),
             tipo_producto_id: new FormControl(null, Validators.required),
             usos_ids: new FormControl(null, Validators.required),
-            con_variantes: new FormControl(null, Validators.required),
+            con_variantes: new FormControl(2, Validators.required),
             grupo_marca_id: new FormControl(null, Validators.required),
             inv_marca_id: new FormControl(null, Validators.required),
             unidad_compra_id: new FormControl(null, Validators.required),
@@ -147,24 +233,67 @@ export class AdvancedSearchFormsProdutsComponent {
             con_compuestos: new FormControl(null, Validators.required),
             con_existencias: new FormControl(null, Validators.required),
             maneja_lotes: new FormControl(null, Validators.required),
-            con_tarifas: new FormControl(null, Validators.required)
+            con_tarifas: new FormControl(null, Validators.required),
+            com_categoria_id: new FormControl('')
       });
       this.prepareForm();
+      this.validateForm();
   }
+
+  public validateForm(): Promise<void> {
+      return new Promise<void>(resolve => {
+          this.frm = new FormGroup({
+              com_producto_id: new FormControl(''),
+              com_categoria_id: new FormControl(''),
+              tipo_producto_id: new FormControl({
+                  value: (this.productTypeList.length > 0) ? this.productTypeList[0].id : this.typeProductId,
+                  disabled: (this.productTypeList.length == 1) ? true : (this.productTypeList.length > 1) ? false : this.helperService.isset(this.typeProductId)
+              }),
+              grupo_marca_id: new FormControl(''),
+              inv_marca_id: new FormControl(''),
+              usos_ids: new FormControl({ value: null, disabled: (this.usageIds.length > 0) }),
+              unidad_compra_id: new FormControl(''),
+              unidad_distribucion_id: new FormControl(''),
+              com_tercero_id: new FormControl(''),
+              con_variantes: new FormControl(this.paramsSearch.con_variante),
+              con_compuestos: new FormControl(this.paramsSearch.compuestos),
+              con_existencias: new FormControl(this.paramsSearch.con_exigencia),
+              con_tarifas: new FormControl(this.paramsSearch.tarifas),
+              maneja_lotes: new FormControl(this.paramsSearch.maneja_lotes),
+          });
+
+          this.prepareForm();
+          resolve();
+      });
+  }
+
 
   /**
    * Method that loads the variables with their corresponding values
    * obtained from the API.
    */
   private prepareForm() {
-      this.productSearchService.getInitialData().subscribe(
-          async (res: any) => {
-              res = res.data;
-              this.loadLists(res.listas).then(() => {
-                  this.loadData(res);
-              });
-          }
-      );
+      this.dataForm = {
+        "producto": this.frm.controls['com_producto_id'].value,
+        "categoria": this.frm.controls['com_categoria_id'].value,
+        "tipo_producto": this.frm.controls['tipo_producto_id'].value,
+        "usos": this.frm.controls['usos_ids'].value,
+        "grupo_marca": this.frm.controls['grupo_marca_id'].value,
+        "marca": this.frm.controls['inv_marca_id'].value,
+        "unidad_compra": this.frm.controls['unidad_compra_id'].value,
+        "unidad_distribucion": this.frm.controls['unidad_distribucion_id'].value,
+        "con_variantes": this.helperService.getSwitch(this.frm.controls['con_variantes'].value, false),
+        "proveedor": this.frm.controls['com_tercero_id'].value,
+        "tipo_clase": [43364, 43365]
+    };
+    this.productSearchService.getInitialData().subscribe(
+        async (res: any) => {
+            res = res.data;
+            this.loadLists(res.listas).then(() => {
+                this.loadData(res);
+            });
+        }
+    );
   }
 
   /**
@@ -203,24 +332,20 @@ export class AdvancedSearchFormsProdutsComponent {
   private createClassTree(tree: any): TreeNode[] {
     const returnArray: TreeNode[] = [];
     const types = Object.assign([], tree);
-    console.log(types);
     for (let index = 0; index < types.length; index++) {
       // Validate parent
       //console.log(types[index]);
       if (types[index].com_categoria_id === null) {
-        console.log('ENTRA');
         const type: TreeNode = {
           label: types[index].codigo_con_nombre,
           data: types[index].id,
           children: []
         };
-        console.log(type);
         this.buildClassSevenChildren(type, 1, tree);
         type.expanded = true;
         returnArray.push(type);
       }
     }
-    console.log(returnArray);
     return returnArray;
   }
 
@@ -250,7 +375,6 @@ export class AdvancedSearchFormsProdutsComponent {
    * @param brandGroup
    */
   getBrands(brandGroup: DropdownChangeEvent | any) {
-    console.log(brandGroup);
     if (brandGroup !== null && brandGroup !== undefined && brandGroup.value !== null && brandGroup.value !== undefined) {
       if (brandGroup.value.id != 0) {
         this.loadingBrand = true;
@@ -288,7 +412,6 @@ export class AdvancedSearchFormsProdutsComponent {
    */
   getCuentaC(value: TreeNodeSelectEvent | any) {
     if (value && value.node.children.length === 0) {
-      console.log(value);
       this.selectedCategory = value.node.label;
       this.frm.controls['com_categoria_id'].setValue(value.node.data);
       this.treeVisible = false;
@@ -310,12 +433,41 @@ export class AdvancedSearchFormsProdutsComponent {
     this.frm.controls['com_producto_id'].setValue(null);
   }
 
+  proveedorSelected(info: any) {
+    if (info) {
+      this.proveedorTxt = {
+        id: info.id,
+        valor_montar: info.valor_montar
+      }
+      this.frm.controls['com_tercero_id'].setValue(info.id);
+    }
+  }
+
+  clearSelectedProveedor() {
+    this.proveedorTxt = null;
+    this.frm.controls['com_tercero_id'].setValue(null);
+  }
+
   async searchForms() {
-    this.dataForm = this.frm.getRawValue();
+    console.log('ENTRA searchForms');
+    this.dataForm = {
+        "producto": this.frm.controls['com_producto_id'].value,
+        "categoria": this.frm.controls['com_categoria_id'].value,
+        "tipo_producto": this.frm.controls['tipo_producto_id'].value,
+        "usos": this.frm.controls['usos_ids'].value,
+        "grupo_marca": this.frm.controls['grupo_marca_id'].value?.id,
+        "marca": this.frm.controls['inv_marca_id'].value?.id,
+        "unidad_compra": this.frm.controls['unidad_compra_id'].value?.id,
+        "unidad_distribucion": this.frm.controls['unidad_distribucion_id'].value?.id,
+        "con_variantes": this.helperService.getSwitch(this.frm.controls['con_variantes'].value, false),
+        "proveedor": this.frm.controls['com_tercero_id'].value,
+        "tipo_clase": [43364, 43365]
+    };
     this.table?.loadTable(0, this.table?.pageNumber, '', this.dataForm);
   }
 
   cleanForm() {
+    console.log('ENTRA cleanForm');
     this.frm.reset();
     this.dataForm = this.frm.getRawValue();
     if (this.table) this.table.parameters = this.dataForm;

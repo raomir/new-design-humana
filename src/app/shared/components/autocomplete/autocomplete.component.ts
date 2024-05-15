@@ -51,7 +51,12 @@ export class AutocompleteComponent {
       }
       await this.autocompleteService.searchByPost(this.endPoint, data, this.type).subscribe({
         next: async res => {
+          console.log(res);
           if (!res.content) {
+            // Verificar si res.data existe y no es un array, luego convertirlo en array
+            if (res.data && !Array.isArray(res.data)) {
+              res.data = Object.values(res.data);
+            }
             if (res.data && Array.isArray(res.data)) {
               res.content = res.data;
             } else if (Array.isArray(res)) {

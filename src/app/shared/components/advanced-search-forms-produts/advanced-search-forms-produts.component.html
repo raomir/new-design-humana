@@ -11,7 +11,7 @@
                     <!-- Producto -->
                     <div class="col-12 sm:col-12 md:col-12 lg:col-12 py-0">
                         <div class="field form-group">
-                            <label for="producto" class="form-label md:col-2">Producto</label>
+                            <label for="producto" class="form-label md:col-2 m-0">Producto</label>
                             <div class="md:col-12 px-0 py-0 field-container">
                                 <app-autocomplete [params]="paramsAutocomplete" [placeholder]="'Producto'" (itemSelected)="productSelected($event)"
                                     [endPoint]="endPointAutocomplete" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
@@ -55,7 +55,7 @@
                         <div class="field form-group">
                             <label for="usos_ids" class="m-0">Usos</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-multiSelect appendTo="body" id="usos_ids" [style]="{width: '100%'}" styleClass="p-multiselect-default" [options]="usageList" formControlName="usos_ids" optionLabel="nombre" placeholder="Usos"></p-multiSelect>
+                                <p-multiSelect appendTo="body" id="usos_ids" [style]="{width: '100%'}" styleClass="p-multiselect-default" [options]="usageList" formControlName="usos_ids" optionValue="id" optionLabel="nombre" placeholder="Usos"></p-multiSelect>
                             </div>
                         </div>
                     </div>
@@ -98,6 +98,70 @@
                         </div>
                     </div>
                     <!-- END Unidad de compra -->
+                    <!-- Unidad de distribucion -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="unidad_distribucion_id" class="m-0">Unidad de distribucion</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="unidad_distribucion_id" [style]="{width: '100%'}" [options]="distributionUnitList" formControlName="unidad_distribucion_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de distribucion"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Unidad de distribucion -->
+                    <!-- Proveedor -->
+                    <div class="col-12 sm:col-12 md:col-8 lg:col-8 py-0">
+                        <div class="field form-group">
+                            <label for="proveedor" class="form-label md:col-2 m-0">Proveedor</label>
+                            <div class="md:col-12 px-0 py-0 field-container">
+                                <app-autocomplete [params]="paramsAutocompleteProveedor" [placeholder]="'Proveedor'" (itemSelected)="proveedorSelected($event)"
+                                    [endPoint]="'comtercero/search'" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
+                                    (clearSelectedItem)="clearSelectedProveedor()" [inputModel]="proveedorTxt" appendTo="body" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Proveedor -->
+                    <div class="grid col-12 m-0 mt-2 p-0">
+                        <!-- Variantes -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="con_variantes" class="form-label col-3">Variantes</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_variantes" id="con_variantes" name="con_variantes" class="w-full"
+                                    [(ngModel)]="frm.value.con_variantes"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Maneja lotes -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="maneja_lotes" class="form-label col-3">Maneja lotes</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="maneja_lotes" id="maneja_lotes" name="maneja_lotes" class="w-full"
+                                    [(ngModel)]="frm.value.maneja_lotes"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Compuestos -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="con_compuestos" class="form-label col-3">Compuestos</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_compuestos" id="con_compuestos" name="con_compuestos" class="w-full"
+                                    [(ngModel)]="frm.value.con_compuestos"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Exigencias -->
+                        <div class="col-3 d-flex align-items-center">
+                            <label for="con_existencias" class="form-label col-3">Exigencias</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_existencias" id="con_existencias" name="con_existencias" class="w-full"
+                                    [(ngModel)]="frm.value.con_existencias"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Tarifas -->
+                        <div class="col-3 d-flex align-items-center">
+                            <label for="con_tarifas" class="form-label col-3">Tarifas</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_tarifas" id="con_tarifas" name="con_tarifas" class="w-full"
+                                    [(ngModel)]="frm.value.con_tarifas"></p-inputSwitch>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-auto ml-auto">
                         <app-buttons-general [buttons]="buttonsForm" (searchAction)="searchForms()"
                             (cleanAction)="cleanForm()" />
@@ -106,7 +170,7 @@
             </form>
         </p-accordionTab>
     </p-accordion>
-    <app-table-general #table [columns]="columns" [export]="false" [endPoint]="endPointDatatable" [usePostRequest]="true" [parameters]="dataForm"
-        [usePostRequest]="false" [sendDocument]="true" (runActions)="selectElement($event)" />
+    <app-table-general #table [columns]="columns" [export]="false" [endPoint]="endPointDatatable" [usePostRequest]="true" [erp]="true" [parameters]="dataForm"
+        [sendDocument]="true" (runActions)="selectElement($event)" />
 
 </app-modal-general>
