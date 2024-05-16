@@ -241,12 +241,10 @@ export class ActivityIndexComponent implements OnInit {
           this.sonName = event.data.name;
         }
         this.action = 'btn_nuevo';
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         break;
       case 'btn_editar':
         this.displayModal = true;
         this.level = event.data.level;
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         this.action = 'btn_editar';
         this.idEdit = event.data.id;
         break;

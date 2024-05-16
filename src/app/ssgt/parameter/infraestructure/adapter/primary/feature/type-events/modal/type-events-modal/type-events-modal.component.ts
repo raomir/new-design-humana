@@ -69,7 +69,8 @@ export class TypeEventsModalComponent implements OnInit {
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activoActividad: [true],
+      activo: [true],
+      favorito: [false],
       codigo: [null, Validators.compose([
         Validators.maxLength(20),
         Validators.minLength(3),
@@ -90,7 +91,7 @@ export class TypeEventsModalComponent implements OnInit {
       nivel: [this.level ? this.level : 1],
       izquierda: [1],
       derecha: [0],
-      actividadId: [this.fatherId],
+      padre: [this.fatherId],
       id: [null]
     })
   }
@@ -100,35 +101,39 @@ export class TypeEventsModalComponent implements OnInit {
     this.typeEventService.findID(id).subscribe(
       (res: TypeEventModel | any) => {
         this.frm.patchValue({
-          activoActividad: res.activoActividad === 1,
-          codigo: res.codigo,
-          nombre: res.nombre,
-          izquierda: res.izquierda,
-          derecha: res.derecha,
-          nivel: res.nivel,
-          id: res.id
+          activo: res?.activo === 1,
+          codigo: res?.codigo,
+          nombre: res?.nombre,
+          descripcion: res?.descripcion,
+          izquierda: res?.izquierda,
+          derecha: res?.derecha,
+          nivel: res?.nivel,
+          favorito: res?.favorito === 1,
+          id: res?.id
         })
-        if (res.actividadId != null) {
-          this.frm.controls['actividadId'].setValue(res.actividadId.id);
+        if (this.fatherId === null || this.fatherId === undefined) {
+          this.fatherId = res?.padre?.id 
         }
-        if(this.fatherId === null || this.fatherId === undefined){
-          this.fatherId = res.llave?.id 
-        }
-        if (res.procesoId != null) {
-          const dataProceso =
+        if (res?.comFormulario) {
+          const dataFrm =
           {
-            'id': res.procesoId.id,
-            'valorMontar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valor_montar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valorMontarPadre': `${res.procesoId.padre.codigo} ${res.procesoId.padre.nombre}`
+            'id': res.comFormulario.id,
+            'valorMontar': `${res.comFormulario.codigo} - ${res.comFormulario.nombre}`,
+            'valor_montar': `${res.comFormulario.codigo} - ${res.comFormulario.nombre}`
           };
-          this.subprocessResponse(dataProceso);
-          this.isLoading = false;;
+          this.frmResponse(dataFrm);
         }
+        this.isLoading = false;
+    }, (error: any) => {
+      this.isLoading = false;
     })
   }
 
-  public subprocessResponse(event: any) {
+  public frmResponse(event: any) {
+    if (!this.helperService.isset(event.valorMontar) && !this.helperService.isset(event.valor_montar)) {
+      event.valorMontar = `${event.codigo} - ${event.nombre}`;
+      event.valor_montar = `${event.codigo} - ${event.nombre}`;
+    }
     this.displayModalAdvancedForms = false;
     this.formTxt = event;
     let idFrmGeneral: number = Number(event.id);
@@ -158,25 +163,24 @@ export class TypeEventsModalComponent implements OnInit {
 
   save(): void {
 
-    /* const actividadPadre: TypeEventModel | null = this.frm.value.actividadId;
+    const padre: TypeEventModel | null = this.frm.value.padre;
 
     const data: TypeEventModel = 
     {
-      id: this.frm.getRawValue().id,
-      codigo: this.frm.getRawValue().codigo,
-      nombre: this.frm.getRawValue().nombre,
-      //procesoId: { 'id': this.frm.getRawValue().frmGeneral },
-      activoActividad: this.helperService.getSwitch(this.frm.getRawValue().activoActividad, false),
-      izquierda: this.frm.getRawValue().izquierda,
-      derecha: this.frm.getRawValue().derecha,
+      activo: this.helperService.getSwitch(this.frm.controls['activo'].value, false),
+      codigo: this.frm.controls['codigo'].value,
+      descripcion: this.frm.controls['descripcion'].value,
+      nombre: this.frm.controls['nombre'].value,
       nivel: this.frm.getRawValue().nivel,
-      actividadId: (actividadPadre != null) ? { id: actividadPadre } as TypeEventModel | any : null,
-    };
+      favorito: this.helperService.getSwitch(this.frm.controls['favorito'].value, false),
+      comFormulario: this.frm.controls['frmGeneral'].value != null ? { id: this.frm.controls['frmGeneral'].value } : null,
+      padre: null
+    }
     if(data.nivel === 1){
-      data.actividadId = null
+      data.padre = null
     }
     if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
-      data.actividadId = { id: this.fatherId } as TypeEventModel
+      data.padre = { id: this.fatherId } as TypeEventModel
     }
 
     if(this.id){
@@ -204,6 +208,6 @@ export class TypeEventsModalComponent implements OnInit {
           this.modalResponse.emit(false)
         },
       )
-    } */
+    }
   }
 }

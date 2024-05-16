@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ReportPreviewerComponent } from '../../../../../../../../shared/components/report-previewer/report-previewer.component';
 import { JsonParams } from '../../../../../../../../shared/components/table-general/col/col';
 import { ExporterComponent } from '../../../../../../../../shared/components/exporter/exporter.component';
-import { TypeEventsModalComponent } from '../modal/type-events-modal/type-events-modal-modal.component';
+import { TypeEventsModalComponent } from '../modal/type-events-modal/type-events-modal.component';
 import { TypeEventService } from '../../../../../../core/application/type-event/type-event.service';
 
 @Component({
@@ -72,8 +72,8 @@ export class TypeEventsIndexComponent implements OnInit {
 
     this.colums = [
       { field: 'code', header: 'Código' },
-      { field: 'name', header: 'Actividad' },
-      { field: 'description', header: 'Proceso' },
+      { field: 'name', header: 'Nombre' },
+      { field: 'description', header: 'Descripción' },
       { field: 'type', header: 'Tipo' },
       { field: 'formularioG', header: 'Formulario General' },
       { field: 'formularioE', header: 'Formulario Específico' },
@@ -225,7 +225,8 @@ export class TypeEventsIndexComponent implements OnInit {
     this.fatherId = null
     if (this.level == 0) {
       this.displayModal = true;
-      this.title = 'Actividad';
+      this.level = 0;
+      this.title = 'Tipos De Eventos';
     }
   }
 
@@ -249,12 +250,10 @@ export class TypeEventsIndexComponent implements OnInit {
           this.sonName = event.data.name;
         }
         this.action = 'btn_nuevo';
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         break;
       case 'btn_editar':
         this.displayModal = true;
         this.level = event.data.level;
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         this.action = 'btn_editar';
         this.idEdit = event.data.id;
         break;
