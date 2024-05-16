@@ -175,6 +175,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/processes-subprocesses'],
 
+                    },
+                    {
+                        label: 'Tipos De Eventos',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-events'],
                     }
                 ],
             },

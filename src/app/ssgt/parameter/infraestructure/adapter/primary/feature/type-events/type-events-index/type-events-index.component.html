@@ -1,0 +1,31 @@
+<div class="card">
+    <app-header-card 
+        [title]="title" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <app-tree-table-general  
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        (valueSearch)="valueSearch($event)"
+        (exportAction)="export($event)"
+        [buttonsDatatable]="buttonsDatatable">
+    </app-tree-table-general>
+    <type-events-modal
+        *ngIf="displayModal"
+        [displayModal]="displayModal"
+        [id]="idEdit"
+        [listName]="'Actividad'"
+        [level]="level"
+        [action]="action"
+        [fatherName]="fatherName"
+        [sonName]="sonName"
+        [fatherId]="fatherId"
+        (modalResponse)="modalResponse($event)"
+    ></type-events-modal>
+</div>
+<app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="title" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
+<app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData" [title]="title"></app-report-previewer>
+

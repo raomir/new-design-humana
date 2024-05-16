@@ -480,6 +480,23 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'type-events',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/type-events/type-events-index/type-events-index.component'
+                            ).then((m) => m.TypeEventsIndexComponent),
+                        data: {
+                            title: 'Tipos De Eventos',
+                            endpoint: 'eventosSSST',
+                            endpointExport: 'eventosSSST/reporte',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.tipos_eventos',
+                                only: 'talentohumano.tipos_eventos.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'processes-subprocesses',
                         loadComponent: () =>
                             import(
