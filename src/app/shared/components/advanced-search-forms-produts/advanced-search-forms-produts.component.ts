@@ -317,12 +317,11 @@ export class AdvancedSearchFormsProdutsComponent {
    * Method that loads default values into the form
    */
   public loadData(res: any) {
-    console.log(res);
-      /* if (res != null) {
-          this.frm.get(com_producto_id).setValue(res.com_producto_id);
-          this.frm.get('tipo_producto_id').setValue(res.product_type_id);
+      if (res != null) {
+          this.frm?.get('com_producto_id')?.setValue(res.com_producto_id);
+          this.frm?.get('tipo_producto_id')?.setValue(res.product_type_id);
           this.frm.controls['com_categoria_id'].setValue(res.com_category_id);
-      } */
+      }
   }
 
   toggleTree() {
@@ -334,7 +333,6 @@ export class AdvancedSearchFormsProdutsComponent {
     const types = Object.assign([], tree);
     for (let index = 0; index < types.length; index++) {
       // Validate parent
-      //console.log(types[index]);
       if (types[index].com_categoria_id === null) {
         const type: TreeNode = {
           label: types[index].codigo_con_nombre,
@@ -449,7 +447,6 @@ export class AdvancedSearchFormsProdutsComponent {
   }
 
   async searchForms() {
-    console.log('ENTRA searchForms');
     this.dataForm = {
         "producto": this.frm.controls['com_producto_id'].value,
         "categoria": this.frm.controls['com_categoria_id'].value,
@@ -467,7 +464,6 @@ export class AdvancedSearchFormsProdutsComponent {
   }
 
   cleanForm() {
-    console.log('ENTRA cleanForm');
     this.frm.reset();
     this.dataForm = this.frm.getRawValue();
     if (this.table) this.table.parameters = this.dataForm;
