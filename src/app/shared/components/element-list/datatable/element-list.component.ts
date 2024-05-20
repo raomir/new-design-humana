@@ -3,7 +3,7 @@ import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure
 import { HeaderCardComponent } from '../../header-card/header-card.component';
 import { TableGeneralComponent } from '../../table-general/table-general.component';
 import { Column, JsonParams } from '../../table-general/col/col';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ElementListModalComponent } from '../modal/element-list-modal.component';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
 import { RegistroData } from '../../buttons-general/actions';
@@ -53,16 +53,19 @@ export class ElementListComponent {
   public exportValues: Array<any> = [];
   public printData: PrintData | PrintDataInterface = new PrintData();
 
-  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
+  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp, private router: Router,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
     this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
+    // Obtener la ruta actual
+    const currentPath = this.router.url;
+    // Configurar el breadcrumb con la ruta actual
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
-      { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente
-    ])
+      { label: this.title, routerLink: [currentPath] },
+    ]);
 
   }
 

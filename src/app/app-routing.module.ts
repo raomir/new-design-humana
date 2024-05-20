@@ -502,8 +502,42 @@ const routes: Routes = [
                             import(
                                 './ssgt/parameter/infraestructure/adapter/primary/feature/processes-subprocesses/processes-subprocesses-index/processes-subprocesses-index.component'
                             ).then((m) => m.ProcessesSubprocessesIndexComponent),
+                    },
+                    {
+                        path: 'type-committee-activity',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Tipos De Actividad Comités',
+                            endpoint: 'tipoActividadComite',
+                            endpointExport: 'reportesSggt/reporteParametros1/tipoActividadComites/53',
+                            module: 'url2',
+                            permissions: {
+                                name: 'administration.tipos_actividad',
+                                only: 'administration.tipos_actividad.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'variable-indicator-measurement',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Variable Indicador Medición',
+                            endpoint: 'variableindicadormedicion',
+                            endpointExport: 'reportesSggt/reporteParametros1/Variable Indicador Medición/51',
+                            module: 'url2',
+                            permissions: {
+                                name: 'administration.variable_indicador_medicion',
+                                only: 'administration.variable_indicador_medicion.index'
+                            }
+                        }
                     }
-                ],
+                ]
             }
         ]
     },

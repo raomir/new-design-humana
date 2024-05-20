@@ -180,6 +180,16 @@ export class AppMenuComponent implements OnInit {
                         label: 'Tipos De Eventos',
                         icon: 'pi pi-fw pi-calendar',
                         routerLink: ['/main/administration/type-events'],
+                    },
+                    {
+                        label: 'Tipos De Actividad Comités',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-committee-activity'],
+                    },
+                    {
+                        label: 'Variable Indicador Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/variable-indicator-measurement'],
                     }
                 ],
             },
