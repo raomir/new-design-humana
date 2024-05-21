@@ -11,6 +11,7 @@ import { AutocompleteComponent } from '../../autocomplete/autocomplete.component
 import { AdvancedSearchFormsComponent } from '../../advanced-search-forms/advanced-search-forms.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ValidationMessageComponent } from '../../validation-message/validation-message.component';
+import { RequestList } from 'src/app/shared/core/domain/list.model';
 
 @Component({
   selector: 'app-element-list-modal',
@@ -37,6 +38,7 @@ export class ElementListModalComponent {
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
+  @Input() typeList: number = 0;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
@@ -147,11 +149,11 @@ export class ElementListModalComponent {
     this.listService.findById(id, this.endPoint).subscribe({
       next: resp => {
         this.frm.patchValue({
-          activo: resp.activo === 1,
-          favorito: resp.favorito === 1,
-          codigo: resp.codigo,
-          nombre: resp.nombre,
-          descripcion: resp.descripcion
+          activo: resp.data.active === 1,
+          favorito: resp.data.favorite === 1,
+          codigo: resp.data.code,
+          nombre: resp.data.name,
+          descripcion: resp.data.description
         })
         this.validationsLoadData(resp)
       },
@@ -193,8 +195,8 @@ export class ElementListModalComponent {
     this.listService.findById(idForm, this.endPointForm).subscribe({
       next: resp => {
         this.formTxt = {
-          id: resp.id,
-          valor_montar: resp.codigo + ' - ' + resp.nombre
+          id: resp.data.id,
+          valor_montar: resp.data.code + ' - ' + resp.data.name
         }
       }
     })
@@ -213,17 +215,18 @@ export class ElementListModalComponent {
 
   async save(): Promise<void> {
     this.frm.markAllAsTouched();
-    let data: any = {
-      codigo: this.frm.value.codigo,
-      nombre: this.frm.value.nombre,
-      descripcion: this.frm.value.descripcion,
-      favorito: this.frm.value.favorito ? 1 : 2,
-      activo: this.frm.value.activo ? 1 : 2
+    let data: RequestList = {
+      code: this.frm.value.codigo,
+      name: this.frm.value.nombre,
+      description: this.frm.value.descripcion,
+      favorite: this.frm.value.favorito ? 1 : 2,
+      active: this.frm.value.activo ? 1 : 2,
+      sst: 2,
+      typeListId: this.typeList
     }
     data = await this.validationsSave(data);
 
     if (this.id) {
-      data.id = this.id
       this.listService.update(data, this.endPoint, this.id).subscribe({
         next: resp => {
           this.helperService.showAlert('success', 'Registro actualizado exitosamente!');

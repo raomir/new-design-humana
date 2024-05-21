@@ -155,10 +155,10 @@ export class ApisServicesServiceImp implements ApisServiceInterface {
    * @param jsonParams Parámetros de la solicitud en formato JSON.
    * @returns Observable<any> que representa la respuesta de la solicitud.
    */
-  public getDataJsonParams(jsonParams: JsonParams): Observable<any> {
+  public getDataJsonParams(jsonParams: JsonParams, typeList: number = 0): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('json', JSON.stringify(jsonParams));
-    const url = `${this.urlBase}${this.endPoint}/${jsonParams.pageCurrent}?${queryParams.toString()}`;
+    const url = `${this.urlBase}${this.endPoint}/${typeList}`;
 
     return this.http.get<any>(url, { headers: this.headers });
   }

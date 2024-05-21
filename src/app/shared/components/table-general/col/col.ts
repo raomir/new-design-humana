@@ -81,3 +81,8 @@ export class DatatableSort implements DatatableSort {
   public sortField: string = 'id';
   public sortOrder: number = 1;
 }
+
+export interface BodyPage {
+  typeListId: number;
+  page: JsonParams
+}

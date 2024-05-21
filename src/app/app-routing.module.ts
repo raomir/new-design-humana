@@ -100,9 +100,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en el individuo',
-                            endpoint: 'controlindividuo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'controlindividuo/reporteControlindividuo',
                             module: 'url2',
+                            typeList: 3, 
                             permissions: {
                                 name: 'talentohumano.controles_individuo',
                                 only: 'talentohumano.controles_individuo.index'

@@ -53,12 +53,17 @@ export class ElementListComponent {
   public exportValues: Array<any> = [];
   public printData: PrintData | PrintDataInterface = new PrintData();
 
+  public typeList: number = 0;
+
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
     this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
+
+    this.typeList = this.activatedRoute.snapshot.data['typeList'];
+
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
       { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente
@@ -72,8 +77,8 @@ export class ElementListComponent {
 
   validationsComponent() {
     this.columnsTable = [
-      { title: 'Código', data: 'codigo', sort: 'codigo' },
-      { title: 'Nombre', data: 'nombre', sort: 'nombre' }
+      { title: 'Código', data: 'code', sort: 'code' },
+      { title: 'Nombre', data: 'name', sort: 'name' }
     ];
     switch (this.endPoint) {
       case 'objectoInpeccion':
@@ -110,13 +115,13 @@ export class ElementListComponent {
 
       default:
         this.columnsTable = this.columnsTable.concat([
-          { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
-          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
+          { title: 'Descripción', data: 'description', sort: 'description' },
+          { title: 'Favorito', data: 'favorite', sort: 'favorite', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
         ])
         break;
     }
     this.columnsTable = this.columnsTable.concat([
-      { title: 'Activo', data: 'activo', sort: 'activo', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
+      { title: 'Activo', data: 'active', sort: 'active', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
       { title: 'Acciones', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
     ])
     this.loading = false;
@@ -183,7 +188,7 @@ export class ElementListComponent {
         if (confirmed) {
           this.listService.delete(this.endPoint, id).subscribe(
             (resp: any) => {
-              this.helperService.showAlert('success', resp.mensaje);
+              this.helperService.showAlert('success', resp.message);
               this.table?.loadTable(0);
             }
           );
