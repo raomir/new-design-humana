@@ -461,9 +461,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles de Probabilidad',
-                            endpoint: 'nivelprobabilidad',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Niveles de Probabilidad/30',
                             module: 'url2',
+                            typeList: '30',
                             permissions: {
                                 name: 'talentohumano.niveles_probabilidad',
                                 only: 'talentohumano.niveles_probabilidad.index'
@@ -519,9 +520,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Tipos De Actividad Comités',
-                            endpoint: 'tipoActividadComite',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/tipoActividadComites/53',
                             module: 'url2',
+                            typeList: '53',
                             permissions: {
                                 name: 'administration.tipos_actividad',
                                 only: 'administration.tipos_actividad.index'
