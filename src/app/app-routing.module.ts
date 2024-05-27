@@ -220,9 +220,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Peores Consecuencias',
-                            endpoint: 'peorconsecuencia',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/peoresConsecuencias/32',
                             module: 'url2',
+                            typeList: 32,
                             permissions: {
                                 name: 'talentohumano.peores_consecuencias',
                                 only: 'talentohumano.peores_consecuencias.index'
@@ -305,9 +306,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Riesgo',
-                            endpoint: 'nivelriesgo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
                             module: 'url2',
+                            typeList: 50,
                             permissions: {
                                 name: 'talentohumano.niveles_riesgo',
                                 only: 'talentohumano.niveles_riesgo.index'
@@ -339,9 +341,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Occupation CIE88',
-                            endpoint: 'ocupacioncie88',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
                             module: 'url2',
+                            typeList: 33,
                             permissions: {
                                 name: 'talentohumano.ocupacion_cie88',
                                 only: 'talentohumano.ocupacion_cie88.index'
@@ -356,9 +359,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en el medio',
-                            endpoint: 'controlmedio',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en el medio/4',
                             module: 'url2',
+                            typeList: 4,
                             permissions: {
                                 name: 'talentohumano.controles_medio',
                                 only: 'talentohumano.controles_medio.index'
@@ -373,9 +377,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Eventos de investigación',
-                            endpoint: 'eventosinvestigacion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Eventos de Investigacion/16',
                             module: 'url2',
+                            typeList: 16,
                             permissions: {
                                 name: 'talentohumano.eventos_investigacion',
                                 only: 'talentohumano.eventos_investigacion.index'
@@ -390,9 +395,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en la fuente',
-                            endpoint: 'controlfuente',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en la Fuente/2',
                             module: 'url2',
+                            typeList: 2,
                             permissions: {
                                 name: 'talentohumano.controles_fuente',
                                 only: 'talentohumano.controles_fuente.index'
@@ -407,9 +413,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Tipos de lesión',
-                            endpoint: 'tipolesion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Tipos de lesión/10',
                             module: 'url2',
+                            typeList: 10,
                             permissions: {
                                 name: 'talentohumano.tipos_lesion',
                                 only: 'talentohumano.tipos_lesion.index'
