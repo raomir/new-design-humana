@@ -100,9 +100,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en el individuo',
-                            endpoint: 'controlindividuo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'controlindividuo/reporteControlindividuo',
                             module: 'url2',
+                            typeList: 3, 
                             permissions: {
                                 name: 'talentohumano.controles_individuo',
                                 only: 'talentohumano.controles_individuo.index'
@@ -528,9 +529,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Variable Indicador Medición',
-                            endpoint: 'variableindicadormedicion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Variable Indicador Medición/51',
                             module: 'url2',
+                            typeList: 51,
                             permissions: {
                                 name: 'administration.variable_indicador_medicion',
                                 only: 'administration.variable_indicador_medicion.index'

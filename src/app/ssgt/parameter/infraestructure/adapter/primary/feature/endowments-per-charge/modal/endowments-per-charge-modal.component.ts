@@ -93,7 +93,7 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
   loadLists() {
     this.listService.findAll('unidadtiempo').subscribe(res => {
       this.listTimeUnits = res.map((e) => {
-        return { ...e, nombre: `${e.codigo} - ${e.nombre}` };
+        return { ...e, nombre: `${e.data.code} - ${e.data.name}` };
       });
     });
   }
@@ -104,7 +104,7 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
         this.frm.patchValue({
           cantidad: res.cantidad,
           frecuencia: res.frecuencia,
-          unidadTiempo: res.unidadTiempo.id
+          unidadTiempo: res.unidadTiempo.data.id
         })
         this.productSelected(res.producto)
       })

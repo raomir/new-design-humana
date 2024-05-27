@@ -25,6 +25,8 @@ export interface Column {
   classNames?: string;
   classStatus?: string;
   iconDatatable?: boolean;
+  searchable?: boolean;
+  orderable?: boolean;
 }
 
 export interface DatatableSort {
@@ -80,4 +82,9 @@ export interface JsonParams {
 export class DatatableSort implements DatatableSort {
   public sortField: string = 'id';
   public sortOrder: number = 1;
+}
+
+export interface BodyPage {
+  typeListId: number;
+  page: JsonParams
 }

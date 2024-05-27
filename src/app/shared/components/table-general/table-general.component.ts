@@ -1,6 +1,6 @@
 import { Component, EventEmitter,  Input,  OnDestroy,  OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Action, Column, DatatableSort, ExtendedPostData, JsonParams, PostData } from './col/col';
+import { Action, BodyPage, Column, DatatableSort, ExtendedPostData, JsonParams, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TableModule } from 'primeng/table';
@@ -40,6 +40,9 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
   @Input() public usePostRequest: boolean = false; // Atributo: Usar petición POST
   @Input() public erp: boolean = false; // Attribute: ERP
   @Input() public sendDocument: boolean = false; // Attribute: Send Document
+
+  @Input() public typeList: number = 0;
+
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
   @Output() public runActions = new EventEmitter<RegistroData>(); // Método: Emite una acción
@@ -291,8 +294,8 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
             return {
               data: col.data,
               name: '',
-              searchable: true,
-              orderable: true,
+              searchable: col.searchable == undefined ? true : col.searchable,
+              orderable: col.orderable == undefined || col.sort == "" || col.sort == null || col.sort == undefined ? false : col.orderable,
               search: {
                 value: '',
                 regex: false,
@@ -328,8 +331,8 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
           return {
             data: col.data,
             name: '',
-            searchable: true,
-            orderable: true,
+            searchable: col.searchable == undefined ? true : col.searchable,
+            orderable: col.orderable == undefined || col.sort == "" || col.sort == null || col.sort == undefined ? false : col.orderable,
             search: {
               value: '',
               regex: false,
@@ -348,12 +351,16 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
         params: this.parameters
       };
 
-      this.services.getDataJsonParams(jsonParams).pipe(takeUntil(this.destroy$))
+      const data: BodyPage = {
+        typeListId: this.typeList,
+        page: jsonParams
+      }
+      this.services.postData(data)
         .subscribe((res: any) => {
-          this.setData(res?.content);
-          this.numberPage = res.totalElements;
-          this.size = res.content.length;
-          this.totalPages = res.totalPages;
+          this.setData(res?.data?.content);
+          this.numberPage = res?.data?.totalElements;
+          this.size = res?.data?.content?.length;
+          this.totalPages = res?.data?.totalPages;
           this.loading = false;
           jsonParams.pages = this.totalPages;
           this.exportDataInput.emit(jsonParams);

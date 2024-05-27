@@ -52,6 +52,7 @@ export class ElementListComponent {
   public values: ExportData | ExportDataInterface = new ExportData(true, {});
   public exportValues: Array<any> = [];
   public printData: PrintData | PrintDataInterface = new PrintData();
+  public typeList: number = 0;
 
   constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp, private router: Router,
     private listService: ListService) {
@@ -62,6 +63,9 @@ export class ElementListComponent {
     // Obtener la ruta actual
     const currentPath = this.router.url;
     // Configurar el breadcrumb con la ruta actual
+
+    this.typeList = this.activatedRoute.snapshot.data['typeList'];
+
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
       { label: this.title, routerLink: [currentPath] },
@@ -75,8 +79,8 @@ export class ElementListComponent {
 
   validationsComponent() {
     this.columnsTable = [
-      { title: 'Código', data: 'codigo', sort: 'codigo' },
-      { title: 'Nombre', data: 'nombre', sort: 'nombre' }
+      { title: 'Código', data: 'code', sort: 'code' },
+      { title: 'Nombre', data: 'name', sort: 'name' }
     ];
     switch (this.endPoint) {
       case 'objectoInpeccion':
@@ -113,14 +117,14 @@ export class ElementListComponent {
 
       default:
         this.columnsTable = this.columnsTable.concat([
-          { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
-          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
+          { title: 'Descripción', data: 'description', sort: 'description' },
+          { title: 'Favorito', orderable: false, searchable: false, data: 'favorite', sort: 'favorite', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
         ])
         break;
     }
     this.columnsTable = this.columnsTable.concat([
-      { title: 'Activo', data: 'activo', sort: 'activo', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
-      { title: 'Acciones', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
+      { title: 'Activo', data: 'active', orderable: false, searchable: false, classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
+      { title: 'Acciones', data: 'id', orderable: false, searchable: false, classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
     ])
     this.loading = false;
   }
@@ -186,7 +190,7 @@ export class ElementListComponent {
         if (confirmed) {
           this.listService.delete(this.endPoint, id).subscribe(
             (resp: any) => {
-              this.helperService.showAlert('success', resp.mensaje);
+              this.helperService.showAlert('success', resp.message);
               this.table?.loadTable(0);
             }
           );
