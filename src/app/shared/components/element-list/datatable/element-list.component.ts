@@ -80,21 +80,21 @@ export class ElementListComponent {
       { title: 'Código', data: 'code', sort: 'code' },
       { title: 'Nombre', data: 'name', sort: 'name' }
     ];
-    switch (this.endPoint) {
-      case 'objectoInpeccion':
+    switch (this.typeList) {
+      case null://'objectoInpeccion':
         this.columnsTable = this.columnsTable.concat([
           { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
           { title: 'Formulario específico', data: 'metadatos', sort: 'metadatos.formularioNombre', render: (data: any) => data?.formularioNombre },
         ])
         break;
 
-      case 'niveldeficiencia':
+      case 34: // nivelDeficiencia
         this.columnsTable = this.columnsTable.concat([
           { title: 'Valor', data: 'metadatos', sort: 'metadatos.valor', render: (data: any) => data?.valor },
           { title: 'Significado', data: 'descripcion', sort: 'descripcion' },
         ])
         break;
-      case 'nivelriesgo':
+      case 1: //'nivelriesgo':
         this.columnsTable = this.columnsTable = [
           { title: 'Código', data: 'codigo', sort: 'codigo' },
           { title: 'Nivel del riesgo', data: 'nombre', sort: 'nombre' },
@@ -103,7 +103,7 @@ export class ElementListComponent {
           { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
         ]
         break;
-      case 'nivelprobabilidad':
+      case 11111: //'nivelprobabilidad':
         this.columnsTable = this.columnsTable = [
           { title: 'Código', data: 'codigo', sort: 'codigo' },
           { title: 'Nombre', data: 'nombre', sort: 'nombre' },

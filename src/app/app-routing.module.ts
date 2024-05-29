@@ -186,8 +186,9 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles de deficiencia',
-                            endpoint: 'niveldeficiencia',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteNiveles/nivelesDeficiencia/34',
+                            typeList: 34, 
                             module: 'url2',
                             permissions: {
                                 name: 'talentohumano.niveles_deficiencia',

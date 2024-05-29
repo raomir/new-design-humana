@@ -121,7 +121,7 @@ export class ElementListModalComponent {
         this.frm.addControl('formulario', new FormControl(null, Validators.required))
         break;
       case 'nivelexposicion':
-      case 'niveldeficiencia':
+      case 'v2/nivelDeficiencia':
       case 'nivelconsecuencia':
         this.labelDescription = 'Significado';
         this.frm.addControl('valor', new FormControl(null, Validators.required))
@@ -174,7 +174,7 @@ export class ElementListModalComponent {
         this.loadFormField(resp.metadatos.formulario)
         break;
 
-      case 'niveldeficiencia':
+      case 'v2/nivelDeficiencia':
       case 'nivelexposicion':
       case 'nivelconsecuencia':
         this.frm.get('valor')?.setValue(resp.metadatos.valor);
@@ -261,7 +261,7 @@ export class ElementListModalComponent {
       case 'objectoInpeccion':
         data.metadatos = { formulario: this.frm.controls['formulario'].value }
         break;
-      case 'niveldeficiencia':
+      case 'v2/nivelDeficiencia':
       case 'nivelexposicion':
       case 'nivelconsecuencia':
         data.metadatos = { valor: this.frm.controls['valor'].value }
