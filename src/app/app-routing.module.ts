@@ -83,7 +83,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Monitoreo enfermedad',
-                            endpoint: 'monitoreoenfermedad',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 45,
                             endpointExport: 'reportesSggt/reporteParametros1/monitoreoEnfermedad/45',
                             module: 'url2',
                             permissions: {
@@ -118,7 +119,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Efectos posibles',
-                            endpoint: 'efectoposible',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 5,
                             endpointExport: 'reportesSggt/reporteParametros1/efectosPosibles/5',
                             module: 'url2',
                             permissions: {
@@ -152,7 +154,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Parte afectada',
-                            endpoint: 'parteafectada',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 8,
                             endpointExport: 'reportesSggt/reporteParametros1/Partes Afectadas/8',
                             module: 'url2',
                             permissions: {
@@ -169,7 +172,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Mecanismos',
-                            endpoint: 'mecanismo',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 11,
                             endpointExport: 'reportesSggt/reporteParametros1/Mecanismos/11',
                             module: 'url2',
                             permissions: {
@@ -323,7 +327,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Jornada de accidente',
-                            endpoint: 'jornadaaccidente',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 7,
                             endpointExport: 'reportesSggt/reporteParametros1/jornadasAccidentes/7',
                             module: 'url2',
                             permissions: {
