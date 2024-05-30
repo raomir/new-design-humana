@@ -100,12 +100,14 @@ export class ElementListComponent {
         this.columnsTable = this.columnsTable.concat([
           { title: 'Valor', data: 'metadata', sort: 'metadata.valor', render: (data: any) => data?.valor },
           { title: 'Significado', data: 'description', sort: 'description' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
         ])
         break;
       case 'nivelconsecuencia':
         this.columnsTable = this.columnsTable.concat([
           { title: 'Valor', data: 'metadata', sort: 'metadata.valor', render: (data: any) => data?.valor },
           { title: 'Significado', data: 'description', sort: 'description' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
         ])
         break;
       case 'nivelriesgo':
