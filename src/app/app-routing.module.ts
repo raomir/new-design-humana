@@ -200,22 +200,11 @@ const routes: Routes = [
                         }
                     },
                     {
-                        path: 'injury-agent',
+                        path: 'agent-injury',
                         loadComponent: () =>
                             import(
-                                './shared/components/element-list/datatable/element-list.component'
-                            ).then((m) => m.ElementListComponent),
-                        data: {
-                            title: 'Agentes De Lesión',
-                            endpoint: 'v2/listElementsst',
-                            endpointExport: 'agentelesion/agenteLesion',
-                            typeList: 10,
-                            module: 'url2',
-                            permissions: {
-                                name: 'talentohumano.agentes_lesion',
-                                only: 'talentohumano.agentes_lesion.index'
-                            }
-                        }
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/agent-injury/agent-injury-index/agent-injury-index.component'
+                            ).then((m) => m.AgentInjuryIndexComponent),
                     },
                     {
                         path: 'worst-consequences',
