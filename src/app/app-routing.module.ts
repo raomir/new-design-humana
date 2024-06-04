@@ -479,7 +479,7 @@ const routes: Routes = [
                             ).then((m) => m.ActivityIndexComponent),
                         data: {
                             title: 'Actividad',
-                            endpoint: 'actividad',
+                            endpoint: 'activity',
                             endpointExport: 'actividad/reporte',
                             module: 'url2',
                             permissions: {

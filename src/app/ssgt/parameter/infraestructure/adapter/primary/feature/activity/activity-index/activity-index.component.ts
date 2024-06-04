@@ -104,8 +104,8 @@ export class ActivityIndexComponent implements OnInit {
     this.activityService.getLists().subscribe(
       (res: any) => {
         if(res != null && res != undefined){
-          if (res.length > 0) {
-            this.dataList = res;
+          if (res.data.length > 0) {
+            this.dataList = res.data;
             // Convertir datos del backend a TreeNodeGeneral
             this.data = this.convertToTreeNodeGeneral(this.dataList);
             this.printData.location = "archivo.pdf";

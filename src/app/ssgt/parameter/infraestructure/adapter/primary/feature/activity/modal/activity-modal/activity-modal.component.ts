@@ -95,27 +95,27 @@ export class ActivityModalComponent implements OnInit {
     this.activityService.findID(id).subscribe(
       (res: ActivityModel | any) => {
         this.frm.patchValue({
-          activoActividad: res.activoActividad === 1,
-          codigo: res.codigo,
-          nombre: res.nombre,
-          izquierda: res.izquierda,
-          derecha: res.derecha,
-          nivel: res.nivel,
-          id: res.id
+          activoActividad: res.data.activoActividad === 1,
+          codigo: res.data.codigo,
+          nombre: res.data.nombre,
+          izquierda: res.data.izquierda,
+          derecha: res.data.derecha,
+          nivel: res.data.nivel,
+          id: res.data.id
         })
-        if (res.actividadId != null) {
-          this.frm.controls['actividadId'].setValue(res.actividadId.id);
+        if (res.data.actividadId != null) {
+          this.frm.controls['actividadId'].setValue(res.data.actividadId.id);
         }
         if(this.fatherId === null || this.fatherId === undefined){
-          this.fatherId = res.llave?.id 
+          this.fatherId = res.data.llave?.id 
         }
-        if (res.procesoId != null) {
+        if (res.data.procesoId != null) {
           const dataProceso =
           {
-            'id': res.procesoId.id,
-            'valorMontar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valor_montar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valorMontarPadre': `${res.procesoId.padre.codigo} ${res.procesoId.padre.nombre}`
+            'id': res.data.procesoId.id,
+            'valorMontar': `${res.data.procesoId.codigo} ${res.data.procesoId.nombre}`,
+            'valor_montar': `${res.data.procesoId.codigo} ${res.data.procesoId.nombre}`,
+            'valorMontarPadre': `${res.data.procesoId.padre.codigo} ${res.data.procesoId.padre.nombre}`
           };
           this.subprocessResponse(dataProceso);
           this.isLoading = false;;

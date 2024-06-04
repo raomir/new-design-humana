@@ -11,7 +11,7 @@ import { ActivityModel } from '../../../../../parameter/core/domain/activity/act
 })
 export class ActivityRepositoryService implements ActivityRepositoryPort {
 
-  private apiUrl: string = environment.url + 'actividad/';
+  private apiUrl: string = environment.url + 'v2/activity/';
 
   constructor(
       private http: HttpClient
