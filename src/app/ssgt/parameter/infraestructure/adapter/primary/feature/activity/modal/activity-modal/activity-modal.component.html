@@ -3,48 +3,48 @@
         <div class="grid m-0">
             <!-- Estado -->
             <div class="grid col-12 m-0 mt-2 p-0">
-                <label for="activoActividad" class="form-label md:col-3">Activo</label>
+                <label for="active" class="form-label md:col-3">Activo</label>
                 <div class="md:col-9">
-                    <p-inputSwitch formControlName="activoActividad" id="activoActividad" name="activoActividad" class="w-full"></p-inputSwitch>
+                    <p-inputSwitch formControlName="active" id="active" name="active" class="w-full"></p-inputSwitch>
                 </div>
             </div>
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
-                <label for="codigo" class="form-label md:col-3">Código</label>
+                <label for="code" class="form-label md:col-3">Código</label>
                 <div class="p-inputgroup md:col-9 field-container"> 
-                    <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
-                    <app-validation-message class="validation-message" [control]="frm.get('codigo')"></app-validation-message>
+                    <input pInputText placeholder="Código" maxlength="10" formControlName="code" id="code" name="code" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('code')"></app-validation-message>
                 </div>
             </div>
             <!-- END Código -->
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
-                <label for="nombre" class="form-label md:col-3">Nombre</label>
+                <label for="name" class="form-label md:col-3">Nombre</label>
                 <div class="p-inputgroup md:col-9 field-container">
-                    <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
-                        id="nombre" type="text" />
-                    <app-validation-message class="validation-message" [control]="frm.get('nombre')"></app-validation-message>
+                    <input pInputText placeholder="Nombre" maxlength="50" name="name" formControlName="name"
+                        id="name" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('name')"></app-validation-message>
                 </div>
             </div>
             <!-- END nombre -->
             <!-- nombre -->
             <div class="grid col-12 m-0 p-0">
-                <label for="proceso" class="form-label md:col-3">Proceso</label>
+                <label for="process" class="form-label md:col-3">Proceso</label>
                 <div class="p-inputgroup md:col-9 field-container">
-                    <input pInputText placeholder="Proceso" maxlength="50" name="proceso" formControlName="proceso"
-                        id="proceso" type="text" />
-                    <app-validation-message class="validation-message" [control]="frm.get('proceso')"></app-validation-message>
+                    <input pInputText placeholder="Proceso" maxlength="50" name="process" formControlName="process"
+                        id="process" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('process')"></app-validation-message>
                 </div>
             </div>
             <!-- END nombre -->
             <!-- Subproceso -->
             <div class="grid col-12 m-0 p-0">
-                <label for="subproceso" class="form-label md:col-3">Subproceso</label>
+                <label for="subProcess" class="form-label md:col-3">Subproceso</label>
                 <div class="p-inputgroup md:col-9 field-container">
                     <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="'Subproceso'"
                         (itemSelected)="subprocessResponse($event)" [endPoint]="'procesos/autocomplete'" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
                         [inputModel]="formTxt" appendTo="body" />
-                    <app-validation-message class="validation-message" [control]="frm.get('subProceso')"></app-validation-message>
+                    <app-validation-message class="validation-message" [control]="frm.get('subProcess')"></app-validation-message>
                 </div>
             </div>
             <!-- END Subproceso -->
