@@ -552,7 +552,25 @@ const routes: Routes = [
                                 only: 'administration.variable_indicador_medicion.index'
                             }
                         }
-                    }
+                    },
+                    {
+                        path: 'measurement-indicator-types',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/tree/tree-list.component'
+                            ).then((m) => m.TreeListComponent),
+                        data: {
+                            title: 'Tipos Indicadores Medición',
+                            endpoint: 'v2/listElementsst/tree/55',
+                            endpointExport: 'tipoindicadormedicion/impresion',
+                            module: 'url2',
+                            typeList: 55,
+                            permissions: {
+                                name: 'talentohumano.actividad',
+                                only: 'talentohumano.actividad.index'
+                            }
+                        }
+                    },
                 ]
             }
         ]

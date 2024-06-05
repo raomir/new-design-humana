@@ -190,6 +190,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Variable Indicador Medición',
                         icon: 'pi pi-fw pi-chart-line',
                         routerLink: ['/main/administration/variable-indicator-measurement'],
+                    },
+                    {
+                        label: 'Tipos Indicadores Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/measurement-indicator-types'],
                     }
                 ],
             },

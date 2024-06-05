@@ -19,6 +19,10 @@ export class ListRepositoryService implements ListRepositoryPort {
         return this.http.get<List[]>(this.apiUrl + endPoint);
     }
 
+    findAllTree(endPoint: string): Observable<List[]> {
+        return this.http.get<List[]>(this.apiUrl + endPoint);
+    }
+
     findById(id: Number, endPoint: string): Observable<List> {
         return this.http.get<List>(this.apiUrl + `${endPoint}/${id}`);
     }
