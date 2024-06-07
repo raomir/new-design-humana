@@ -56,6 +56,7 @@ export class ActivityIndexComponent implements OnInit {
 
   public endPointExport: string;
   public module: string;
+  public loading: boolean = true;
 
 
   constructor(
@@ -156,7 +157,7 @@ export class ActivityIndexComponent implements OnInit {
 
     // Mapear nodos y ajustar los botones ocultos
     mapNodes(dataList);
-
+    this.loading = false;
     return dataList;
   }
 
@@ -211,6 +212,7 @@ export class ActivityIndexComponent implements OnInit {
           if (confirmed) {
             this.activityService.delete(itemDataId).subscribe(
               (resp: any) => {
+                this.loading = true;
                 this.helperService.showAlert('success', resp.message);
                 this.getData();
               }

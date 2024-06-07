@@ -1,0 +1,110 @@
+<app-modal-general [displayModal]="displayModal" [title]="title" [isLoading]="isLoading" (closeModal)="closeModal($event)" [widthVwModal]="'60vw'">
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+            <div class="col-12 md:col-12 m-0 mt-2 p-0">
+                <label for="activo" class="form-label md:col-3">Activo</label>
+                <div class="md:col-9">
+                    <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"
+                        [(ngModel)]="frm.value.activo"></p-inputSwitch>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <label for="padre" class="form-label">Tipo</label>
+                <div class="p-inputgroup field-container">
+                    <input pInputText placeholder="Tipo" maxlength="50" name="padre" formControlName="padre"
+                        id="padre" type="text" readonly />
+                    <app-validation-message class="validation-message" [control]="frm.get('padre')"></app-validation-message>
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <label for="codigo" class="form-label">Código</label>
+                <div class="p-inputgroup field-container">
+                    <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('codigo')"></app-validation-message>
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <label for="nombre" class="form-label">Subtipo</label>
+                <div class="p-inputgroup field-container">
+                    <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
+                        id="nombre" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('nombre')"></app-validation-message>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <div class="p-inputgroup field-container">
+                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
+                        formControlName="descripcion" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('descripcion')"></app-validation-message>
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <label for="proposito" class="form-label">Propósito</label>
+                <div class="p-inputgroup field-container">
+                    <textarea style="min-height: 60px;" id="proposito" placeholder="Propósito" name="proposito"
+                        formControlName="proposito" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('proposito')"></app-validation-message>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-12" *ngIf="!hideFavorite">
+                <label for="favorito" class="form-label md:col-3">Favorito</label>
+                <div class="md:col-9 field-container">
+                    <p-inputSwitch formControlName="favorito" id="favorito" name="favorito" class="w-full"
+                        [(ngModel)]="frm.value.favorito"></p-inputSwitch>
+                    <app-validation-message class="validation-message" [control]="frm.get('favorito')"></app-validation-message>
+                </div>
+            </div>
+            <p-divider class="p-divider p-component p-divider-solid p-divider-left col-12 md:col-12 m-0 p-0" styleClass="divider-general" type="solid" appendTo="body"></p-divider>
+            <div class="col-12 md:col-12">
+                <label for="medicion" class="form-label">Medición</label>
+                <div class="p-inputgroup field-container">
+                    <textarea style="min-height: 60px;" id="medicion" placeholder="Medición" name="medicion"
+                        formControlName="medicion" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('medicion')"></app-validation-message>
+                </div>
+            </div>
+            <div class="col-12 md:col-10">
+                <label for="" class="form-label">Variables</label>
+                <div class="p-inputgroup field-container pt-2">
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" type="button"
+                        *ngFor="let item of measurementVariablesList" (click)="addVariable(item)">{{ item.code }}</button>
+                </div>
+            </div>
+            <div class="col-12 md:col-10">
+                <label for="" class="form-label">Operadores</label>
+                <div class="p-inputgroup field-container pt-2">
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" type="button"
+                        (click)="addOperador('+')">+</button>
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" type="button"
+                        (click)="addOperador('-')">-</button>
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" type="button"
+                        (click)="addOperador('*')">*</button>
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" style="cursor: pointer;" type="button"
+                        (click)="addOperador('/')">/</button>
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-1" style="cursor: pointer;" type="button"
+                        (click)="addOperador('(')">(</button>
+                    <button class="btn btn-sm btn-outline-secondary col-2 mr-5" style="cursor: pointer;" type="button"
+                        (click)="addOperador(')')">)</button>
+                </div>
+            </div>
+            <div class="col-12 md:col-2 field-container" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="p-inputgroup">
+                    <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="measurementUnitsList" optionLabel="nombre" optionValue="id" class="form-control col-sm-5 ml-3" formControlName="unidadmedida" appendTo="body">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-12 md:col-12">
+                <label for="interpretacion" class="form-label">Interpretación</label>
+                <div class="p-inputgroup field-container">
+                    <textarea style="min-height: 60px;" id="interpretacion" placeholder="Interpretación" name="interpretacion"
+                        formControlName="interpretacion" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('interpretacion')"></app-validation-message>
+                </div>
+            </div>
+        </div>
+    </form>
+</app-modal-general>

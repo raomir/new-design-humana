@@ -12,10 +12,11 @@ import { AdvancedSearchFormsComponent } from '../../advanced-search-forms/advanc
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ValidationMessageComponent } from '../../validation-message/validation-message.component';
 import { RequestList } from 'src/app/shared/core/domain/list.model';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
-  selector: 'app-element-list-modal',
-  templateUrl: './element-list-modal.component.html',
+  selector: 'app-element-list-tree-metadata-modal',
+  templateUrl: './element-list-tree-metadata-modal.component.html',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,10 +29,11 @@ import { RequestList } from 'src/app/shared/core/domain/list.model';
     DropdownModule,
     AutocompleteComponent,
     AdvancedSearchFormsComponent,
+    DividerModule,
     ValidationMessageComponent
   ]
 })
-export class ElementListModalComponent {
+export class ElementListTreeMetadataModalComponent {
 
   @Input() listName: string = '';
   @Input() id: Number | null = null;
@@ -39,7 +41,6 @@ export class ElementListModalComponent {
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
   @Input() typeList: number = 0;
-  @Input() hideFavorite: boolean = false;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
@@ -49,6 +50,7 @@ export class ElementListModalComponent {
 
   public frm!: FormGroup;
 
+  public hideFavorite: boolean = false;
   public labelDescription: string = 'Descripción';
 
   public codePatterns = { '0': { pattern: new RegExp('[a-zA-Z0-9-]') } }
@@ -62,6 +64,17 @@ export class ElementListModalComponent {
   public endPointAutocompleteForms: string = 'buscadores/formularios/busqueda-por-input';
   public formTxt: any;
   public displayModalAdvancedForms: boolean = false;
+  public measurementUnitsList: Array<any> = [
+    {
+      id: 1,
+      nombre: "Porcentaje"
+    },
+    {
+      id: 2,
+      nombre: "Valor absoluto"
+    }
+  ];
+  public measurementVariablesList: Array<any> = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,8 +90,19 @@ export class ElementListModalComponent {
       this.title = 'Editar: ' + this.listName;
       this.loadData(this.id);
     } else {
+      this.isLoading = false;
       this.title = 'Nuevo: ' + this.listName;
     }
+        this.listService.findAllByTypeListId(this.endPoint, 51).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.measurementVariablesList = resp.data;
+        this.isLoading = false;
+      },
+      error: error => {
+        this.modalResponse.emit(false)
+      }
+    })
   }
 
   loadForm() {
@@ -101,48 +125,27 @@ export class ElementListModalComponent {
         Validators.required
       ]],
       favorito: [false],
+      proposito: [null, [
+        Validators.maxLength(150),
+        Validators.minLength(8),
+        this.helperService.validateDescription.bind(this.helperService),
+        Validators.required
+      ]],
+      medicion: new FormControl("", Validators.required),
+      unidadmedida: new FormControl(1),
+      interpretacion: new FormControl(""),
+      padre: new FormControl(null, Validators.required)
     })
-    this.validationsComponent();
   }
 
-
-  validationsComponent() {
-    switch (this.endPoint) {
-      case 'agentelesion':
-        this.isLoading = true;
-        this.listService.getHazardClassList().subscribe(resp => {
-          this.tipoPeligro = resp;
-          this.isLoading = false;
-        })
-        this.frm.addControl('tipoPeligro', new FormControl(null, Validators.required))
-        break;
-      case 'objectoInpeccion':
-        this.hideFavorite = true;
-        this.frm.addControl('formulario', new FormControl(null, Validators.required))
-        break;
-      case 'nivelexposicion':
-      case 'niveldeficiencia':
-      case 'nivelconsecuencia':
-        this.labelDescription = 'Significado';
-        this.frm.addControl('valor', new FormControl(null, Validators.required))
-        break;
-      case 'nivelriesgo':
-      case 'nivelprobabilidad':
-        this.labelDescription = 'Significado';
-        this.frm.addControl('maximo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
-        this.frm.addControl('minimo', new FormControl(null, [Validators.required, Validators.pattern('[0-9]+')]))
-        break;
-      default:
-        break;
-    }
-    if (!this.id) {
-      this.isLoading = false;
-    }
+  public addOperador(operador: any) {
+    this.frm.controls['medicion'].setValue(`${this.frm.value.medicion} ${operador}`);
+    this.frm.controls['interpretacion'].setValue(`${this.frm.value.interpretacion} ${operador}`);
   }
 
-  validateMax() {
-    let valorMax = this.frm.controls['maximo'].value;
-    this.frm.controls['minimo'].setValidators(Validators.max(valorMax));
+  public addVariable(variable: any) {
+    this.frm.controls['medicion'].setValue(`${this.frm.value.medicion} {${variable.code}}`);
+    this.frm.controls['interpretacion'].setValue(`${this.frm.value.interpretacion} ${variable.name}`);
   }
 
   loadData(id: Number) {
@@ -155,49 +158,10 @@ export class ElementListModalComponent {
           nombre: resp.data.name,
           descripcion: resp.data.description
         })
-        this.validationsLoadData(resp)
+        this.isLoading = false;
       },
       error: error => {
         this.modalResponse.emit(false)
-      }
-    })
-  }
-
-  validationsLoadData(resp: any) {
-    switch (this.endPoint) {
-      case 'agentelesion':
-        this.frm.get('tipoPeligro')?.setValue(resp.listaPeligro);
-        break;
-
-      case 'objectoInpeccion':
-        this.frm.get('formulario')?.setValue(resp.metadatos.formulario);
-        this.loadFormField(resp.metadatos.formulario)
-        break;
-
-      case 'niveldeficiencia':
-      case 'nivelexposicion':
-      case 'nivelconsecuencia':
-        this.frm.get('valor')?.setValue(resp.metadatos.valor);
-        break;
-      case 'nivelriesgo':
-      case 'nivelprobabilidad':
-        this.frm.get('maximo')?.setValue(resp.metadatos.maximo);
-        this.frm.get('minimo')?.setValue(resp.metadatos.minimo);
-        break;
-
-      default:
-        break;
-    }
-    this.isLoading = false;
-  }
-
-  loadFormField(idForm: Number) {
-    this.listService.findById(idForm, this.endPointForm).subscribe({
-      next: resp => {
-        this.formTxt = {
-          id: resp.data.id,
-          valor_montar: resp.data.code + ' - ' + resp.data.name
-        }
       }
     })
   }

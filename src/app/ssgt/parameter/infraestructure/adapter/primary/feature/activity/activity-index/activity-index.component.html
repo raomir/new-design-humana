@@ -11,7 +11,8 @@
         (onAction)="onAction($event)" 
         (valueSearch)="valueSearch($event)"
         (exportAction)="export($event)"
-        [buttonsDatatable]="buttonsDatatable">
+        [buttonsDatatable]="buttonsDatatable"
+        [loading]="loading">
     </app-tree-table-general>
     <activity-modal
         *ngIf="displayModal"

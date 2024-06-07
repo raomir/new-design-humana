@@ -12,6 +12,8 @@ import { ReportPreviewerComponent } from '../../../components/report-previewer/r
 import { JsonParams } from '../../../components/table-general/col/col';
 import { ExporterComponent } from '../../../components/exporter/exporter.component';
 import { ListService } from '../../../core/application/list.service';
+import { ElementListModalComponent } from '../modal/element-list-modal.component';
+import { ElementListTreeMetadataModalComponent } from '../modal-metadata-tree/element-list-tree-metadata-modal.component';
 
 @Component({
   selector: 'app-tree-list',
@@ -20,8 +22,10 @@ import { ListService } from '../../../core/application/list.service';
     CommonModule,
     TreeTableGeneralComponent,
     HeaderCardComponent,
+    ElementListModalComponent,
     ExporterComponent,
-    ReportPreviewerComponent
+    ReportPreviewerComponent,
+    ElementListTreeMetadataModalComponent
   ],
   templateUrl: './tree-list.component.html'
 })
@@ -36,7 +40,8 @@ export class TreeListComponent implements OnInit {
   public buttonsGenerals: any[] = ["btn_print","btn_new"];
   public buttonsDatatable = ["btn_nuevo", "btn_editar", "btn_eliminar"];
   public displayModal: boolean = false;
-  public idEdit?: Number;
+  public displayTreeModal: boolean = false;
+  public idEdit?: Number | any;
   public title: string = '';
   public endPoint: string;
   public level: number = 1;
@@ -54,6 +59,8 @@ export class TreeListComponent implements OnInit {
 
   public endPointExport: string;
   public module: string;
+  public loading: boolean = true;
+  public typeList: number = 0;
 
 
   constructor(
@@ -79,6 +86,7 @@ export class TreeListComponent implements OnInit {
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
     this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
+    this.typeList = this.activatedRoute.snapshot.data['typeList'];
   }
 
   ngOnInit() {
@@ -159,7 +167,7 @@ export class TreeListComponent implements OnInit {
 
     // Mapear nodos y ajustar los botones ocultos
     mapNodes(dataList);
-
+    this.loading = false;
     return dataList;
   }
 
@@ -188,17 +196,11 @@ export class TreeListComponent implements OnInit {
   onAction(event: any) {
     switch (event.action) {
       case 'btn_nuevo':
-        this.displayModal = true;
- 
-        this.level = event.data.level + 1;
+        this.displayTreeModal = true;
         this.fatherId = event.data.id;
-        if (this.level == 1) {
-          this.fatherName =  event.data.name;
-        }else{ 
-          this.fatherName =  event.data.process ? event.data.process.nombre : '';
-          this.sonName = event.data.name;
-        }
+        this.fatherName =  event.data.name;
         this.action = 'btn_nuevo';
+        console.log(event, this.idEdit);
         break;
       case 'btn_editar':
         this.displayModal = true;
@@ -211,12 +213,13 @@ export class TreeListComponent implements OnInit {
         this.helperService.showConfirmationDelete()
         .then((confirmed: boolean) => {
           if (confirmed) {
-            /* this.listService.delete(itemDataId).subscribe(
+            this.listService.delete('v2/listElementsst', itemDataId).subscribe(
               (resp: any) => {
                 this.helperService.showAlert('success', resp.message);
+                this.loading = true;
                 this.getData();
               }
-            ); */
+            );
           }
         })
         .catch((error: any) => {
@@ -228,6 +231,7 @@ export class TreeListComponent implements OnInit {
 
   modalResponse(event: boolean): void {
     this.displayModal = false;
+    this.displayTreeModal = false;
     if (event) {
       this.getData();
     }
