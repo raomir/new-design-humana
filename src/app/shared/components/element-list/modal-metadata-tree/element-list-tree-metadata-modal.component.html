@@ -63,7 +63,7 @@
                 <label for="medicion" class="form-label">Medición</label>
                 <div class="p-inputgroup field-container">
                     <textarea style="min-height: 60px;" id="medicion" placeholder="Medición" name="medicion"
-                        formControlName="medicion" pInputText type="text"></textarea>
+                        formControlName="medicion" pInputText type="text" (focusout)="calculateInterpretation()"></textarea>
                     <app-validation-message class="validation-message" [control]="frm.get('medicion')"></app-validation-message>
                 </div>
             </div>

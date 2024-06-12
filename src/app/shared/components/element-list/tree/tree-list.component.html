@@ -24,6 +24,8 @@
         (modalResponse)="modalResponse($event)" />
     <app-element-list-tree-metadata-modal *ngIf="displayTreeModal" 
         [listName]="title" 
+        [fatherName]="fatherName"
+        [fatherId]="fatherId"
         [displayModal]="displayTreeModal" 
         [id]="idEdit" 
         [endPoint]="'v2/listElementsst'"

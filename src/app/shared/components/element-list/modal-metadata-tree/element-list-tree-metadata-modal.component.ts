@@ -41,6 +41,8 @@ export class ElementListTreeMetadataModalComponent {
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
   @Input() typeList: number = 0;
+  @Input() fatherName: string = '';
+  @Input() fatherId: number | Number | null = null;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
@@ -95,7 +97,6 @@ export class ElementListTreeMetadataModalComponent {
     }
         this.listService.findAllByTypeListId(this.endPoint, 51).subscribe({
       next: (resp: any) => {
-        console.log(resp);
         this.measurementVariablesList = resp.data;
         this.isLoading = false;
       },
@@ -115,7 +116,7 @@ export class ElementListTreeMetadataModalComponent {
       ])],
       nombre: [null, Validators.compose([
         Validators.maxLength(150),
-        Validators.minLength(3),
+        Validators.minLength(1),
         Validators.required
       ])],
       descripcion: [null, [
@@ -134,7 +135,7 @@ export class ElementListTreeMetadataModalComponent {
       medicion: new FormControl("", Validators.required),
       unidadmedida: new FormControl(1),
       interpretacion: new FormControl(""),
-      padre: new FormControl(null, Validators.required)
+      padre: new FormControl(this.fatherName, Validators.required)
     })
   }
 
@@ -148,16 +149,37 @@ export class ElementListTreeMetadataModalComponent {
     this.frm.controls['interpretacion'].setValue(`${this.frm.value.interpretacion} ${variable.name}`);
   }
 
+public calculateInterpretation(): void {
+  this.frm.controls['interpretacion'].setValue("");
+  let measurementVariables = this.frm.controls['medicion'].value.trim().split(/{(.*?)}/g);
+  measurementVariables.forEach((element: any) => {
+    let measurementVariable = this.measurementVariablesList.find(el => el.codigo === element);
+    if (measurementVariable) {
+      // Agrega el nombre de measurementVariable si se encuentra
+      this.frm.controls['interpretacion'].setValue(this.frm.controls['interpretacion'].value + " " + measurementVariable.nombre);
+    } else {
+      // Si no se encuentra, agrega el propio 'element'
+      this.frm.controls['interpretacion'].setValue(this.frm.controls['interpretacion'].value + " " + element);
+    }
+  });
+}
+
+
   loadData(id: Number) {
     this.listService.findById(id, this.endPoint).subscribe({
-      next: resp => {
+      next: (resp: any) => {
         this.frm.patchValue({
           activo: resp.data.active === 1,
           favorito: resp.data.favorite === 1,
           codigo: resp.data.code,
           nombre: resp.data.name,
-          descripcion: resp.data.description
-        })
+          descripcion: resp.data.description,
+          medicion: resp.data.metadata.medicion,
+          proposito: resp.data.metadata.proposito
+        });
+        setTimeout(() => {
+          this.calculateInterpretation();
+        }, 500);
         this.isLoading = false;
       },
       error: error => {
@@ -179,14 +201,20 @@ export class ElementListTreeMetadataModalComponent {
 
   async save(): Promise<void> {
     this.frm.markAllAsTouched();
-    let data: RequestList = {
+    let data: RequestList | any = {
       code: this.frm.value.codigo,
       name: this.frm.value.nombre,
       description: this.frm.value.descripcion,
       favorite: this.frm.value.favorito ? 1 : 2,
       active: this.frm.value.activo ? 1 : 2,
       sst: 2,
-      typeListId: this.typeList
+      typeListId: this.typeList,
+      listElementId: this.fatherId,
+      metadata: {
+        proposito: this.frm.controls['proposito'].value,
+        medicion: this.frm.controls['medicion'].value.trim(),
+        unidadMedidaIndicador: parseInt(this.frm.controls['unidadmedida'].value)
+      }
     }
     data = await this.validationsSave(data);
 
@@ -197,7 +225,6 @@ export class ElementListTreeMetadataModalComponent {
           this.modalResponse.emit(true)
         },
         error: error => {
-          console.log(error)
           this.helperService.showAlert('info', error.error.message);
           this.modalResponse.emit(false)
         },

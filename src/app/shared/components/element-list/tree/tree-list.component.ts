@@ -146,7 +146,9 @@ export class TreeListComponent implements OnInit {
       nodes.forEach((node: TreeNode | any) => {
         node.data.hiddenButtons = [];
         if (node.data.metadata != null && node.data.metadata != undefined) {
-            node.data.measurement = JSON.parse(node.data.metadata).medicion;
+            node.data.measurement = (typeof node.data.metadata === 'string') 
+              ? JSON.parse(node.data.metadata).medicion 
+              : node.data.metadata.medicion;
         } else {
           node.data.measurement = "No aplica";
         }
@@ -200,10 +202,18 @@ export class TreeListComponent implements OnInit {
         this.fatherId = event.data.id;
         this.fatherName =  event.data.name;
         this.action = 'btn_nuevo';
-        console.log(event, this.idEdit);
         break;
-      case 'btn_editar':
-        this.displayModal = true;
+      case 'btn_editar':        
+        this.fatherId = event.data.listElementId;
+        const father: any = this.data.find((element: any) => element.data.id == this.fatherId);
+        if (father) {
+          this.fatherName =  father.data.name;
+        }        
+        if (event.data.listElementId) {
+          this.displayTreeModal = true;
+        } else {
+          this.displayModal = true;
+        }
         this.level = event.data.level;
         this.action = 'btn_editar';
         this.idEdit = event.data.id;
