@@ -36,7 +36,7 @@
             <div class="grid col-12 m-0 p-0" *ngIf="endPoint == 'agentelesion'">
                 <label for="descripcion" class="form-label md:col-3">Tipo</label>
                 <div class="p-inputgroup md:col-9 field-container">
-                    <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
+                    <p-dropdown [style]="{width: '100%'}" styleClass="p-dropdown-default" [options]="tipoPeligro" formControlName="tipoPeligro" optionLabel="nombre" [showClear]="false" placeholder="Tipo" appendTo="body"></p-dropdown>
                     <app-validation-message class="validation-message" [control]="frm.get('tipoPeligro')"></app-validation-message>
                 </div>
             </div>

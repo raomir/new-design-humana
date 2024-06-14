@@ -175,6 +175,26 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/processes-subprocesses'],
 
+                    },
+                    {
+                        label: 'Tipos De Eventos',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-events'],
+                    },
+                    {
+                        label: 'Tipos De Actividad Comités',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-committee-activity'],
+                    },
+                    {
+                        label: 'Variable Indicador Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/variable-indicator-measurement'],
+                    },
+                    {
+                        label: 'Tipos Indicadores Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/measurement-indicator-types'],
                     }
                 ],
             },

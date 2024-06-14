@@ -6,14 +6,17 @@ import { AutocompleteRepositoryService } from '../../infraestructure/adapter/sec
 @Injectable({ providedIn: 'root' })
 export class AutocompleteService implements AutocompleteCrudPort {
 
-  private repository = inject(AutocompleteRepositoryService)
+  private repository: AutocompleteRepositoryService = inject(AutocompleteRepositoryService);
+  public url: string = 'url';
 
   searchByGet(endPoint: string, search: string): Observable<any> {
+    this.repository.url = this.url;
     return this.repository.searchByGet(endPoint, search);
   }
 
-  searchByPost(endPoint: string, data: any): Observable<any> {
-    return this.repository.searchByPost(endPoint, data);
+  searchByPost(endPoint: string, data: any, type: string = 'application/json'): Observable<any> {
+    this.repository.url = this.url;
+    return this.repository.searchByPost(endPoint, data, type);
   }
 
 }

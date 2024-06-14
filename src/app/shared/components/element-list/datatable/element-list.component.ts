@@ -3,7 +3,7 @@ import { AppBreadcrumbService } from '../../../../ssgt/parameter/infraestructure
 import { HeaderCardComponent } from '../../header-card/header-card.component';
 import { TableGeneralComponent } from '../../table-general/table-general.component';
 import { Column, JsonParams } from '../../table-general/col/col';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ElementListModalComponent } from '../modal/element-list-modal.component';
 import { HelpersServiceImp } from '../../../core/application/config/helpers.service.imp';
 import { RegistroData } from '../../buttons-general/actions';
@@ -53,23 +53,25 @@ export class ElementListComponent {
   public values: ExportData | ExportDataInterface = new ExportData(true, {});
   public exportValues: Array<any> = [];
   public printData: PrintData | PrintDataInterface = new PrintData();
-
   public typeList: number = 0;
 
-  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp,
+  constructor(private breadcrumbService: AppBreadcrumbService, private activatedRoute: ActivatedRoute, private helperService: HelpersServiceImp, private router: Router,
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
     this.nameComponent = this.activatedRoute.snapshot.data['nameComponent'];
     this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
+    // Obtener la ruta actual
+    const currentPath = this.router.url;
+    // Configurar el breadcrumb con la ruta actual
 
     this.typeList = this.activatedRoute.snapshot.data['typeList'];
 
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
-      { label: this.title, routerLink: ['/administration/danger-class'] }, // pendiente
-    ])
+      { label: this.title, routerLink: [currentPath] },
+    ]);
 
   }
 
@@ -132,13 +134,13 @@ export class ElementListComponent {
       default:
         this.columnsTable = this.columnsTable.concat([
           { title: 'Descripción', data: 'description', sort: 'description' },
-          { title: 'Favorito', data: 'favorite', sort: 'favorite', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
+          { title: 'Favorito', orderable: false, searchable: false, data: 'favorite', sort: 'favorite', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) },
         ])
         break;
     }
     this.columnsTable = this.columnsTable.concat([
-      { title: 'Activo', data: 'active', sort: 'active', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
-      { title: 'Acciones', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
+      { title: 'Activo', data: 'active', orderable: false, searchable: false, classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
+      { title: 'Acciones', data: 'id', orderable: false, searchable: false, classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
     ])
     this.loading = false;
   }

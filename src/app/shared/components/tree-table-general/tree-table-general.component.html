@@ -10,6 +10,7 @@
         currentPageReportTemplate="Mostrando de {first} al {last} de un total de {totalRecords} entradas"
         [rowsPerPageOptions]="[5,10,20]"
         [scrollable]="true" 
+        [loading]="loading"
         >
         <ng-template pTemplate="caption">
             <div class="flex flex-row flex-wrap card-container blue-container ng-star-inserted">

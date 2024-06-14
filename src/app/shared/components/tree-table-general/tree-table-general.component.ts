@@ -28,6 +28,7 @@ export class TreeTableGeneralComponent implements OnInit {
   @Input() data?: TreeNodeGeneral[];
   @Input() cols?: ColumnGeneral[];
   @Input() buttonsDatatable?: string[];
+  @Input() loading: boolean = true;
   
 
   constructor() { }

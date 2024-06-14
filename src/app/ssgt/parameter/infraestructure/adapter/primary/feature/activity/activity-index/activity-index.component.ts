@@ -56,6 +56,7 @@ export class ActivityIndexComponent implements OnInit {
 
   public endPointExport: string;
   public module: string;
+  public loading: boolean = true;
 
 
   constructor(
@@ -73,7 +74,7 @@ export class ActivityIndexComponent implements OnInit {
     this.colums = [
       { field: 'code', header: 'Código' },
       { field: 'name', header: 'Actividad' },
-      { field: 'description', header: 'Proceso' },
+      { field: 'processName', header: 'Proceso' },
       { field: 'active', header: 'Activo' },
     ];
     this.title = this.activatedRoute.snapshot.data['title'];
@@ -104,8 +105,8 @@ export class ActivityIndexComponent implements OnInit {
     this.activityService.getLists().subscribe(
       (res: any) => {
         if(res != null && res != undefined){
-          if (res.length > 0) {
-            this.dataList = res;
+          if (res.data.length > 0) {
+            this.dataList = res.data;
             // Convertir datos del backend a TreeNodeGeneral
             this.data = this.convertToTreeNodeGeneral(this.dataList);
             this.printData.location = "archivo.pdf";
@@ -133,80 +134,36 @@ export class ActivityIndexComponent implements OnInit {
     )
   }
 
-  convertToTreeNodeGeneral(dataList: any[]): TreeNode[] {
-    const nodesById: { [id: number]: TreeNode } = {};
-
-    // Mapear nodos por ID
-    dataList.forEach((item) => {
-      nodesById[item.id] = {
-        data: {
-          id: item.id,
-          code: item.codigo,
-          name: item.nombre,
-          level: item.nivel,
-          description: `${item.procesoId.codigo} ${item.procesoId.nombre}`,
-          active: item.activoActividad,
-          isLast: false,
-          hiddenButtons: [],
-          llave: item.procesoId
-        },
-        children: []
-      };
-    });
-
-    // Construir la estructura del árbol
-    const topLevelNodes: TreeNode[] = [];
-    dataList.forEach((item) => {
-      if (item.nivel === 1) {
-        if (this.hasChildren(nodesById, item.id)) {
-          nodesById[item.id].data.hiddenButtons = [];
-        } else {
-          nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
-        }
-        // nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
-        topLevelNodes.push(nodesById[item.id]);
-      } else {
-        const parentNode: any = nodesById[item.actividadId.id];
-        if (parentNode) {
-          parentNode.children.push(nodesById[item.id]);
-        }
-      }
-    });
-
-    // Función recursiva para marcar los últimos nodos de cada rama
-    function markLastLevel(nodes: TreeNode[]): void {
-      if (nodes.length === 0) return;
+  convertToTreeNodeGeneral(dataList: TreeNode[] | any[]): TreeNode[] | any[] {
+    // Función recursiva para mapear nodos y ajustar los botones ocultos
+    const mapNodes = (nodes: TreeNode[]): void => {
       nodes.forEach((node: TreeNode | any) => {
-        if (node.children.length === 0) {
-          node.data.isLast = true;
-          if (node.data.level !== 2) {
-            node.data.hiddenButtons = ['btn_nuevo'];
-          }
-        } else {
-          if (node.data.level === 2) {
+        node.data.hiddenButtons = [];
+        node.data.processName = `${node.data.process.code} ${node.data.process.name}`;
+        if (node.data.level < 3) {
+          if (this.hasChildren(node)) {
+            node.data.hiddenButtons = [];
+          } else {
             node.data.hiddenButtons = ['btn_eliminar'];
           }
-          markLastLevel(node.children);
+        } else if (node.data.level === 3) {
+          node.data.hiddenButtons = ['btn_nuevo'];
+        }
+        if (node.children.length > 0) {
+          mapNodes(node.children);
         }
       });
-    }
+    };
 
-    // Marcar los últimos nodos de cada rama
-    topLevelNodes.forEach((node: any) => {
-      if (!node.children.length) {
-        node.data.hiddenButtons = [];
-      }
-      markLastLevel(node.children);
-    });
-
-    return topLevelNodes;
+    // Mapear nodos y ajustar los botones ocultos
+    mapNodes(dataList);
+    this.loading = false;
+    return dataList;
   }
 
-  hasChildren(nodesById: any, id: number): boolean {
-    for (const nodeId in nodesById) {
-      if (nodesById[nodeId].data.llave.id === id && nodesById[nodeId].children.length > 0) {
-        return true;
-      }
+  private hasChildren(node: TreeNode): boolean {
+    if (node.children?.length == 0) {
+      return true;
     }
     return false;
   }
@@ -217,7 +174,7 @@ export class ActivityIndexComponent implements OnInit {
     this.fatherId = null
     if (this.level == 0) {
       this.displayModal = true;
-      this.title = 'Clase causa del accidente';
+      this.title = 'Actividad';
     }
   }
 
@@ -237,16 +194,14 @@ export class ActivityIndexComponent implements OnInit {
         if (this.level == 1) {
           this.fatherName =  event.data.name;
         }else{ 
-          this.fatherName =  event.data.llave ? event.data.llave.nombre : '';
+          this.fatherName =  event.data.process ? event.data.process.nombre : '';
           this.sonName = event.data.name;
         }
         this.action = 'btn_nuevo';
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         break;
       case 'btn_editar':
         this.displayModal = true;
         this.level = event.data.level;
-        this.title = this.level === 1 ? 'Grupo clase causa del accidente' : 'Subgrupo clase causa del accidente';
         this.action = 'btn_editar';
         this.idEdit = event.data.id;
         break;
@@ -257,6 +212,7 @@ export class ActivityIndexComponent implements OnInit {
           if (confirmed) {
             this.activityService.delete(itemDataId).subscribe(
               (resp: any) => {
+                this.loading = true;
                 this.helperService.showAlert('success', resp.message);
                 this.getData();
               }

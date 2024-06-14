@@ -25,6 +25,8 @@ export interface Column {
   classNames?: string;
   classStatus?: string;
   iconDatatable?: boolean;
+  searchable?: boolean;
+  orderable?: boolean;
 }
 
 export interface DatatableSort {

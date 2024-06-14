@@ -14,6 +14,7 @@ import { AppBreadcrumbService } from './ssgt/parameter/infraestructure/adapter/p
 import { ConfirmationService, MessageService } from 'primeng/api'
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
 import { ToastModule } from 'primeng/toast'
+import { MultiSelect, MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { ToastModule } from 'primeng/toast'
         HttpClientModule,
         BrowserAnimationsModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        MultiSelectModule
     ],
     declarations: [AppComponent],
     providers: [MenuService, AppBreadcrumbService, MessageService, ConfirmationService],

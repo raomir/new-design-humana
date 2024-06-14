@@ -13,6 +13,14 @@ export class ListService implements ListCrudPort {
     return this.repository.findAll(endPoint);
   }
 
+  findAllByTypeListId(endPoint: string, typeListId: number): Observable<List[]> {
+    return this.repository.findAllByTypeListId(endPoint, typeListId);
+  }
+
+  findAllTree(endPoint: string): Observable<List[]> {
+    return this.repository.findAllTree(endPoint);
+  }
+
   findById(id: Number, endPoint: string): Observable<List> {
     return this.repository.findById(id, endPoint);
   }

@@ -1,0 +1,63 @@
+<app-modal-general [displayModal]="displayModal" [title]="title" [isLoading]="isLoading" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+            <!-- Estado -->
+            <div class="grid col-12 m-0 mt-2 p-0">
+                <label for="activo" class="form-label md:col-3">Activo</label>
+                <div class="md:col-9">
+                    <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"></p-inputSwitch>
+                </div>
+            </div>
+            <!-- Código -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="codigo" class="form-label md:col-3">Código</label>
+                <div class="p-inputgroup md:col-9 field-container"> 
+                    <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('codigo')"></app-validation-message>
+                </div>
+            </div>
+            <!-- END Código -->
+            <!-- nombre -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="nombre" class="form-label md:col-3">Nombre</label>
+                <div class="p-inputgroup md:col-9 field-container">
+                    <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
+                        id="nombre" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('nombre')"></app-validation-message>
+                </div>
+            </div>
+            <!-- END nombre -->
+            <!-- Descripción -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="descripcion" class="form-label md:col-3">Descripción</label>
+                <div class="p-inputgroup md:col-9 field-container">
+                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
+                        formControlName="descripcion" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('descripcion')"></app-validation-message>
+                </div>
+            </div>
+            <!-- END Descripción -->
+            <!-- Formulario General -->
+            <div class="grid col-12 m-0 p-0">
+                <label for="frmGeneral" class="form-label md:col-3"> {{ level === 1 || level === 0 ? 'Formulario General' : 'Formulario específico' }}</label>
+                <div class="p-inputgroup md:col-9 field-container">
+                    <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvancedForm($event)" [placeholder]="level === 1 || level === 0 ? 'Formulario General' : 'Formulario específico'"
+                        (itemSelected)="frmResponse($event)" [endPoint]="'buscadores/formularios/busqueda-por-input'" [usePostRequest]="true" (clearSelectedItem)="clearSelectedForm()"
+                        [inputModel]="formTxt" appendTo="body" />
+                    <app-validation-message class="validation-message" [control]="frm.get('frmGeneral')"></app-validation-message>
+                </div>
+            </div>
+            <!-- END Formulario General -->
+            <!-- Favorito -->
+            <ng-container *ngIf="level === 2">
+                <div class="grid col-12 m-0 mt-2 p-0">
+                    <label for="favorito" class="form-label md:col-3">Favorito</label>
+                    <div class="md:col-9">
+                        <p-inputSwitch formControlName="favorito" id="favorito" name="favorito" class="w-full"></p-inputSwitch>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </form>
+</app-modal-general>
+<app-advanced-search-forms [displayModal]="displayModalAdvancedForms" (modalResponse)="frmResponse($event)" />

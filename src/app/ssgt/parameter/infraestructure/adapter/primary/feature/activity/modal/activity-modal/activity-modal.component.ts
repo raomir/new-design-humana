@@ -9,6 +9,7 @@ import { HelpersServiceImp } from '../../../../../../../../../shared/core/applic
 import { ActivityService } from '../../../../../../../core/application/activity/activity.service';
 import { AutocompleteComponent } from '../../../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { AdvancedSearchFormsActivityComponent } from '../../../../../../../../../shared/components/advanced-search-forms-activity/advanced-search-forms-activity.component';
+import { ValidationMessageComponent } from '../../../../../../../../../shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'activity-modal',
@@ -20,6 +21,7 @@ import { AdvancedSearchFormsActivityComponent } from '../../../../../../../../..
           InputTextModule,
           InputSwitchModule,
           AutocompleteComponent,
+          ValidationMessageComponent,
           AdvancedSearchFormsActivityComponent
         ],
   templateUrl: './activity-modal.component.html'
@@ -44,6 +46,7 @@ export class ActivityModalComponent implements OnInit {
   public llave? : any;
   formTxt: any;
   public displayModalAdvancedForms: boolean = false;
+  public isLoading: boolean = false;
 
   constructor( 
       private formBuilder: FormBuilder,
@@ -66,54 +69,52 @@ export class ActivityModalComponent implements OnInit {
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activoActividad: [true],
-      codigo: [null, Validators.compose([
+      active: [true],
+      code: [null, Validators.compose([
         Validators.maxLength(20),
         Validators.minLength(3),
         Validators.required
       ])],
-      nombre: [null, Validators.compose([
+      name: [null, Validators.compose([
         Validators.maxLength(150),
         Validators.minLength(3),
         Validators.required
       ])],
-      subProceso: [{value: this.sonName, disabled: true}], 
-      proceso: [{value: this.fatherName, disabled: true}],
-      nivel: [this.level ? this.level : 1],
-      izquierda: [1],
-      derecha: [0],
-      actividadId: [this.fatherId],
+      subProcess: [{value: this.sonName, disabled: true}], 
+      process: [{value: this.fatherName, disabled: true}],
+      level: [this.level ? this.level : 1],
+      activity: [this.fatherId],
       id: [null]
     })
   }
 
   loadData(id: Number) {
+    this.isLoading = true;
     this.activityService.findID(id).subscribe(
       (res: ActivityModel | any) => {
         this.frm.patchValue({
-          activoActividad: res.activoActividad === 1,
-          codigo: res.codigo,
-          nombre: res.nombre,
-          izquierda: res.izquierda,
-          derecha: res.derecha,
-          nivel: res.nivel,
-          id: res.id
+          active: res.data.active === 1,
+          code: res.data.code,
+          name: res.data.name,
+          level: res.data.level,
+          id: res.data.id
         })
-        if (res.actividadId != null) {
-          this.frm.controls['actividadId'].setValue(res.actividadId.id);
+        if (res.data.activity != null) {
+          this.frm.controls['activity'].setValue(res.data.activity.id);
         }
         if(this.fatherId === null || this.fatherId === undefined){
-          this.fatherId = res.llave?.id 
+          this.fatherId = res.data.activity?.id 
         }
-        if (res.procesoId != null) {
+        if (res.data.process != null) {
           const dataProceso =
           {
-            'id': res.procesoId.id,
-            'valorMontar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valor_montar': `${res.procesoId.codigo} ${res.procesoId.nombre}`,
-            'valorMontarPadre': `${res.procesoId.padre.codigo} ${res.procesoId.padre.nombre}`
+            'id': res.data.process.id,
+            'valorMontar': `${res.data.process.code} ${res.data.process.name}`,
+            'valor_montar': `${res.data.process.code} ${res.data.process.name}`,
+            'valorMontarPadre': `${res.data.process.father?.code ?? ''} ${res.data.process.father?.name ?? ''}`
           };
           this.subprocessResponse(dataProceso);
+          this.isLoading = false;;
         }
     })
   }
@@ -121,9 +122,9 @@ export class ActivityModalComponent implements OnInit {
   public subprocessResponse(event: any) {
     this.displayModalAdvancedForms = false;
     this.formTxt = event;
-    let idSubproceso: number = Number(event.id);
-    this.frm.controls['subProceso'].setValue(idSubproceso);
-    this.frm.controls['proceso'].setValue(event.valorMontarPadre);
+    let idSubProcess: number = Number(event.id);
+    this.frm.controls['subProcess'].setValue(idSubProcess);
+    this.frm.controls['process'].setValue(event.valorMontarPadre);
   }
 
   public openModalAdvancedForm(open: boolean) {
@@ -132,7 +133,7 @@ export class ActivityModalComponent implements OnInit {
 
   clearSelectedForm() {
     this.formTxt = null;
-    this.frm.controls['subProceso'].setValue(null);
+    this.frm.controls['subProcess'].setValue(null);
   }
 
   closeModal(event: boolean) {
@@ -149,25 +150,23 @@ export class ActivityModalComponent implements OnInit {
 
   save(): void {
 
-    const actividadPadre: ActivityModel | null = this.frm.value.actividadId;
+    const actividadPadre: ActivityModel | null = this.frm.value.activity;
 
-    const data: ActivityModel = 
+    const data: ActivityModel | any = 
     {
       id: this.frm.getRawValue().id,
-      codigo: this.frm.getRawValue().codigo,
-      nombre: this.frm.getRawValue().nombre,
-      procesoId: { 'id': this.frm.getRawValue().subProceso },
-      activoActividad: this.helperService.getSwitch(this.frm.getRawValue().activoActividad, false),
-      izquierda: this.frm.getRawValue().izquierda,
-      derecha: this.frm.getRawValue().derecha,
-      nivel: this.frm.getRawValue().nivel,
-      actividadId: (actividadPadre != null) ? { id: actividadPadre } as ActivityModel | any : null,
+      code: this.frm.getRawValue().code,
+      name: this.frm.getRawValue().name,
+      process: { 'id': this.frm.getRawValue().subProcess },
+      active: this.helperService.getSwitch(this.frm.getRawValue().active, false),
+      level: this.frm.getRawValue().level,
+      activity: (actividadPadre != null) ? { id: actividadPadre } as ActivityModel | any : null,
     };
-    if(data.nivel === 1){
-      data.actividadId = null
+    if(data.level === 1){
+      data.activity = null
     }
-    if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
-      data.actividadId = { id: this.fatherId } as ActivityModel
+    if(data.level && data.level > 1 && this.fatherId !== null && this.fatherId !== undefined){
+      data.activity = { id: this.fatherId } as ActivityModel
     }
 
     if(this.id){

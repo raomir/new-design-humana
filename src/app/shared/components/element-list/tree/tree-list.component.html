@@ -1,0 +1,37 @@
+<div class="card">
+    <app-header-card 
+        [title]="title" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <app-tree-table-general
+        [data]="data" 
+        [cols]="colums" 
+        (onAction)="onAction($event)" 
+        (valueSearch)="valueSearch($event)"
+        (exportAction)="export($event)"
+        [buttonsDatatable]="buttonsDatatable"
+        [loading]="loading">
+    </app-tree-table-general>
+    <app-element-list-modal *ngIf="displayModal" 
+        [listName]="title" 
+        [displayModal]="displayModal" 
+        [id]="idEdit" 
+        [endPoint]="'v2/listElementsst'"
+        [typeList]="typeList"
+        [hideFavorite]="true"
+        (modalResponse)="modalResponse($event)" />
+    <app-element-list-tree-metadata-modal *ngIf="displayTreeModal" 
+        [listName]="title" 
+        [fatherName]="fatherName"
+        [fatherId]="fatherId"
+        [displayModal]="displayTreeModal" 
+        [id]="idEdit" 
+        [endPoint]="'v2/listElementsst'"
+        [typeList]="typeList"
+        (modalResponse)="modalResponse($event)" />
+</div>
+<app-exporter *ngIf="displayModalExport" [displayModal]="displayModalExport" [title]="title" [viewer]="false" [fileType]="fileType" [url]="endPointExport" [module]="module" [inputExport]="inputExport" [exportValues]="exportValues" [values]="values" (modalExportResponse)="modalExportResponse($event)"></app-exporter>
+<app-report-previewer #reportPreviewer [endpoint]="endPointExport" [printData]="printData" [title]="title"></app-report-previewer>
+
