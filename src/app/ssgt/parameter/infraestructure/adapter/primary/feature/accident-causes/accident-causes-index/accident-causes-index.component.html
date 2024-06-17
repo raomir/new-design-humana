@@ -9,7 +9,8 @@
         [data]="data" 
         [cols]="colums" 
         (onAction)="onAction($event)" 
-        [buttonsDatatable]="buttonsDatatable">
+        [buttonsDatatable]="buttonsDatatable"
+        [loading]="loading">
     </app-tree-table-general>
     <app-new-class-cause-modal
         *ngIf="displayModal"
