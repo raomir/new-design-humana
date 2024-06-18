@@ -1,14 +1,14 @@
 export interface TypeEventModel {
-    activo: number | boolean | 1 | 2;
-    codigo: string;
-    comFormulario: any;
+    active: number | boolean | 1 | 2;
+    code: string;
+    form: any; 
     createdAt?: Date | null;
     deletedAt?: Date | null;
-    descripcion: string;
-    favorito?: number | boolean | 1 | 2;
+    description: string;
+    favorite?: number | boolean | 1 | 2;
     id?: number;
-    nivel: number;
-    nombre: string;
-    padre?: TypeEventModel | null;
-    updateAt?: number;    
+    level: number;
+    name: string;
+    typeEvent?: TypeEventModel | null; 
+    updateAt?: Date | null;    
 }

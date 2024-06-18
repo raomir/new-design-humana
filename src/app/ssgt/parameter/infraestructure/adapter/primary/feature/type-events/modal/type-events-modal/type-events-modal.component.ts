@@ -101,25 +101,23 @@ export class TypeEventsModalComponent implements OnInit {
     this.typeEventService.findID(id).subscribe(
       (res: TypeEventModel | any) => {
         this.frm.patchValue({
-          activo: res?.activo === 1,
-          codigo: res?.codigo,
-          nombre: res?.nombre,
-          descripcion: res?.descripcion,
-          izquierda: res?.izquierda,
-          derecha: res?.derecha,
-          nivel: res?.nivel,
-          favorito: res?.favorito === 1,
-          id: res?.id
+          activo: res?.data.active === 1,
+          codigo: res?.data.code,
+          nombre: res?.data.name,
+          descripcion: res?.data.description,
+          nivel: res?.data.level,
+          favorito: res?.data.favorite === 1,
+          id: res?.data.id
         })
         if (this.fatherId === null || this.fatherId === undefined) {
-          this.fatherId = res?.padre?.id 
+          this.fatherId = res?.data.typeEvent?.id 
         }
-        if (res?.comFormulario) {
+        if (res?.data.form) {
           const dataFrm =
           {
-            'id': res.comFormulario.id,
-            'valorMontar': `${res.comFormulario.codigo} - ${res.comFormulario.nombre}`,
-            'valor_montar': `${res.comFormulario.codigo} - ${res.comFormulario.nombre}`
+            'id': res.data.form.id,
+            'valorMontar': `${res.data.form.codigo} - ${res.data.form.nombre}`,
+            'valor_montar': `${res.data.form.codigo} - ${res.data.form.nombre}`
           };
           this.frmResponse(dataFrm);
         }
@@ -167,20 +165,20 @@ export class TypeEventsModalComponent implements OnInit {
 
     const data: TypeEventModel = 
     {
-      activo: this.helperService.getSwitch(this.frm.controls['activo'].value, false),
-      codigo: this.frm.controls['codigo'].value,
-      descripcion: this.frm.controls['descripcion'].value,
-      nombre: this.frm.controls['nombre'].value,
-      nivel: this.frm.getRawValue().nivel,
-      favorito: this.helperService.getSwitch(this.frm.controls['favorito'].value, false),
-      comFormulario: this.frm.controls['frmGeneral'].value != null ? { id: this.frm.controls['frmGeneral'].value } : null,
-      padre: null
+      active: this.helperService.getSwitch(this.frm.controls['activo'].value, false),
+      code: this.frm.controls['codigo'].value,
+      description: this.frm.controls['descripcion'].value,
+      name: this.frm.controls['nombre'].value,
+      level: this.frm.getRawValue().nivel,
+      favorite: this.helperService.getSwitch(this.frm.controls['favorito'].value, false),
+      form: this.frm.controls['frmGeneral'].value != null ? { id: this.frm.controls['frmGeneral'].value } : null,
+      typeEvent: null
     }
-    if(data.nivel === 1){
-      data.padre = null
+    if(data.level === 1){
+      data.typeEvent = null
     }
-    if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
-      data.padre = { id: this.fatherId } as TypeEventModel
+    if(data.level && data.level > 1 && this.fatherId !== null && this.fatherId !== undefined){
+      data.typeEvent = { id: this.fatherId } as TypeEventModel
     }
 
     if(this.id){

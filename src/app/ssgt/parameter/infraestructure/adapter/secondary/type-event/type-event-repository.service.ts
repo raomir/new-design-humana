@@ -11,7 +11,7 @@ import { TypeEventModel } from '../../../../../parameter/core/domain/type-event/
 })
 export class TypeEventRepositoryService implements TypeEventRepositoryPort {
 
-  private apiUrl: string = environment.url + 'eventosSSST/';
+  private apiUrl: string = environment.url + 'v2/type_event/';
 
   constructor(
       private http: HttpClient
@@ -35,6 +35,6 @@ export class TypeEventRepositoryService implements TypeEventRepositoryPort {
   }
 
   findAll(): Observable<TypeEventModel[]> {
-    return this.http.get<TypeEventModel[]>(this.apiUrl + 'listarTabla/*');
+    return this.http.get<TypeEventModel[]>(this.apiUrl);
   }
 }

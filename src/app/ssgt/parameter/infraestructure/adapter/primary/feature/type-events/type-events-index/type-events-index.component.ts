@@ -57,6 +57,8 @@ export class TypeEventsIndexComponent implements OnInit {
   public endPointExport: string;
   public module: string;
 
+    public loading: boolean = true;
+
 
   constructor(
     private breadcrumbService: AppBreadcrumbService,
@@ -75,8 +77,8 @@ export class TypeEventsIndexComponent implements OnInit {
       { field: 'name', header: 'Nombre' },
       { field: 'description', header: 'Descripción' },
       { field: 'type', header: 'Tipo' },
-      { field: 'formularioG', header: 'Formulario General' },
-      { field: 'formularioE', header: 'Formulario Específico' },
+      { field: 'formG', header: 'Formulario General' },
+      { field: 'formE', header: 'Formulario Específico' },
       { field: 'favorite', header: 'Favorito' },
       { field: 'active', header: 'Activo' }
     ];
@@ -108,8 +110,8 @@ export class TypeEventsIndexComponent implements OnInit {
     this.typeEventService.getLists().subscribe(
       (res: any) => {
         if(res != null && res != undefined){
-          if (res.length > 0) {
-            this.dataList = res;
+          if (res.data.length > 0) {
+            this.dataList = res.data;
             // Convertir datos del backend a TreeNodeGeneral
             this.data = this.convertToTreeNodeGeneral(this.dataList);
             this.printData.location = "archivo.pdf";
@@ -139,85 +141,41 @@ export class TypeEventsIndexComponent implements OnInit {
     )
   }
 
-  convertToTreeNodeGeneral(dataList: any[]): TreeNode[] {
-      const nodesById: { [id: number]: TreeNode } = {};
-
-      // Mapear nodos por ID
-      dataList.forEach((item) => {
-          nodesById[item.id] = {
-              data: {
-                  id: item.id,
-                  code: item.codigo,
-                  name: item.nombre,
-                  level: item.nivel,
-                  description: item.descripcion,
-                  active: item.activo,
-                  isLast: false,
-                  hiddenButtons: [],
-                  favorite: item.favorito,
-                  updateAt: item.updateAt,
-                  type: this.helperService.isset(item.padre) ? `${item.padre.codigo} - ${item.padre.nombre}` : 'No aplica',
-                  formularioG: item.nivel == 1 && this.helperService.isset(item.comFormulario) ? `${item.comFormulario.codigo} - ${item.comFormulario.nombre}` : 'No aplica',
-                  formularioE: item.nivel == 2 && this.helperService.isset(item.comFormulario) ? `${item.comFormulario.codigo} - ${item.comFormulario.nombre}` : 'No aplica'
-              },
-              children: []
-          };
-      });
-
-      // Construir la estructura del árbol
-      const topLevelNodes: TreeNode[] = [];
-      dataList.forEach((item) => {
-          if (item.nivel === 1) {
-              if (this.hasChildren(nodesById, item.id)) {
-                  nodesById[item.id].data.hiddenButtons = ['btn_nuevo']; // Añadir el botón nuevo solo a los padres
-              } else {
-                  nodesById[item.id].data.hiddenButtons = ['btn_eliminar'];
-              }
-              topLevelNodes.push(nodesById[item.id]);
-          } else {
-              const parentNode: any = nodesById[item.padre?.id];
-              if (parentNode) {
-                  parentNode.children.push(nodesById[item.id]);
-              }
-          }
-      });
-
-      // Marcar los últimos nodos de cada rama
-      topLevelNodes.forEach((node: any) => {
-          if (!node.children.length) {
-              node.data.hiddenButtons = [];
-          }
-          this.markLastLevel(node.children);
-      });
-
-      return topLevelNodes;
-  }
-
-  markLastLevel(nodes: TreeNode[]): void {
-      if (nodes.length === 0) return;
+  convertToTreeNodeGeneral(dataList: TreeNode[] | any[]): TreeNode[] | any[] {
+    // Función recursiva para mapear nodos y ajustar los botones ocultos
+    const mapNodes = (nodes: TreeNode[]): void => {
       nodes.forEach((node: TreeNode | any) => {
-          if (node.children.length === 0) {
-              node.data.isLast = true;
-              node.data.hiddenButtons = [];
-              if(node.data.level === 2) {
-                node.data.hiddenButtons = ['btn_nuevo'];
-              }
+        node.data.hiddenButtons = [];
+        node.data.type = this.helperService.isset(node.data.typeEvent) ? `${node.data.typeEvent.code} - ${node.data.typeEvent.name}` : 'No aplica',
+        node.data.formG = node.data.level == 1 && this.helperService.isset(node.data.form) ? `${node.data.form.codigo} - ${node.data.form.nombre}` : 'No aplica',
+        node.data.formE = node.data.level == 2 && this.helperService.isset(node.data.form) ? `${node.data.form.codigo} - ${node.data.form.nombre}` : 'No aplica'
+        if (node.data.level < 3) {
+          if (this.hasChildren(node)) {
+            node.data.hiddenButtons = [];
           } else {
-              node.data.hiddenButtons = ['btn_nuevo'];
-              this.markLastLevel(node.children);
+            node.data.hiddenButtons = ['btn_eliminar'];
           }
+        } else if (node.data.level === 3) {
+          node.data.hiddenButtons = ['btn_nuevo'];
+        }
+        if (node.children.length > 0) {
+          mapNodes(node.children);
+        }
       });
+    };
+
+    // Mapear nodos y ajustar los botones ocultos
+    mapNodes(dataList);
+    this.loading = false;
+    return dataList;
   }
 
-  hasChildren(nodesById: any, id: number): boolean {
-      for (const nodeId in nodesById) {
-          if (nodesById[nodeId].data.padre?.id === id && nodesById[nodeId].children.length > 0) {
-              return true;
-          }
-      }
-      return false;
+  private hasChildren(node: TreeNode): boolean {
+    if (node.children?.length == 0) {
+      return true;
+    }
+    return false;
   }
-
 
   //* Accion Nuevo 
   actionNew() {
