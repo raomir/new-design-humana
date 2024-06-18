@@ -1,11 +1,11 @@
-<app-modal-general [displayModal]="displayModal" [title]="title" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
+<app-modal-general [displayModal]="displayModal" [title]="title" [isLoading]="isLoading" (closeModal)="closeModal($event)" [widthVwModal]="'30vw'" [buttons]="buttons">
     <form name="frm" id="frm" [formGroup]="frm">
         <div class="grid m-0">
             <!-- Estado -->
             <div class="grid col-12 m-0 mt-2 p-0">
-                <label for="activo" class="form-label md:col-3">Activo</label>
+                <label for="active" class="form-label md:col-3">Activo</label>
                 <div class="md:col-9">
-                    <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"></p-inputSwitch>
+                    <p-inputSwitch formControlName="active" id="active" name="active" class="w-full"></p-inputSwitch>
                 </div>
             </div>
             <!-- END Estado -->
@@ -28,30 +28,33 @@
             <!-- END Subgrupo clase  causa-->
             <!-- Código -->
             <div class="grid col-12 m-0 p-0">
-                <label for="codigo" class="form-label md:col-3">Código</label>
-                <div class="p-inputgroup md:col-9"> <!-- [patterns]="codePatterns" mask="0*" -->
-                    <input pInputText placeholder="Código" maxlength="10" formControlName="codigo" id="codigo" name="codigo" type="text" />
+                <label for="code" class="form-label md:col-3">Código</label>
+                <div class="p-inputgroup md:col-9 field-container"> <!-- [patterns]="codePatterns" mask="0*" -->
+                    <input pInputText placeholder="Código" maxlength="10" formControlName="code" id="code" name="code" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('code')"></app-validation-message>
                 </div>
             </div>
             <!-- END Código -->
-            <!-- nombre -->
+            <!-- name -->
             <div class="grid col-12 m-0 p-0">
-                <label for="nombre" class="form-label md:col-3">Nombre</label>
-                <div class="p-inputgroup md:col-9">
-                    <input pInputText placeholder="Nombre" maxlength="50" name="nombre" formControlName="nombre"
-                        id="nombre" type="text" />
+                <label for="name" class="form-label md:col-3">Nombre</label>
+                <div class="p-inputgroup md:col-9 field-container">
+                    <input pInputText placeholder="Nombre" maxlength="50" name="name" formControlName="name"
+                        id="name" type="text" />
+                    <app-validation-message class="validation-message" [control]="frm.get('name')"></app-validation-message>
                 </div>
             </div>
-            <!-- END nombre -->
-            <!-- descripcion -->
+            <!-- END name -->
+            <!-- description -->
             <div class="grid col-12 m-0 p-0">
-                <label for="descripcion" class="form-label md:col-3">Descripción</label>
-                <div class="p-inputgroup md:col-9">
-                    <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" name="descripcion"
-                        formControlName="descripcion" pInputText type="text"></textarea>
+                <label for="description" class="form-label md:col-3">Descripción</label>
+                <div class="p-inputgroup md:col-9 field-container">
+                    <textarea style="min-height: 60px;" id="description" placeholder="Descripción" name="description"
+                        formControlName="description" pInputText type="text"></textarea>
+                    <app-validation-message class="validation-message" [control]="frm.get('description')"></app-validation-message>
                 </div>
             </div>
-            <!-- END descripcion -->
+            <!-- END description -->
         </div>
     </form>
 </app-modal-general>

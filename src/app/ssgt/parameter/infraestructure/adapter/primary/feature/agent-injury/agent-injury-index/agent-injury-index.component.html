@@ -1,0 +1,10 @@
+<div class="card ">
+  <app-header-card [title]="title" [buttons]="buttons" (actionNew)="create()" (actionPrint)="print()" />
+  <div *ngIf="!loading">
+    <app-table-general #dataTable [columns]="columns" [endPoint]="endPoint" (runActions)="runActions($event)"
+      (exportAction)="exportAction($event)"></app-table-general>
+    <agent-injury-modal *ngIf="displayModal" [displayModal]="displayModal" [id]="idEdit" [listName]="title"
+      (modalResponse)="modalResponse($event)">
+    </agent-injury-modal>
+  </div>
+</div>

@@ -37,6 +37,7 @@ export class ElementListComponent {
   public endPoint: string;
   public endPointExport: string;
   public module: string;
+  public nameComponent: string;
 
   public buttons: Array<string> = ['btn_print', 'btn_new'];
   public fileType: string | undefined;
@@ -58,6 +59,7 @@ export class ElementListComponent {
     private listService: ListService) {
     this.title = this.activatedRoute.snapshot.data['title'];
     this.endPoint = this.activatedRoute.snapshot.data['endpoint'];
+    this.nameComponent = this.activatedRoute.snapshot.data['nameComponent'];
     this.endPointExport = this.activatedRoute.snapshot.data['endpointExport'];
     this.module = this.activatedRoute.snapshot.data['module'];
     // Obtener la ruta actual
@@ -82,7 +84,7 @@ export class ElementListComponent {
       { title: 'Código', data: 'code', sort: 'code' },
       { title: 'Nombre', data: 'name', sort: 'name' }
     ];
-    switch (this.endPoint) {
+    switch (this.nameComponent) {
       case 'objectoInpeccion':
         this.columnsTable = this.columnsTable.concat([
           { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
@@ -94,6 +96,20 @@ export class ElementListComponent {
         this.columnsTable = this.columnsTable.concat([
           { title: 'Valor', data: 'metadatos', sort: 'metadatos.valor', render: (data: any) => data?.valor },
           { title: 'Significado', data: 'descripcion', sort: 'descripcion' },
+        ])
+        break;
+      case 'nivelexposicion':
+        this.columnsTable = this.columnsTable.concat([
+          { title: 'Valor', data: 'metadata', sort: 'metadata.valor', render: (data: any) => data?.valor },
+          { title: 'Significado', data: 'description', sort: 'description' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
+        ])
+        break;
+      case 'nivelconsecuencia':
+        this.columnsTable = this.columnsTable.concat([
+          { title: 'Valor', data: 'metadata', sort: 'metadata.valor', render: (data: any) => data?.valor },
+          { title: 'Significado', data: 'description', sort: 'description' },
+          { title: 'Favorito', data: 'favorito', sort: 'favorito', classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnFavorite(data) }
         ])
         break;
       case 'nivelriesgo':

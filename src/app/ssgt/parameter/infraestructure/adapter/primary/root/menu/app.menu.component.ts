@@ -93,7 +93,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Agentes De Lesión',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/main/administration/injury-agent'],
+                        routerLink: ['/main/administration/agent-injury'],
                     },
                     {
                         label: 'Niveles De Exposición',

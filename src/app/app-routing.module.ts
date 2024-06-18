@@ -200,21 +200,11 @@ const routes: Routes = [
                         }
                     },
                     {
-                        path: 'injury-agent',
+                        path: 'agent-injury',
                         loadComponent: () =>
                             import(
-                                './shared/components/element-list/datatable/element-list.component'
-                            ).then((m) => m.ElementListComponent),
-                        data: {
-                            title: 'Agentes De Lesión',
-                            endpoint: 'agentelesion',
-                            endpointExport: 'agentelesion/agenteLesion',
-                            module: 'url2',
-                            permissions: {
-                                name: 'talentohumano.agentes_lesion',
-                                only: 'talentohumano.agentes_lesion.index'
-                            }
-                        }
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/agent-injury/agent-injury-index/agent-injury-index.component'
+                            ).then((m) => m.AgentInjuryIndexComponent),
                     },
                     {
                         path: 'worst-consequences',
@@ -242,9 +232,11 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles de exposición',
-                            endpoint: 'nivelexposicion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
                             module: 'url2',
+                            nameComponent: "nivelexposicion",
+                            typeList: 36, 
                             permissions: {
                                 name: 'talentohumano.niveles_exposicion',
                                 only: 'talentohumano.niveles_exposicion.index'
@@ -259,8 +251,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Consecuencia',
-                            endpoint: 'nivelconsecuencia',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
+                            typeList: 29,
+                            nameComponent: "nivelconsecuencia",
                             module: 'url2',
                             permissions: {
                                 name: 'talentohumano.niveles_consecuencia',
@@ -276,8 +270,9 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Jornada De Trabajo Habitual',
-                            endpoint: 'jornadatrabajo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
+                            typeList: 6, 
                             module: 'url2',
                             permissions: {
                                 name: 'talentohumano.jornada_trabajo_habitual',
@@ -293,9 +288,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Gravedad',
-                            endpoint: 'nivelgravedad',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
                             module: 'url2',
+                            typeList: 9,
                             permissions: {
                                 name: 'talentohumano.nivel_gravedad',
                                 only: 'talentohumano.nivel_gravedad.index'
