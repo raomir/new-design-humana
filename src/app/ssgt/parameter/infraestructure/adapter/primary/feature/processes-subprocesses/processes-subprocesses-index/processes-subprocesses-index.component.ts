@@ -4,9 +4,10 @@ import { AppBreadcrumbService } from '../../../root/breadcrumb/app.breadcrumb.se
 import { HeaderCardComponent } from '../../../../../../../../shared/components/header-card/header-card.component';
 import { TreeTableGeneralComponent } from '../../../../../../../../shared/components/tree-table-general/tree-table-general.component';
 import { ProcessesSubprocessesService } from '../../../../../../core/application/processes-subprocesses/processes-subprocesses.service';
-import {BackendNodeProces, TreeNodeGeneralProce } from '../../../../../../../../shared/components/tree-table-general/tree/tree.interface';
+import { BackendNodeProces } from '../../../../../../../../shared/components/tree-table-general/tree/tree.interface';
 import { NewProcessesSubprocessesModalComponent } from '../modal/new-processes-subprocesses-modal/new-processes-subprocesses-modal.component';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-processes-subprocesses-index',
@@ -34,6 +35,7 @@ export class ProcessesSubprocessesIndexComponent implements OnInit {
   public level: number = 0;
   public padreId?: number;
   public dataId?: number;
+  public loading: boolean = true;
   
 
   constructor(
@@ -60,8 +62,8 @@ export class ProcessesSubprocessesIndexComponent implements OnInit {
     this.processesSubprocessesService.finAll().subscribe(
       (res: any) => {
         if(res != null && res != undefined){
-          if (res.length > 0) {
-            this.dataList = res;
+          if (res.data.length > 0) {
+            this.dataList = res.data;
             // Convertir datos del backend a TreeNodeGeneralProce
             this.data = this.convertToTreeNodeGeneral(this.dataList);
           }else{
@@ -72,67 +74,39 @@ export class ProcessesSubprocessesIndexComponent implements OnInit {
     )
   }
 
-  convertToTreeNodeGeneral(data: BackendNodeProces[]): TreeNodeGeneralProce[] {
-    const nodesById: { [id: number]: any } = {};
-
-    // Mapear nodos por ID
-    data.forEach((item) => {
-      nodesById[item.id] = {
-        data: {
-          id: item.id,
-          code: item.codigo,
-          name: item.nombre,
-          level: item.nivel,
-          active: item.activo,
-          isLast: false,
-          hiddenButtons: [],
-          padre: (item.padre) ? item.padre : null,
-        },
-        children: [],
-      };
-    });
-
-    // Construir la estructura del árbol
-    const topLevelNodes: TreeNodeGeneralProce[] = [];
-
-    data.forEach((item) => {
-      if (item.nivel === 1) {
-        topLevelNodes.push(nodesById[item.id]);
-      } else if (item.nivel > 1) {
-        const parentNode = item.padre ? nodesById[item.padre!.id]: null;
-        if (parentNode) {
-          parentNode.children!.push(nodesById[item.id]);
+  convertToTreeNodeGeneral(dataList: TreeNode[] | any[]): TreeNode[] | any[] {
+    // Función recursiva para mapear nodos y ajustar los botones ocultos
+    const mapNodes = (nodes: TreeNode[]): void => {
+      nodes.forEach((node: TreeNode | any) => {
+        node.data.hiddenButtons = [];
+       // Lógica para ocultar botones según el nivel del nodo
+        if (node.data.level === 2) {
+          node.data.hiddenButtons.push('btn_nuevo');
+        } else if (node.data.level < 2) {
+          if (!this.hasChildren(node)) {
+            node.data.hiddenButtons.push('btn_eliminar');
+          }
         }
-      }
-    });
 
-    // Función recursiva para marcar los últimos nodos de cada rama
-    function markLastLevel(nodes: TreeNodeGeneralProce[]): void {
-      if (nodes.length === 0) return ;
-      nodes.forEach((node: TreeNodeGeneralProce) => {
-        if (node.children?.length === 0) {
-          node.data.isLast = true;
-          node.data.hiddenButtons = ['btn_nuevo'];
-        } else {
-          markLastLevel(node.children || []);
+        // Procesar los nodos hijos si existen
+        if (node.children && node.children.length > 0) {
+          mapNodes(node.children);
         }
       });
-    }
+    };
 
-    // Marcar los últimos nodos de cada rama
-    topLevelNodes.forEach((node) => {
-      markLastLevel(node.children || []);
-    });
-
-    topLevelNodes.map((node) => {
-      if(node.data.level == 1 && node.children?.length){
-        node.data.hiddenButtons = ['btn_eliminar'];
-      }
-      return node;
-    })
-    return topLevelNodes;
+    // Mapear nodos y ajustar los botones ocultos
+    mapNodes(dataList);
+    this.loading = false;
+    return dataList;
   }
 
+  private hasChildren(node: TreeNode): boolean {
+    if (node.children?.length == 0) {
+      return true;
+    }
+    return false;
+  }
 
 
   //* Accion Nuevo 
@@ -173,7 +147,8 @@ export class ProcessesSubprocessesIndexComponent implements OnInit {
           if (confirmed) {
             this.processesSubprocessesService.delete(itemDataId).subscribe(
               (resp: any) => {
-                this.helperService.showAlert('success', resp.mensaje);
+                this.loading = true;
+                this.helperService.showAlert('success', resp.message);
                 this.getData();
               }
             );
