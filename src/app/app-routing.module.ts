@@ -571,6 +571,24 @@ const routes: Routes = [
                             }
                         }
                     },
+                    {
+                        path: 'committee-roles',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Rol Comités',
+                            endpoint: 'v2/listElementsst',
+                            endpointExport: 'reportesSggt/reporteParametros1/rolComite/52',
+                            module: 'url2',
+                            typeList: 52,
+                            permissions: {
+                                name: 'administration.rol_comites',
+                                only: 'administration.rol_comites.index'
+                            }
+                        }
+                    }
                 ]
             }
         ]

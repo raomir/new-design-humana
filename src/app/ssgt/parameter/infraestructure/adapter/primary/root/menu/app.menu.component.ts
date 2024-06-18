@@ -195,6 +195,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Tipos Indicadores Medición',
                         icon: 'pi pi-fw pi-chart-line',
                         routerLink: ['/main/administration/measurement-indicator-types'],
+                    },
+                    {
+                        label: 'Rol Comités',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/committee-roles'],
                     }
                 ],
             },
