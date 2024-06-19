@@ -11,7 +11,7 @@ import * as helpers from '../../../../../../shared/core/application/config/helpe
 })
 export class ProcessesSubprocessesRepositoryServiceService implements ProcessesSubprocessesRepositoryPort{
 
-  private apiUrl: string = environment.url + 'procesos/';
+  private apiUrl: string = environment.url + 'v2/processes/';
 
 
   constructor( 

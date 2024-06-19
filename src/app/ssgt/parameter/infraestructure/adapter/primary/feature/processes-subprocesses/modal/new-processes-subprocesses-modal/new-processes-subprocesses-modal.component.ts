@@ -7,6 +7,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { HelpersServiceImp } from '../../../../../../../../../shared/core/application/config/helpers.service.imp';
 import { ProcessesSubprocessesService } from '../../../../../../../core/application/processes-subprocesses/processes-subprocesses.service';
 import { ModeloProcessesSubprocessesModel } from '../../../../../../../core/domain/processes-subprocesses/modelo-processes-subprocesses.model';
+import { ValidationMessageComponent } from '../../../../../../../../../shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'app-new-processes-subprocesses-modal',
@@ -16,7 +17,8 @@ import { ModeloProcessesSubprocessesModel } from '../../../../../../../core/doma
             FormsModule,
             ReactiveFormsModule,
             InputTextModule,
-            InputSwitchModule
+            InputSwitchModule,
+            ValidationMessageComponent
   ],
   templateUrl: './new-processes-subprocesses-modal.component.html',
   styles: [
@@ -37,6 +39,7 @@ export class NewProcessesSubprocessesModalComponent implements OnInit {
   public title: string = '';
   public frm!: FormGroup;
   public data?: ModeloProcessesSubprocessesModel;
+  public isLoading: boolean = false;
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -58,13 +61,13 @@ export class NewProcessesSubprocessesModalComponent implements OnInit {
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activo: [true],
-      codigo: [null, Validators.compose([
+      active: [true],
+      code: [null, Validators.compose([
         Validators.maxLength(20),
         Validators.minLength(3),
         Validators.required
       ])],
-      nombre: [null, Validators.compose([
+      name: [null, Validators.compose([
         Validators.maxLength(150),
         Validators.minLength(3),
         Validators.required
@@ -73,45 +76,47 @@ export class NewProcessesSubprocessesModalComponent implements OnInit {
   }
 
   loadData(id: any) {
+    this.isLoading = true;
     this.processesSubprocessesService.findById(id).subscribe(
       (res: ModeloProcessesSubprocessesModel | any) => {
         this.frm.patchValue({
-          activo: res.activo === 1,
-          codigo: res.codigo,
-          nombre: res.nombre,
-          id: res.id,
-          nivel: res.nivel,
-          padre: res.padre
+          active: res.data.active === 1,
+          code: res.data.code,
+          name: res.data.name,
+          id: res.data.id,
+          level: res.data.level,
+          father: res.data.father
         })
+        this.isLoading = false;
     })
   }
   save(): void {
 
 
       this.data = {
-        activo: this.helperService.getSwitch(this.frm.value.activo, false),
-        codigo: this.frm.value.codigo,
-        nombre: this.frm.value.nombre,
-        padre: this.level === 1 ? null : { "id": this.padreId },
-        nivel: this.level,
+        active: this.helperService.getSwitch(this.frm.value.active, false),
+        code: this.frm.value.code,
+        name: this.frm.value.name,
+        father: this.level === 1 ? null : { "id": this.padreId },
+        level: this.level,
         id: this.dataId
       };
     
    
     if (this.level ===  0 && this.action === 'btn_nuevo') {
       this.data = {
-        activo: this.helperService.getSwitch(this.frm.value.activo, false),
-        codigo: this.frm.value.codigo,
-        nombre: this.frm.value.nombre,
-        nivel: 1,
+        active: this.helperService.getSwitch(this.frm.value.active, false),
+        code: this.frm.value.code,
+        name: this.frm.value.name,
+        level: 1,
       };
     } else if (this.level === 1 && this.action === 'btn_nuevo') {
       this.data = {
-        nombre: this.frm.value.nombre,
-        codigo: this.frm.value.codigo,
-        activo: this.helperService.getSwitch(this.frm.value.activo, false),
-        padre: { "id": this.padreId },
-        nivel: 2,
+        name: this.frm.value.name,
+        code: this.frm.value.code,
+        active: this.helperService.getSwitch(this.frm.value.active, false),
+        father: { "id": this.padreId },
+        level: 2,
       };
     }    
     if(this.id){
@@ -150,6 +155,13 @@ export class NewProcessesSubprocessesModalComponent implements OnInit {
     } else {
       this.modalResponse.emit(false)
     }
+  }
+
+  toUpperCase(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.toUpperCase();
+    input.value = value;
+    this.frm.get('code')?.setValue(value, { emitEvent: false });
   }
 
 }
