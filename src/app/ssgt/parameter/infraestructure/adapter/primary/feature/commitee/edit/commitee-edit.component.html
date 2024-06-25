@@ -1,0 +1,41 @@
+<div class="card">
+    <app-header-card [title]="title" [typeComponent]="'Editar'" [divider]="true" />
+    <p-tabView [(activeIndex)]="tabActive">
+        <p-tabPanel header="General">
+            <form name="frm" id="frm" [formGroup]="frm">
+                <div class="grid m-0">
+                    <!-- Código -->
+                    <label for="codigo" class="form-label md:col-1">Código</label>
+                    <div class="p-inputgroup md:col-5 field-container">
+                        <input pInputText placeholder="Código" formControlName="codigo" id="codigo" name="codigo"
+                            readonly type="text" />
+                    </div>
+                    <!-- END Código -->
+                    <!-- cargo -->
+                    <label for="nombre" class="form-label md:col-1">Cargo</label>
+                    <div class="p-inputgroup md:col-5 field-container">
+                        <input pInputText placeholder="Cargo" name="cargo" formControlName="cargo" id="nombre" readonly
+                            type="text" />
+                    </div>
+                    <!-- END cargo -->
+                    <!-- descripcion -->
+                    <label for="descripcion" class="form-label md:col-1">Descripción</label>
+                    <div class="p-inputgroup md:col-11 field-container">
+                        <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" readonly
+                            name="descripcion" formControlName="descripcion" pInputText type="text"></textarea>
+                    </div>
+                    <!-- END descripcion -->
+                </div>
+                <div class="grid justify-content-end mt-1 mr-1">
+                    <app-buttons-general [buttons]="['btn_cancel']" (cancelAction)="navigateToList()" />
+                </div>
+            </form>
+        </p-tabPanel>
+        <p-tabPanel header="Asignaciones">
+            <app-table-general #table [endPoint]="endPointElements + '/page'" [columns]="columnsTable" [export]="false"
+                (runActions)="runActions($event)" />
+            <app-commitee-modal *ngIf="displayModal" [id]="idEdit" [chargeId]="id" [title]="title"
+                (modalResponse)="closeModal($event)" [displayModal]="displayModal" [endPoint]="endPointElements" />
+        </p-tabPanel>
+    </p-tabView>
+</div>

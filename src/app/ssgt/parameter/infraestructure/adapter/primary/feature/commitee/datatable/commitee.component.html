@@ -1,0 +1,6 @@
+<div class="card">
+    <app-header-card [title]="title" [buttons]="buttonsGenerals" (actionPrint)="print()">
+    </app-header-card>
+    <app-table-general #table [endPoint]="endPoint + '/pageable'" [columns]="columnsTable" (runActions)="runActions($event)"
+        (exportAction)="export($event)" (exportDataInput)="setExportDataInput($event)" />
+</div>

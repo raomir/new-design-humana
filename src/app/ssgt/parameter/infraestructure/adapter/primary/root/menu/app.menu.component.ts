@@ -200,6 +200,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Rol Comités',
                         icon: 'pi pi-fw pi-chart-line',
                         routerLink: ['/main/administration/committee-roles'],
+                    },
+                    {
+                        label: 'Comités',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/committee'],
                     }
                 ],
             },
