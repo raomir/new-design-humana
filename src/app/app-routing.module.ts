@@ -584,7 +584,49 @@ const routes: Routes = [
                                 only: 'administration.rol_comites.index'
                             }
                         }
-                    }
+                    },
+                    {
+                        path: 'committee',
+                        children: [
+                            {
+                                path: '',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/datatable/commitee.component'
+                                    ).then((m) => m.CommiteeComponent),
+                                data: {
+                                    permissions: {
+                                        only: 'talentohumano.committee.index'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'new',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/edit/commitee-edit.component'
+                                    ).then((m) => m.CommiteeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.committee'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'edit/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/edit/commitee-edit.component'
+                                    ).then((m) => m.CommiteeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.committee'
+                                    }
+                                },
+                            }
+                        ]
+
+                    },
                 ]
             }
         ]

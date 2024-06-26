@@ -8,6 +8,7 @@ import { ExportData, ExportDataInterface, Input as InputExport, PrintData, Print
 import { Column, JsonParams } from '../../../../../../../../shared/components/table-general/col/col';
 import { Router } from '@angular/router';
 import { RegistroData } from '../../../../../../../../shared/components/buttons-general/actions';
+import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
 
 @Component({
   selector: 'app-commitee',
@@ -54,6 +55,7 @@ export class CommiteeComponent implements OnInit {
       } 
     },
     { title: 'Objetivo-Observaciones', data: 'description', sort: 'description' },
+    { title: 'Activo', data: 'status', orderable: false, searchable: false, classStatus: 'text-center', classTitle: 'text-center', render: (data: Number) => this.helperService.getColumnActive(data) },
     { 
       title: 'Acciones',
       data: 'id',
@@ -74,12 +76,18 @@ export class CommiteeComponent implements OnInit {
 
   constructor(
     private breadcrumbService: AppBreadcrumbService,
+    private helperService: HelpersServiceImp,
     private router: Router,
   ) {
+    // Obtener la ruta actual
+    const currentPath = this.router.url;
+    console.log(currentPath);
+    // Configurar el breadcrumb con la ruta actual
+
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
-      { label: this.title, routerLink: ['/administration/endowments-per-charge'] },
-    ])
+      { label: this.title, routerLink: [currentPath] }
+    ]);
 
   }
 
@@ -112,6 +120,10 @@ export class CommiteeComponent implements OnInit {
     if (event.action == 'btn_editar') {
       this.router.navigateByUrl(`/main/administration/committee/edit/${event.data.id}`)
     }
+  }
+
+  create() {
+    this.router.navigateByUrl(`/main/administration/committee/new`)
   }
 
   setExportDataInput(event: InputExport | JsonParams) {

@@ -1,37 +1,61 @@
 <div class="card">
-    <app-header-card [title]="title" [typeComponent]="'Editar'" [divider]="true" />
-    <p-tabView [(activeIndex)]="tabActive">
-        <p-tabPanel header="General">
-            <form name="frm" id="frm" [formGroup]="frm">
-                <div class="grid m-0">
-                    <!-- Código -->
-                    <label for="codigo" class="form-label md:col-1">Código</label>
-                    <div class="p-inputgroup md:col-5 field-container">
-                        <input pInputText placeholder="Código" formControlName="codigo" id="codigo" name="codigo"
-                            readonly type="text" />
-                    </div>
-                    <!-- END Código -->
-                    <!-- cargo -->
-                    <label for="nombre" class="form-label md:col-1">Cargo</label>
-                    <div class="p-inputgroup md:col-5 field-container">
-                        <input pInputText placeholder="Cargo" name="cargo" formControlName="cargo" id="nombre" readonly
-                            type="text" />
-                    </div>
-                    <!-- END cargo -->
-                    <!-- descripcion -->
-                    <label for="descripcion" class="form-label md:col-1">Descripción</label>
-                    <div class="p-inputgroup md:col-11 field-container">
-                        <textarea style="min-height: 60px;" id="descripcion" placeholder="Descripción" readonly
-                            name="descripcion" formControlName="descripcion" pInputText type="text"></textarea>
-                    </div>
-                    <!-- END descripcion -->
-                </div>
-                <div class="grid justify-content-end mt-1 mr-1">
-                    <app-buttons-general [buttons]="['btn_cancel']" (cancelAction)="navigateToList()" />
-                </div>
-            </form>
-        </p-tabPanel>
-        <p-tabPanel header="Asignaciones">
+    <app-header-card [title]="title" [typeComponent]="type" [divider]="true" />
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+            <!-- Código -->
+            <label for="code" class="form-label md:col-1">Código</label>
+            <div class="p-inputgroup md:col-3 field-container">
+                <input pInputText placeholder="Código" formControlName="code" id="code" name="code"
+                    type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('code')"></app-validation-message>
+            </div>
+            <!-- END Código -->
+            <!-- nombre -->
+            <label for="name" class="form-label md:col-1">Nombre</label>
+            <div class="p-inputgroup md:col-7 field-container">
+                <input pInputText placeholder="Nombre" name="name" formControlName="name" id="name" type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('name')"></app-validation-message>
+            </div>
+            <!-- END nombre -->
+            <!-- Fecha Inicial -->
+            <label for="startDate" class="form-label md:col-1">Fecha Inicial</label>
+            <div class="p-inputgroup md:col-3 field-container">
+                <p-calendar appendTo="body" placeholder="Fecha Inicial" dateFormat="dd/mm/yy" [showIcon]="true" name="startDate" [maxDate]="frm.get('endDate')?.value" formControlName="startDate" id="startDate" readonly
+                    type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('startDate')"></app-validation-message>
+            </div>
+            <!-- END Fecha Inicial -->
+            <!-- Fecha Final -->
+            <label for="endDate" class="form-label md:col-1">Fecha Final</label>
+            <div class="p-inputgroup md:col-3 field-container">
+                <p-calendar appendTo="body" placeholder="Fecha Final" dateFormat="dd/mm/yy" [showIcon]="true" name="endDate" [minDate]="frm.get('startDate')?.value" formControlName="endDate" id="endDate" readonly
+                    type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('endDate')"></app-validation-message>
+            </div>
+            <!-- END Fecha Final -->
+            <!-- estado -->
+            <label for="status" class="form-label md:col-1">Estado</label>
+            <div class="p-inputgroup field-container md:col-3">
+                <p-dropdown [style]="{width: '100%'}" [options]="listStatus" id="status" name="status" formControlName="status"
+                    appendTo="body" placeholder="Seleccione Estado" optionLabel="name"
+                    optionValue="id"></p-dropdown>
+                <app-validation-message class="validation-message" [control]="frm.get('status')"></app-validation-message>
+            </div>
+            <!-- END estado -->
+            <!-- descripcion -->
+            <label for="description" class="form-label md:col-1">Objetivos  -Observaciones</label>
+            <div class="p-inputgroup md:col-11 field-container">
+                <textarea style="min-height: 60px;" id="description" placeholder="Descripción" name="description" formControlName="description" pInputText type="text"></textarea>
+                <app-validation-message class="validation-message" [control]="frm.get('description')"></app-validation-message>
+            </div>
+            <!-- END descripcion -->
+        </div>
+        <div class="grid justify-content-end mt-1 mr-1">
+            <app-buttons-general [buttons]="['btn_save', 'btn_cancel']" (cancelAction)="navigateToList()" (saveAction)="save()" />
+        </div>
+    </form>
+    <p-tabView *ngIf="id" [(activeIndex)]="tabActive">
+        <p-tabPanel header="Integrantes">
             <app-table-general #table [endPoint]="endPointElements + '/page'" [columns]="columnsTable" [export]="false"
                 (runActions)="runActions($event)" />
             <app-commitee-modal *ngIf="displayModal" [id]="idEdit" [chargeId]="id" [title]="title"
