@@ -214,37 +214,10 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages'],
                 items: [
                     {
-                        label: 'Parámetros',
-                        icon: 'pi pi-fw pi-pencil',
-                        items: [
-                            {
-                                label: 'Calendario',
-                                icon: 'pi pi-fw pi-calendar-plus',
-                                routerLink: ['/pages/calendar'],
-                            },
-                            {
-                                label: 'Recursos Físicos',
-                                icon: 'pi pi-fw pi-calendar-plus',
-                                routerLink: ['/pages/calendar'],
-                            },
-                        ],
-                    },
-                    {
-                        label: 'Gestión',
+                        label: 'Primeros Auxilios',
                         icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/pages/timeline'],
-                    },
-                    {
-                        label: 'Procesos',
-                        icon: 'pi pi-fw pi-globe',
-                        url: 'assets/pages/landing.html',
-                        target: '_blank',
-                    },
-                    {
-                        label: 'Reportes',
-                        icon: 'pi pi-fw pi-sign-in',
-                        routerLink: ['/login'],
-                    },
+                        routerLink: ['/main/management/first-aid'],
+                    }
                 ],
             },
             {
