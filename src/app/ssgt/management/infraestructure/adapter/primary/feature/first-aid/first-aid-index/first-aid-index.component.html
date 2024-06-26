@@ -1,0 +1,16 @@
+<div class="card">
+    <app-header-card 
+        [title]="titleHeader" 
+        [buttons]="buttonsGenerals" 
+        (actionNew)="actionNew()" 
+        (actionPrint)="actionPrint($event)">
+    </app-header-card>
+    <div *ngIf="!loading">
+        <app-table-general #dataTable 
+                            [columns]="columns" 
+                            [endPoint]="endPoint" 
+                            (runActions)="runActions($event)"
+                            (exportAction)="exportAction($event)">
+        </app-table-general>
+    </div>
+</div>
