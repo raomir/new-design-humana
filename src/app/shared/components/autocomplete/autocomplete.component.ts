@@ -27,6 +27,7 @@ export class AutocompleteComponent {
   @Input() noBuscar: Array<any> | any = [];
   @Input() type: string = 'application/json';
   @Input() url: string = 'url';
+  @Input() employe: boolean = false;
 
   @Output() openAdvanced = new EventEmitter<boolean>();
   @Output() itemSelected = new EventEmitter<any>();
@@ -77,12 +78,19 @@ export class AutocompleteComponent {
         }
       })
     } else {
-      this.autocompleteService.searchByGet(this.endPoint, event.query).subscribe({
+      this.autocompleteService.searchByGet(this.endPoint, (this.employe) ? event.query + '/0' : event.query).subscribe({
         next: async res => { // pendiente verificar la respuesta
-          this.suggestions = await res.content.map((e: any) => {
-            e.valor_montar = e.codigo + ' - ' + e.nombre
-            return e;
-          });
+          if (this.employe) {
+            this.suggestions = await res.content.map((e: any) => {
+              e.valor_montar = e.tipoDocumento + ' - ' + e.numeroDocumento + ' - ' + e.nombre1
+              return e;
+            });
+          } else {
+            this.suggestions = await res.content.map((e: any) => {
+              e.valor_montar = e.codigo + ' - ' + e.nombre
+              return e;
+            });
+          }
         },
         error: err => {
           this.suggestions = [];

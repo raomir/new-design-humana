@@ -56,9 +56,9 @@
     </form>
     <p-tabView *ngIf="id" [(activeIndex)]="tabActive">
         <p-tabPanel header="Integrantes">
-            <app-table-general #table [endPoint]="endPointElements + '/page'" [columns]="columnsTable" [export]="false"
+            <app-table-general #table [endPoint]="endPointElements + '/pageable'" [showFilter]="false" [committeeId]="id" [columns]="columnsTable" [export]="false"
                 (runActions)="runActions($event)" />
-            <app-commitee-modal *ngIf="displayModal" [id]="idEdit" [chargeId]="id" [title]="title"
+            <app-commitee-modal *ngIf="displayModal" [id]="idEdit" [committeeId]="id" [title]="title"
                 (modalResponse)="closeModal($event)" [displayModal]="displayModal" [endPoint]="endPointElements" />
         </p-tabPanel>
     </p-tabView>

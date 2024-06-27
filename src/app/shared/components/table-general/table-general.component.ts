@@ -42,6 +42,7 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
   @Input() public sendDocument: boolean = false; // Attribute: Send Document
 
   @Input() public typeList: number = 0;
+  @Input() public committeeId: number | Number = 0;
 
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
@@ -355,6 +356,8 @@ export class TableGeneralComponent implements OnInit, OnDestroy {
         typeListId: this.typeList,
         page: jsonParams
       }
+      if ( this.committeeId != 0 ) data.committeeId = this.committeeId;
+
       this.services.postData(data)
         .subscribe((res: any) => {
           this.setData(res?.data?.content);

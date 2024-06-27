@@ -9,10 +9,11 @@ import { AutocompleteComponent } from '../../../../../../../../shared/components
 import { DropdownModule } from 'primeng/dropdown';
 import { List } from '../../../../../../../../shared/core/domain/list.model';
 import { ListService } from '../../../../../../../../shared/core/application/list.service';
-import { EndowmentsPerChargeService } from '../../../../../../core/application/endowments-per-charge/endowments-per-charge.service';
 import { EndowmentsPerChargeModel } from '../../../../../../core/domain/endowments-per-charge/endowments-per-charge.model';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
 import { AdvancedSearchFormsProdutsComponent } from '../../../../../../../../shared/components/advanced-search-forms-produts/advanced-search-forms-produts.component';
+import { CommitteeService } from '../../../../../../core/application/committee/committee.service';
+import { CommitteesDetailsModel } from 'src/app/ssgt/parameter/core/domain/committee/ommitteesDetails.model';
 
 @Component({
   selector: 'app-commitee-modal',
@@ -34,7 +35,7 @@ import { AdvancedSearchFormsProdutsComponent } from '../../../../../../../../sha
 export class CommiteeModalComponent implements OnInit {
 
   @Input() id: Number | null = null;
-  @Input() chargeId?: Number;
+  @Input() committeeId?: Number;
   @Input() displayModal: boolean = false;
   @Input() endPoint: string = '';
   @Input() title: string = '';
@@ -44,12 +45,12 @@ export class CommiteeModalComponent implements OnInit {
   public titleModal: string = '';
   public frm!: FormGroup;
 
-  public listTimeUnits: List[] = [];
+  public listRolCommittees: Array<any> = [];
 
   // autocomplete and advanced
   public displayModalAdvanced: boolean = false;
-  public productTxt: any;
-  public endPointAutocomplete: string = 'comproductos/autocompleta/false/false/false';
+  public employeeTxt: any;
+  public endPointAutocomplete: string = 'buscadores/empleado/busquedageneral/page/0';
   public paramsAutocomplete: any = { 
     grupo: {
       tipo_clase: [43364, 43365] 
@@ -64,7 +65,7 @@ export class CommiteeModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private listService: ListService,
     private helperService: HelpersServiceImp,
-    private endowmentsPerChargeService: EndowmentsPerChargeService
+    private committeeService: CommitteeService
   ) {
 
   }
@@ -72,42 +73,24 @@ export class CommiteeModalComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm()
     this.loadLists()
-    if (this.id) {
-      this.titleModal = 'Editar: ' + this.title;
-      this.loadData(this.id);
-    } else {
-      this.titleModal = 'Nuevo: ' + this.title;
-    }
+    this.titleModal = 'Nuevo: ' + this.title;
   }
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activo: [true],
-      producto: [null, Validators.required],
-      cantidad: [null, Validators.required],
-      frecuencia: [null],
-      unidadTiempo: [null, Validators.required],
+      committee: [{id: this.committeeId}],
+      rolCommittee: [null, Validators.required],
+      employee: [null, Validators.required],
+      position: [{id: 71}, Validators.required],
     })
   }
 
   loadLists() {
-    this.listService.findAll('unidadtiempo').subscribe(res => {
-      this.listTimeUnits = res.map((e) => {
-        return { ...e, nombre: `${e.data.code} - ${e.data.name}` };
-      });
-    });
-  }
-
-  loadData(id: Number) {
-    this.endowmentsPerChargeService.findById(id).subscribe(
-      (res: EndowmentsPerChargeModel) => {
-        this.frm.patchValue({
-          cantidad: res.cantidad,
-          frecuencia: res.frecuencia,
-          unidadTiempo: res.unidadTiempo.data.id
-        })
-        this.productSelected(res.producto)
-      })
+    this.listService.findAllByTypeListId('v2/listElementsst', 52).subscribe(
+      (resp: any) => {
+        this.listRolCommittees = resp.data;
+      }
+    );
   }
 
   closeModal(event: boolean) {
@@ -124,41 +107,28 @@ export class CommiteeModalComponent implements OnInit {
     this.displayModalAdvanced = open;
   }
 
-  productSelected(info: any) {
+  employeeSelected(info: any) {
     this.displayModalAdvanced = false;
     if (info) {
-      this.productTxt = {
+      this.employeeTxt = {
         id: info.id,
-        valor_montar: info.codigoUnspsc + ' - ' + info.nombre
+        valor_montar: info.tipoDocumento + ' - ' + info.numeroDocumento + ' - ' + info.nombre1
       }
-      this.frm.controls['producto'].setValue(info.id);
+      this.frm.controls['employee'].setValue({id: info.id});
     }
   }
 
-  public subprocessResponse(event: any) {
-    this.displayModalAdvanced = false;
-    this.productTxt = event;
-    this.frm.controls['producto'].setValue(event.id);
-  }
-
-  clearSelectedProduct() {
-    this.productTxt = null;
-    this.frm.controls['producto'].setValue(null);
+  clearSelectedEmployee() {
+    this.employeeTxt = null;
+    this.frm.controls['employee'].setValue(null);
   }
 
   save(): void {
-    const formData = this.frm.getRawValue()
 
-    const data: any = {
-      cargo: { id: this.chargeId },
-      producto: { id: formData.producto },
-      cantidad: formData.cantidad,
-      frecuencia: formData.frecuencia,
-      unidadTiempo: { id: formData.unidadTiempo }
-    };
+    const data: CommitteesDetailsModel = new CommitteesDetailsModel(this.frm.getRawValue());
 
     if (this.id) {
-      this.endowmentsPerChargeService.update(data, this.id).subscribe({
+      this.committeeService.updateDetails(this.id, data).subscribe({
         next: (res: any) => {
           this.helperService.showAlert('success', 'Registro actualizado exitosamente!');
           this.modalResponse.emit(true)
@@ -169,7 +139,7 @@ export class CommiteeModalComponent implements OnInit {
         },
       })
     } else {
-      this.endowmentsPerChargeService.save(data).subscribe({
+      this.committeeService.saveDetails(data).subscribe({
         next: (res: any) => {
           this.helperService.showAlert('success', 'Registro creado exitosamente!');
           this.modalResponse.emit(true)

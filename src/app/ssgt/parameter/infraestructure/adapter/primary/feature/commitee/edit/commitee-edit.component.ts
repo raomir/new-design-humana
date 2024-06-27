@@ -16,6 +16,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ValidationMessageComponent } from '../../../../../../../../shared/components/validation-message/validation-message.component';
 import { CommitteeService } from '../../../../../../core/application/committee/committee.service';
 import { CommitteeModel } from 'src/app/ssgt/parameter/core/domain/committee/committee.model';
+import { Column } from 'src/app/shared/components/table-general/col/col';
 
 @Component({
   selector: 'app-commitee-edit',
@@ -42,7 +43,7 @@ export class CommiteeEditComponent implements OnInit {
 
   public title: string = 'Comités';
   public frm!: FormGroup;
-  public id?: Number;
+  public id?: Number | number;
 
   public idEdit: Number | null = null;
   public tabActive: number = 0;
@@ -51,14 +52,14 @@ export class CommiteeEditComponent implements OnInit {
     {id:2, name:"Inactivo"}
   ];
 
-  public endPointElements: string = 'dotacioncargo/';
+  public endPointElements: string = 'v2/committees/details';
 
-  public columnsTable: any[] = [
-    { title: 'Código', data: 'producto.code_unspsc', sort: 'producto.code_unspsc', render: (data: any, row: any) => row.producto.codeUnspsc },
-    { title: 'Nombre del elemento', data: 'producto.nombre', sort: 'producto.nombre', render: (data: any, row: any) => row.producto.nombre },
-    { title: 'Cantidad', data: 'cantidad', sort: 'cantidad', classTitle: 'text-right', classCode: 'text-right' },
-    { title: 'Frecuencia', data: 'frecuencia', sort: 'frecuencia', render: (data: any, row: any) => `${data} ${row.unidadTiempo.nombre}` },
-    { title: 'btn_new', data: 'id', classTitle: 'text-center', actions: ['btn_editar', 'btn_eliminar'] }
+  public columnsTable: Column[] = [
+    { title: 'Número', searchable: true, orderable: true, data: 'id', render: (data: any, row: any, index: any) => index + 1 },
+    { title: 'Rol', searchable: false, data: 'rolCommittee.name', sort: 'rolCommittee.name', render: (data: any, row: any) => row.rolCommittee.name },
+    { title: 'Nombre', searchable: false, data: 'employee.typeNumberNameLastName', sort: 'employee', render: (data: any, row: any) => `${row.employee.typeNumberNameLastName} `},
+    { title: 'Cargo', searchable: false, data: 'position.charge', sort: 'position.charge', render: (data: any, row: any) => `${row.position.code} - ${row.position.charge} `},
+    { title: 'btn_new', searchable: false, orderable: false, data: 'id', classTitle: 'text-center', actions: ['btn_eliminar'] }
   ];
 
   public displayModal: boolean = false;
@@ -72,14 +73,12 @@ export class CommiteeEditComponent implements OnInit {
     private breadcrumbService: AppBreadcrumbService,
     private helperService: HelpersServiceImp
   ) {
-    this.route.params.subscribe(params => (this.id = params['id']));
-    this.endPointElements += this.id;
+    this.route.params.subscribe(params => (this.id = Number(params['id'])));
 
     if (this.id) this.type = "Editar";
-    
+
     // Obtener la ruta actual
     const currentPath = this.router.url;
-    console.log(currentPath);
     // Configurar el breadcrumb con la ruta actual
 
     this.breadcrumbService.setItems([
@@ -114,7 +113,6 @@ export class CommiteeEditComponent implements OnInit {
   loadData(id: Number) {
     this.committeeService.findID(id).subscribe(
       (res: any) => {
-        console.log(res);
         this.frm.patchValue({
           code: res.data.code,
           name: res.data.name,
@@ -174,11 +172,9 @@ export class CommiteeEditComponent implements OnInit {
     const data: CommitteeModel = new CommitteeModel(
       this.frm.getRawValue()
     );
-    console.log(data);
     if (this.id) {
       this.committeeService.update(this.id, data).subscribe(
         (resp: any) => {
-          console.log(resp);
           this.helperService.showAlert('success', resp.message);
         },
         (error) => {
@@ -188,7 +184,6 @@ export class CommiteeEditComponent implements OnInit {
     } else {
       this.committeeService.save(data).subscribe(
         (resp: any) => {
-          console.log(resp);
           this.helperService.showAlert('success', resp.message);
         },
         (error) => {

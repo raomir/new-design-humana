@@ -81,7 +81,6 @@ export class CommiteeComponent implements OnInit {
   ) {
     // Obtener la ruta actual
     const currentPath = this.router.url;
-    console.log(currentPath);
     // Configurar el breadcrumb con la ruta actual
 
     this.breadcrumbService.setItems([
