@@ -51,7 +51,7 @@
             <!-- END descripcion -->
         </div>
         <div class="grid justify-content-end mt-1 mr-1">
-            <app-buttons-general [buttons]="['btn_save', 'btn_cancel']" (cancelAction)="navigateToList()" (saveAction)="save()" />
+            <app-buttons-general [buttons]="this.route.snapshot.data['view'] ? ['btn_cancel'] : ['btn_save', 'btn_cancel']" (cancelAction)="navigateToList()" (saveAction)="save()" />
         </div>
     </form>
     <p-tabView *ngIf="id" [(activeIndex)]="tabActive">

@@ -623,6 +623,19 @@ const routes: Routes = [
                                         name: 'talentohumano.committee'
                                     }
                                 },
+                            },
+                            {
+                                path: 'show/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/edit/commitee-edit.component'
+                                    ).then((m) => m.CommiteeEditComponent),
+                                data: {
+                                    view: true,
+                                    permissions: {
+                                        name: 'talentohumano.committee'
+                                    }
+                                },
                             }
                         ]
 

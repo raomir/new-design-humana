@@ -119,6 +119,9 @@ export class CommiteeComponent implements OnInit {
     if (event.action == 'btn_editar') {
       this.router.navigateByUrl(`/main/administration/committee/edit/${event.data.id}`)
     }
+    if (event.action == 'btn_ver') {
+      this.router.navigateByUrl(`/main/administration/committee/show/${event.data.id}`)
+    }
   }
 
   create() {

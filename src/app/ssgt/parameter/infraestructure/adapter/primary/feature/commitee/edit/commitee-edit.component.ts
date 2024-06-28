@@ -67,7 +67,7 @@ export class CommiteeEditComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private committeeService: CommitteeService,
     private breadcrumbService: AppBreadcrumbService,
@@ -76,6 +76,8 @@ export class CommiteeEditComponent implements OnInit {
     this.route.params.subscribe(params => (this.id = Number(params['id'])));
 
     if (this.id) this.type = "Editar";
+
+    if (this.route.snapshot.data['view']) this.type = "Ver";
 
     // Obtener la ruta actual
     const currentPath = this.router.url;
@@ -107,7 +109,16 @@ export class CommiteeEditComponent implements OnInit {
         this.helperService.validateDescription.bind(this.helperService),
         Validators.required
       ]],
-    })
+    });
+    if (this.route.snapshot.data['view']) {
+      this.frm.disable();
+      this.columnsTable = [
+        { title: 'Número', searchable: true, orderable: true, data: 'id', render: (data: any, row: any, index: any) => index + 1 },
+        { title: 'Rol', searchable: false, data: 'rolCommittee.name', sort: 'rolCommittee.name', render: (data: any, row: any) => row.rolCommittee.name },
+        { title: 'Nombre', searchable: false, data: 'employee.typeNumberNameLastName', sort: 'employee', render: (data: any, row: any) => `${row.employee.typeNumberNameLastName} `},
+        { title: 'Cargo', searchable: false, data: 'position.charge', sort: 'position.charge', render: (data: any, row: any) => `${row.position.code} - ${row.position.charge} `},
+      ];
+    }
   }
 
   loadData(id: Number) {
@@ -139,7 +150,7 @@ export class CommiteeEditComponent implements OnInit {
     this.helperService.showConfirmationDelete()
       .then((confirmed: boolean) => {
         if (confirmed) {
-          this.committeeService.delete(id).subscribe(
+          this.committeeService.deleteDetails(id).subscribe(
             (resp: any) => {
               this.helperService.showAlert('success', resp.mensaje);
               this.table?.loadTable(0);
