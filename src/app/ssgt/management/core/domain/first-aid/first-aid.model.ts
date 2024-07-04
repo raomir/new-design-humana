@@ -7,7 +7,7 @@ export interface FirstAidModelResponse {
 
 export interface FirstAidModelRequest {
     readonly id?:          number;
-    readonly date?:        Date;
+    readonly date?:        Date | null | undefined | string;
     readonly injury?:      string;
     readonly usedItem?:    string;
     readonly description?: string;

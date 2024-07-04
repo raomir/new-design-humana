@@ -1,1 +1,62 @@
-<p>first-aid-form works!</p>
+<div class="card">
+    <app-header-card [title]="title" [typeComponent]="type" [divider]="true"/>
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+            <!-- Fecha -->
+            <label for="date" class="form-label md:col-1">Fecha</label>
+            <div class="p-inputgroup md:col-2 field-container">
+                <p-calendar appendTo="body" placeholder="Fecha" dateFormat="dd/mm/yy" [showIcon]="true" name="date"  formControlName="date" id="date" readonly
+                    type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('date')"></app-validation-message>
+            </div>
+            <!-- END Date -->
+            <!-- Persona Accidentada -->
+            <label for="employee" class="form-label md:col-1">Persona Accidentada</label>
+            <div class="p-inputgroup md:col-4 field-container">
+                <input pInputText placeholder="Persona Accidentada" name="employee" formControlName="employee" id="employee" type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('employee')"></app-validation-message>
+            </div>
+            <!-- END Persona Accidentada -->
+            <!-- Cargo -->
+            <label for="bonding" class="form-label md:col-1">Cargo</label>
+            <div class="p-inputgroup md:col-3 field-container">
+                <input pInputText placeholder="Cargo" name="bonding" formControlName="bonding" id="bonding" type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('bonding')"></app-validation-message>
+            </div>
+            <!-- END Cargo -->
+            <!-- Lesión -->
+            <label for="injury" class="form-label md:col-1">Lesión</label>
+            <div class="p-inputgroup md:col-5 field-container">
+                <textarea style="min-height: 60px;" id="injury" placeholder="Lesión" name="injury" formControlName="injury" pInputText type="text"></textarea>
+                <app-validation-message class="validation-message" [control]="frm.get('injury')"></app-validation-message>
+            </div>
+            <!-- END Lesión -->
+            <!-- Elementos usados -->
+             <label for="usedItem" class="form-label md:col-1">Elementos usados</label>
+             <div class="p-inputgroup md:col-5 field-container">
+                 <textarea style="min-height: 60px;" id="usedItem" placeholder="Elementos usados" name="usedItem" formControlName="usedItem" pInputText type="text"></textarea>
+                 <app-validation-message class="validation-message" [control]="frm.get('usedItem')"></app-validation-message>
+             </div>
+            <!-- END Elementos usados -->
+            <!-- descripcion -->
+            <label for="description" class="form-label md:col-1">Objetivos  -Observaciones</label>
+            <div class="p-inputgroup md:col-11 field-container">
+                <textarea style="min-height: 60px;" id="description" placeholder="Descripción" name="description" formControlName="description" pInputText type="text"></textarea>
+                <app-validation-message class="validation-message" [control]="frm.get('description')"></app-validation-message>
+            </div>
+            <!-- END descripcion -->
+            <!-- Encargado de primeros auxilios -->
+            <label for="inCharge" class="form-label md:col-1">Encargado de primeros auxilios</label>
+            <div class="p-inputgroup md:col-5 field-container">
+                <input pInputText placeholder="Encargado de primeros auxilios" name="inCharge" formControlName="inCharge" id="inCharge" type="text" />
+                <app-validation-message class="validation-message" [control]="frm.get('inCharge')"></app-validation-message>
+            </div>
+            <!-- END Encargado de primeros auxilios -->
+        </div>
+        <hr class="ivider-general" style="margin-top: 40px;">
+        <!-- Buttons -->
+        <div class="grid justify-content-end mt-1 mr-1">
+            <app-buttons-general [buttons]="['btn_save', 'btn_cancel']" (cancelAction)="navigateToList()" (saveAction)="save()" />
+        </div>
+    </form>
+</div>

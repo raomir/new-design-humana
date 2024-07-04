@@ -108,24 +108,24 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob: Blob | any = new Blob([response], { type: mediaType });
-          let size = blob.size; 
+          let size = blob.size;
           blob = null;
-          if(size > 0){ 
+          if (size > 0) {
             return true;
-          }else{ 
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
             return false;
           }
         },
-        (e) => { 
-          return false; 
+        (e) => {
+          return false;
         }
       );
-      return false;
+    return false;
   }
 
   openPDF(title: string, url: any, viewer: boolean, values: ExportDataInterface | any = {}): void {
-    
+
     var mediaType = "application/pdf";
     var blob: Blob;
     this.http
@@ -137,16 +137,16 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             if (viewer == true) {
               /* this.openModalImprimir(blob); */
-              this.showAlert('info','Reporte generado exitosamente!');
+              this.showAlert('info', 'Reporte generado exitosamente!');
             } else {
               saveAs(blob, title + ".pdf");
-              this.showAlert('info','Documento exportado exitosamente!');
-            } 
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+              this.showAlert('info', 'Documento exportado exitosamente!');
+            }
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
           }
         },
         (e) => {
@@ -154,9 +154,9 @@ export class HelpersServiceImp implements HelpersService {
       );
   }
 
-  openPDFJsonDataAdapter(title: string,json: any, url: any, viewer: boolean): void {
+  openPDFJsonDataAdapter(title: string, json: any, url: any, viewer: boolean): void {
     var mediaType = "application/pdf";
-    var blob: Blob; 
+    var blob: Blob;
     this.http
       .post(
         environment.url + url, json,
@@ -165,16 +165,16 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             if (viewer == true) {
               //this.openModalImprimir(blob);
-              this.showAlert('info','Reporte generado exitosamente!');
+              this.showAlert('info', 'Reporte generado exitosamente!');
             } else {
               saveAs(blob, title + ".pdf");
-              this.showAlert('info','Documento exportado exitosamente!');
+              this.showAlert('info', 'Documento exportado exitosamente!');
             }
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
           }
         },
         (e) => {
@@ -182,7 +182,7 @@ export class HelpersServiceImp implements HelpersService {
       );
   }
 
-  openXLSJsonDataAdapter(title: string,json: any, url: any ): any {
+  openXLSJsonDataAdapter(title: string, json: any, url: any): any {
     var mediaType = "application/vnd.ms-excel";
     this.http
       .post(
@@ -192,18 +192,18 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             saveAs(blob, title + ".xls");
-            this.showAlert('info','Documento exportado exitosamente!');
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+            this.showAlert('info', 'Documento exportado exitosamente!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
           }
         },
-        (e) => {}
+        (e) => { }
       );
   }
 
-  openCSVJsonDataAdapter(title: string,json: any, url: any ): any {
+  openCSVJsonDataAdapter(title: string, json: any, url: any): any {
     var mediaType = "text/csv";
     this.http
       .post(
@@ -213,14 +213,14 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             saveAs(blob, title + ".csv");
-            this.showAlert('info','Documento exportado exitosamente!');
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+            this.showAlert('info', 'Documento exportado exitosamente!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
           }
         },
-        (e) => {}
+        (e) => { }
       );
   }
 
@@ -235,15 +235,15 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             saveAs(blob, title + ".xls");
-            this.showAlert('info','Documento exportado exitosamente!');
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
-            
+            this.showAlert('info', 'Documento exportado exitosamente!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
+
           }
         },
-        (e) => {}
+        (e) => { }
       );
   }
 
@@ -258,14 +258,14 @@ export class HelpersServiceImp implements HelpersService {
       .subscribe(
         (response) => {
           var blob = new Blob([response], { type: mediaType });
-          if(blob.size > 0){
+          if (blob.size > 0) {
             saveAs(blob, title + ".csv");
-            this.showAlert('info','Documento exportado exitosamente!');
-          }else{
-            this.showAlert('warning','No hay datos para exportar e imprimir!');
+            this.showAlert('info', 'Documento exportado exitosamente!');
+          } else {
+            this.showAlert('warning', 'No hay datos para exportar e imprimir!');
           }
         },
-        (e) => {}
+        (e) => { }
       );
   }
 
@@ -403,11 +403,22 @@ export class HelpersServiceImp implements HelpersService {
 
   getSwitch(status: any, boolean = true) {
     if (boolean) {
-        return status == 1 ? true : false;
+      return status == 1 ? true : false;
     } else {
-        return status ? 1 : 2;
+      return status ? 1 : 2;
     }
-}
+  }
+
+  getDateAString(fecha: any, separador: string = '-', DMY: boolean = false): string | null {
+    if (!fecha) return null;
+
+    const rellenar = (num: number) => num.toString().padStart(2, '0');
+    const dia = rellenar(fecha.day);
+    const mes = rellenar(fecha.month);
+    const año = fecha.year.toString();
+
+    return DMY ? `${dia}${separador}${mes}${separador}${año}` : `${año}${separador}${mes}${separador}${dia}`;
+  }
 }
 
 export function headersHttp(type = 'application/x-www-form-urlencoded', tokenService = null): HttpHeaders {

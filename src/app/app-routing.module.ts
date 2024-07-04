@@ -634,17 +634,30 @@ const routes: Routes = [
                 children: [
                     {
                         path: 'first-aid',
-                        loadComponent: () =>
-                            import(
-                                './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-index/first-aid-index.component'
-                            ).then((m) => m.FirstAidIndexComponent),
-                    },
-                    {
-                        path: 'first-aid/new-first-aid',
-                        loadComponent: () =>
-                            import(
-                                './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
-                            ).then((m) => m.FirstAidFormComponent),
+                        children: [
+                            {
+                                path: '',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-index/first-aid-index.component'
+                                    ).then((m) => m.FirstAidIndexComponent),
+                            },
+                            {
+                                path: 'new',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
+                                    ).then((m) => m.FirstAidFormComponent),
+                            },
+                            {
+                                path: 'edit/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
+                                    ).then((m) => m.FirstAidFormComponent),
+                            }
+                        ]
+                        
                     },
                 ]
             }

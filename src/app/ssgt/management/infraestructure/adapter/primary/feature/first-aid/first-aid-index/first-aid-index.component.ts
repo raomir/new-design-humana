@@ -13,7 +13,7 @@ import { FirstAidService } from '../../../../../../core/application/first-aid/fi
 @Component({
   selector: 'app-first-aid-index',
   standalone: true,
-  imports: [CommonModule, HeaderCardComponent, TableGeneralComponent,ButtonsGeneralComponent],
+  imports: [CommonModule, HeaderCardComponent, TableGeneralComponent, ButtonsGeneralComponent],
   templateUrl: './first-aid-index.component.html',
   styleUrls: ['./first-aid-index.component.css']
 })
@@ -36,21 +36,24 @@ export class FirstAidIndexComponent implements OnInit {
     private helperService: HelpersServiceImp,
     private firstAidService: FirstAidService,
     private router: Router) {
+    //* Obtener la ruta actual
+    const currentPath = this.router.url;
+
     this.breadcrumbService.setItems([
       { label: 'Home', routerLink: ['/'] },
-      { label: 'Primeros Auxilios', routerLink: ['/management/first-aid'] },
+      { label: this.titleHeader, routerLink: [currentPath] },
     ])
     this.columns = this.retornaColumnas();
     this.loading = false;
   }
   ngOnInit(): void {
-    
+
   }
 
   //! Accion Nuevo
   actionNew() {
-      this.router.navigate(['/main/management/first-aid/new-first-aid']);
-   }
+    this.router.navigate(['/main/management/first-aid/new']);
+  }
 
   //! Accion Imprimir
   actionPrint(event: any) { }
@@ -125,10 +128,23 @@ export class FirstAidIndexComponent implements OnInit {
   runActions(event: RegistroData) {
     switch (event.action) {
       case 'btn_editar':
-        console.log(event.data);
+        this.router.navigateByUrl(`/main/management/first-aid/edit/${event.data.id}`);
         break;
       case 'btn_eliminar':
-        console.log(event.data);
+        this.helperService.showConfirmationDelete()
+          .then((confirmed: boolean) => {
+            if (confirmed) {
+              this.firstAidService.delete(event.data.id).subscribe(
+                (resp: any) => {
+                  this.helperService.showAlert('success', resp.message);
+                  this.dataTable?.loadTable(0);
+                }
+              );
+            }
+          })
+          .catch((error: any) => {
+            console.error('Error al mostrar el cuadro de confirmación:', error);
+          });
         break;
       default:
         break;
