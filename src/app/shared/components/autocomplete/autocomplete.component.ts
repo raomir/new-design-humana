@@ -5,6 +5,8 @@ import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteOnSelectEven
 import { ButtonModule } from 'primeng/button';
 import { AutocompleteService } from '../../core/application/autocomplete.service';
 
+
+
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
@@ -38,8 +40,24 @@ export class AutocompleteComponent {
   constructor(private autocompleteService: AutocompleteService) {}
 
   async search(event: AutoCompleteCompleteEvent) {
+    console.log(event);
     this.autocompleteService.url = this.url;
-    if (event.query.length < 3) return;
+    event.query = this.inputModel;
+
+    // Manejar la búsqueda para 3 o más espacios en blanco
+    if (event.query.replace(/[^ ]/g, '').length >= 3) {
+      const spaceQuery = event.query;
+      if (spaceQuery.length >= 3 && spaceQuery.trim() === '') {
+          // Ejecutar búsqueda con tres espacios en blanco
+          event.query = 'null';
+      }
+    }
+
+    event.query = event.query?.trim();
+    const query = event.query;
+
+    // Verificar si la entrada tiene menos de 3;
+    if (query.length < 3) return;
 
     if (this.usePostRequest) {
       const data = {
@@ -82,7 +100,7 @@ export class AutocompleteComponent {
         next: async res => { // pendiente verificar la respuesta
           if (this.employe) {
             this.suggestions = await res.content.map((e: any) => {
-              e.valor_montar = e.tipoDocumento + ' - ' + e.numeroDocumento + ' - ' + e.nombre1
+              e.valor_montar = e.fullName
               return e;
             });
           } else {
@@ -91,6 +109,7 @@ export class AutocompleteComponent {
               return e;
             });
           }
+          console.log(this.suggestions);
         },
         error: err => {
           this.suggestions = [];
@@ -98,6 +117,15 @@ export class AutocompleteComponent {
       })
     }
   }
+
+async searchOnSpace(event: Event | InputEvent) {
+  console.log(event);
+  const input = event.target as HTMLInputElement;
+  if (input.value.replace(/[^ ]/g, '').length >= 3) {
+    await this.search({ originalEvent: event, query: input.value });
+  }
+}
+
 
   selectItem(event: AutoCompleteOnSelectEvent) {
     this.itemSelected.emit(event.value)

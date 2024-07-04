@@ -9,11 +9,10 @@ import { AutocompleteComponent } from '../../../../../../../../shared/components
 import { DropdownModule } from 'primeng/dropdown';
 import { List } from '../../../../../../../../shared/core/domain/list.model';
 import { ListService } from '../../../../../../../../shared/core/application/list.service';
-import { EndowmentsPerChargeModel } from '../../../../../../core/domain/endowments-per-charge/endowments-per-charge.model';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
-import { AdvancedSearchFormsProdutsComponent } from '../../../../../../../../shared/components/advanced-search-forms-produts/advanced-search-forms-produts.component';
 import { CommitteeService } from '../../../../../../core/application/committee/committee.service';
-import { CommitteesDetailsModel } from 'src/app/ssgt/parameter/core/domain/committee/ommitteesDetails.model';
+import { CommitteesDetailsModel } from '../../../../../../../../ssgt/parameter/core/domain/committee/ommitteesDetails.model';
+import { AdvancedSearchEmployeComponent } from '../../../../../../../../shared/components/advanced-search-employe/advanced-search-employe.component';
 
 @Component({
   selector: 'app-commitee-modal',
@@ -28,8 +27,8 @@ import { CommitteesDetailsModel } from 'src/app/ssgt/parameter/core/domain/commi
     InputTextModule,
     InputSwitchModule,
     DropdownModule,
-    InputNumberModule,
-    AdvancedSearchFormsProdutsComponent
+    InputNumberModule, 
+    AdvancedSearchEmployeComponent
   ],
 })
 export class CommiteeModalComponent implements OnInit {
@@ -50,7 +49,7 @@ export class CommiteeModalComponent implements OnInit {
   // autocomplete and advanced
   public displayModalAdvanced: boolean = false;
   public employeeTxt: any;
-  public endPointAutocomplete: string = 'buscadores/empleado/busquedageneral/page/0';
+  public endPointAutocomplete: string = 'v2/search/employee/general/page/0';
   public paramsAutocomplete: any = { 
     grupo: {
       tipo_clase: [43364, 43365] 
@@ -112,7 +111,7 @@ export class CommiteeModalComponent implements OnInit {
     if (info) {
       this.employeeTxt = {
         id: info.id,
-        valor_montar: info.tipoDocumento + ' - ' + info.numeroDocumento + ' - ' + info.nombre1
+        valor_montar: info.fullName
       }
       this.frm.controls['employee'].setValue({id: info.id});
     }
