@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../../../environments/environment';
 import * as helpers from '../../../../../../shared/core/application/config/helpers.service.imp';
-import { ActivityRepositoryPort } from '../../../../core/port/out/activity/activity-repository.port';
 import { CommitteeModel } from '../../../../core/domain/committee/committee.model';
 import { CommitteeRepositoryPort } from '../../../../core/port/out/committee/committee-repository.port';
+import { CommitteesDetailsModel } from '../../../../core/domain/committee/ommitteesDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ import { CommitteeRepositoryPort } from '../../../../core/port/out/committee/com
 export class CommitteeRepositoryService implements CommitteeRepositoryPort {
 
   private apiUrl: string = environment.url + 'v2/committees/';
+  private apiUrlDetails: string = environment.url + 'v2/committees/details/';
 
   constructor(
       private http: HttpClient
@@ -37,5 +38,20 @@ export class CommitteeRepositoryService implements CommitteeRepositoryPort {
 
   findAll(): Observable<CommitteeModel[]> {
     return this.http.get<CommitteeModel[]>(this.apiUrl);
+  }
+
+  findDetailsID(id: Number): Observable<CommitteesDetailsModel[]> {
+    return this.http.get<CommitteesDetailsModel[]>(this.apiUrlDetails + id);
+  }
+  saveDetails(data: CommitteesDetailsModel): Observable<any> {
+    return this.http.post<any>(this.apiUrlDetails, data);
+  }
+  updateDetails(id: Number, data: CommitteesDetailsModel): Observable<any> {
+    const header = helpers.headersHttp('application/json'); 
+    return this.http.put<any>(this.apiUrlDetails + id, data, {headers: header});
+  }
+  deleteDetails(id: Number): Observable<any> {
+    const header = helpers.headersHttp('application/json'); 
+    return this.http.delete<any>(this.apiUrlDetails + id, {headers: header});
   }
 }

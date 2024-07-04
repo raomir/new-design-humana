@@ -86,5 +86,6 @@ export class DatatableSort implements DatatableSort {
 
 export interface BodyPage {
   typeListId: number;
+  committeeId?: number | Number;
   page: JsonParams
 }

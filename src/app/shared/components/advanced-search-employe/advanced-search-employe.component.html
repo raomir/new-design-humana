@@ -1,0 +1,176 @@
+<app-modal-general *ngIf="displayModal" [displayModal]="displayModal" [title]="title" (closeModal)="closeModal()"
+    [widthVwModal]="'70vw'" [buttons]="buttons">
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab [iconPos]="'end'">
+            <ng-template pTemplate="header">
+                <span class="font-bold" style="font-size: 12px;">Criterios de búsqueda</span>
+            </ng-template>
+            <p-divider class="p-divider p-component p-divider-solid p-divider-left" styleClass="divider-general" />
+            <form name="frm" id="frm" [formGroup]="frm">
+                <div class="grid col-12 m-0">
+                    <!-- Producto -->
+                    <div class="col-12 sm:col-12 md:col-12 lg:col-12 py-0">
+                        <div class="field form-group">
+                            <label for="producto" class="form-label md:col-2 m-0">Producto</label>
+                            <div class="md:col-12 px-0 py-0 field-container">
+                                <app-autocomplete [params]="paramsAutocomplete" [placeholder]="'Producto'" (itemSelected)="productSelected($event)"
+                                    [endPoint]="endPointAutocomplete" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
+                                    (clearSelectedItem)="clearSelectedProduct()" [inputModel]="productTxt" appendTo="body" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Producto -->
+                    <!-- Categoria -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="codigo" class="m-0">Categoria</label>
+                            <div class="p-inputgroup mt-2">
+                                <div class="container col-12 px-0 py-0">
+                                    <div class="p-dropdown w-100" (click)="toggleTree()">
+                                        <input styleClass="p-dropdown-default w-100" type="text" pInputText placeholder="Seleccionar" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}" readonly>
+                                        <div class="p-dropdown-trigger-icon p-dropdown-trigger">
+                                            <span class="pi pi-chevron-down"></span>
+                                        </div>
+                                    </div>
+                                    <div class="p-dropdown-panel" [ngClass]="{ 'p-dropdown-panel-visible': treeVisible }">
+                                        <p-tree [filter]="true" [value]="selectedCategoryTree" selectionMode="single" (onNodeSelect)="getCuentaC($event)" [style]="{ 'max-width': '400px', 'max-height': '300px', 'overflow-y': 'auto' }"></p-tree>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Categoria -->
+                    <!-- Tipo de producto -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="Tipo de producto" class="m-0">Tipo de producto</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" [style]="{width: '100%'}" [options]="productTypeList" formControlName="tipo_producto_id" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Tipo de producto -->
+                    <!-- usos -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="usos_ids" class="m-0">Usos</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-multiSelect appendTo="body" id="usos_ids" [style]="{width: '100%'}" styleClass="p-multiselect-default" [options]="usageList" formControlName="usos_ids" optionValue="id" optionLabel="nombre" placeholder="Usos"></p-multiSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END usos -->
+                    <!-- Grupo de marca -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="grupo_marca_id" class="m-0">Grupo de marca</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="grupo_marca_id" [style]="{width: '100%'}" [options]="brandGroupList" formControlName="grupo_marca_id" optionLabel="nombre" [showClear]="false" (onChange)="getBrands($event)" placeholder="Grupo de marca"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Grupo de marca -->
+                    <!-- Marca -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="inv_marca_id" class="m-0">Marca</label>
+                            <div class="p-inputgroup field-container mt-2" [ngClass]="loadingBrand ? 'custom-spinner-brand' : ''">
+                                <ng-container *ngIf="loadingBrand; else dropdownTemplate">
+                                    <p-progressSpinner id="inv_marca_id_loading" styleClass="custom-spinner-brand w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+                                </ng-container>
+                                <ng-template #dropdownTemplate>
+                                    <p-dropdown appendTo="body" id="inv_marca_id" [style]="{width: '100%'}"
+                                        [options]="brandList" formControlName="inv_marca_id" 
+                                        optionLabel="nombre" [showClear]="false" placeholder="Marca">
+                                    </p-dropdown>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Marca -->
+                    <!-- Unidad de compra -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="unidad_compra_id" class="m-0">Unidad de compra</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="unidad_compra_id" [style]="{width: '100%'}" [options]="purchaseUnitList" formControlName="unidad_compra_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de compra"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Unidad de compra -->
+                    <!-- Unidad de distribucion -->
+                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                        <div class="field form-group">
+                            <label for="unidad_distribucion_id" class="m-0">Unidad de distribucion</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="unidad_distribucion_id" [style]="{width: '100%'}" [options]="distributionUnitList" formControlName="unidad_distribucion_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de distribucion"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Unidad de distribucion -->
+                    <!-- Proveedor -->
+                    <div class="col-12 sm:col-12 md:col-8 lg:col-8 py-0">
+                        <div class="field form-group">
+                            <label for="proveedor" class="form-label md:col-2 m-0">Proveedor</label>
+                            <div class="md:col-12 px-0 py-0 field-container">
+                                <app-autocomplete [params]="paramsAutocompleteProveedor" [placeholder]="'Proveedor'" (itemSelected)="proveedorSelected($event)"
+                                    [endPoint]="'comtercero/search'" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
+                                    (clearSelectedItem)="clearSelectedProveedor()" [inputModel]="proveedorTxt" appendTo="body" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Proveedor -->
+                    <div class="grid col-12 m-0 mt-2 p-0">
+                        <!-- Variantes -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="con_variantes" class="form-label col-3">Variantes</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_variantes" id="con_variantes" name="con_variantes" class="w-full"
+                                    [(ngModel)]="frm.value.con_variantes"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Maneja lotes -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="maneja_lotes" class="form-label col-3">Maneja lotes</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="maneja_lotes" id="maneja_lotes" name="maneja_lotes" class="w-full"
+                                    [(ngModel)]="frm.value.maneja_lotes"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Compuestos -->
+                        <div class="col-2 d-flex align-items-center">
+                            <label for="con_compuestos" class="form-label col-3">Compuestos</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_compuestos" id="con_compuestos" name="con_compuestos" class="w-full"
+                                    [(ngModel)]="frm.value.con_compuestos"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Exigencias -->
+                        <div class="col-3 d-flex align-items-center">
+                            <label for="con_existencias" class="form-label col-3">Exigencias</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_existencias" id="con_existencias" name="con_existencias" class="w-full"
+                                    [(ngModel)]="frm.value.con_existencias"></p-inputSwitch>
+                            </div>
+                        </div>
+                        <!-- Tarifas -->
+                        <div class="col-3 d-flex align-items-center">
+                            <label for="con_tarifas" class="form-label col-3">Tarifas</label>
+                            <div class="col-9">
+                                <p-inputSwitch formControlName="con_tarifas" id="con_tarifas" name="con_tarifas" class="w-full"
+                                    [(ngModel)]="frm.value.con_tarifas"></p-inputSwitch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto ml-auto">
+                        <app-buttons-general [buttons]="buttonsForm" (searchAction)="searchForms()"
+                            (cleanAction)="cleanForm()" />
+                    </div>
+                </div>
+            </form>
+        </p-accordionTab>
+    </p-accordion>
+    <app-table-general #table [columns]="columns" [export]="false" [endPoint]="endPointDatatable" [usePostRequest]="true" [erp]="true" [parameters]="dataForm"
+        [sendDocument]="true" (runActions)="selectElement($event)" />
+
+</app-modal-general>

@@ -1,49 +1,25 @@
 <app-modal-general [displayModal]="displayModal" [title]="titleModal" (closeModal)="closeModal($event)"
-    [widthVwModal]="'40vw'">
+    [widthVwModal]="'27vw'">
     <form name="frm" id="frm" [formGroup]="frm">
         <div class="grid m-0">
-            <!-- Estado -->
-            <label for="activo" class="form-label col-2 mt-2">Activo</label>
-            <div class="col-10 mt-2">
-                <p-inputSwitch formControlName="activo" id="activo" name="activo" class="w-full"></p-inputSwitch>
-            </div>
-            <!-- END Estado -->
 
-            <!-- Producto -->
-            <label for="producto" class="form-label md:col-2">Producto</label>
-            <div class="md:col-4 field-container">
+            <!-- Empleado -->
+            <label for="employee" class="form-label md:col-2">Empleado</label>
+            <div class="md:col-10 field-container">
                 <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvanced($event)"
-                    [params]="paramsAutocomplete" [placeholder]="'Producto'" (itemSelected)="productSelected($event)"
-                    [endPoint]="endPointAutocomplete" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
-                    (clearSelectedItem)="clearSelectedProduct()" [inputModel]="productTxt" appendTo="body" />
+                    [params]="paramsAutocomplete" [employe]="true" [placeholder]="'Empleado'" (itemSelected)="employeeSelected($event)"
+                    [endPoint]="endPointAutocomplete" [usePostRequest]="false" url="url" type="application/x-www-form-urlencoded"
+                    (clearSelectedItem)="clearSelectedEmployee()" [inputModel]="employeeTxt" appendTo="body" />
             </div>
-            <!-- END Producto -->
 
-            <!-- cantidad -->
-            <label for="cantidad" class="form-label md:col-2">Cantidad</label>
-            <div class="p-inputgroup md:col-4 field-container">
-                <p-inputNumber inputId="cantidad" formControlName="cantidad" placeholder="cantidad" [min]="0"
-                    [max]="10000" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" />
+            <!-- rol -->
+            <label for="rolCommittee" class="form-label md:col-2">Rol</label>
+            <div class="p-inputgroup md:col-10">
+                <p-dropdown [style]="{width: '100%'}" [options]="listRolCommittees" formControlName="rolCommittee"
+                    appendTo="body" placeholder="Rol" optionLabel="name"></p-dropdown>
             </div>
-            <!-- END cantidad -->
-
-            <!-- frecuencia -->
-            <label for="frecuencia" class="form-label md:col-2">Frecuencia</label>
-            <div class="p-inputgroup md:col-4">
-                <p-inputNumber inputId="frecuencia" formControlName="frecuencia" placeholder="Frecuencia" [min]="0"
-                    [max]="9999" />
-            </div>
-            <!-- END frecuencia -->
-
-            <!-- unidad_tiempo -->
-            <label for="unidad_tiempo" class="form-label md:col-2">Unidad de tiempo</label>
-            <div class="p-inputgroup md:col-4">
-                <p-dropdown [style]="{width: '100%'}" [options]="listTimeUnits" formControlName="unidadTiempo"
-                    appendTo="body" placeholder="Seleccione unidad de tiempo" optionLabel="nombre"
-                    optionValue="id"></p-dropdown>
-            </div>
-            <!-- END unidad_tiempo -->
+            <!-- END rol -->
         </div>
     </form>
 </app-modal-general>
-<app-advanced-search-forms-produts  [displayModal]="displayModalAdvanced" (modalResponse)="subprocessResponse($event)" />
+<app-advanced-search-employe  [displayModal]="displayModalAdvanced" (modalResponse)="employeeSelected($event)" />

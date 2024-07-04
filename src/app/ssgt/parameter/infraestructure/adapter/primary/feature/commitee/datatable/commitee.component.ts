@@ -81,7 +81,6 @@ export class CommiteeComponent implements OnInit {
   ) {
     // Obtener la ruta actual
     const currentPath = this.router.url;
-    console.log(currentPath);
     // Configurar el breadcrumb con la ruta actual
 
     this.breadcrumbService.setItems([
@@ -119,6 +118,9 @@ export class CommiteeComponent implements OnInit {
   runActions(event: RegistroData) {
     if (event.action == 'btn_editar') {
       this.router.navigateByUrl(`/main/administration/committee/edit/${event.data.id}`)
+    }
+    if (event.action == 'btn_ver') {
+      this.router.navigateByUrl(`/main/administration/committee/show/${event.data.id}`)
     }
   }
 
