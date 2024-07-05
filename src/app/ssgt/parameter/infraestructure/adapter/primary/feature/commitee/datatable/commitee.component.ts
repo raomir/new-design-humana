@@ -9,6 +9,7 @@ import { Column, JsonParams } from '../../../../../../../../shared/components/ta
 import { Router } from '@angular/router';
 import { RegistroData } from '../../../../../../../../shared/components/buttons-general/actions';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
+import { CommitteeService } from '../../../../../../../../ssgt/parameter/core/application/committee/committee.service';
 
 @Component({
   selector: 'app-commitee',
@@ -78,6 +79,7 @@ export class CommiteeComponent implements OnInit {
     private breadcrumbService: AppBreadcrumbService,
     private helperService: HelpersServiceImp,
     private router: Router,
+    private committeeService: CommitteeService
   ) {
     // Obtener la ruta actual
     const currentPath = this.router.url;
@@ -122,6 +124,23 @@ export class CommiteeComponent implements OnInit {
     if (event.action == 'btn_ver') {
       this.router.navigateByUrl(`/main/administration/committee/show/${event.data.id}`)
     }
+    if (event.action == 'btn_eliminar') {
+        const itemDataId = event.data.id;
+        this.helperService.showConfirmationDelete()
+        .then((confirmed: boolean) => {
+          if (confirmed) {
+            this.committeeService.delete(itemDataId).subscribe(
+              (resp: any) => {
+                this.helperService.showAlert('success', resp.message);
+                this.table?.loadTable(0);
+              }
+            );
+          }
+        })
+        .catch((error: any) => {
+          console.error('Error al mostrar el cuadro de confirmación:', error);
+        });
+    };
   }
 
   create() {

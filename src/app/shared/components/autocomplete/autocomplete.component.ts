@@ -40,7 +40,6 @@ export class AutocompleteComponent {
   constructor(private autocompleteService: AutocompleteService) {}
 
   async search(event: AutoCompleteCompleteEvent) {
-    console.log(event);
     this.autocompleteService.url = this.url;
     event.query = this.inputModel;
 
@@ -109,7 +108,6 @@ export class AutocompleteComponent {
               return e;
             });
           }
-          console.log(this.suggestions);
         },
         error: err => {
           this.suggestions = [];
@@ -119,7 +117,6 @@ export class AutocompleteComponent {
   }
 
 async searchOnSpace(event: Event | InputEvent) {
-  console.log(event);
   const input = event.target as HTMLInputElement;
   if (input.value.replace(/[^ ]/g, '').length >= 3) {
     await this.search({ originalEvent: event, query: input.value });
