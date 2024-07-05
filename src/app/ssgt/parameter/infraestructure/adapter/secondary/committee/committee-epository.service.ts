@@ -14,6 +14,7 @@ export class CommitteeRepositoryService implements CommitteeRepositoryPort {
 
   private apiUrl: string = environment.url + 'v2/committees/';
   private apiUrlDetails: string = environment.url + 'v2/committees/details/';
+  private apiUrlCharge: string = environment.url + 'v2/links/filterByEmployee/';
 
   constructor(
       private http: HttpClient
@@ -53,5 +54,9 @@ export class CommitteeRepositoryService implements CommitteeRepositoryPort {
   deleteDetails(id: Number): Observable<any> {
     const header = helpers.headersHttp('application/json'); 
     return this.http.delete<any>(this.apiUrlDetails + id, {headers: header});
+  }
+
+  findChargeByEmployeeId(id: Number): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrlCharge + id);
   }
 }

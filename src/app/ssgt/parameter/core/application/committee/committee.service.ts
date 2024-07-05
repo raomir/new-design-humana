@@ -42,4 +42,8 @@ export class CommitteeService implements CommitteeCrudPort {
     return this.committeeRepositoryService.deleteDetails(id);
   }
 
+  findChargeByEmployeeId(id: Number): Observable<any[]> {
+    return this.committeeRepositoryService.findChargeByEmployeeId(id);
+  }
+
 }

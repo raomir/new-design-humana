@@ -10,15 +10,24 @@
                     [params]="paramsAutocomplete" [employe]="true" [placeholder]="'Empleado'" (itemSelected)="employeeSelected($event)"
                     [endPoint]="endPointAutocomplete" [usePostRequest]="false" url="url" type="application/x-www-form-urlencoded"
                     (clearSelectedItem)="clearSelectedEmployee()" [inputModel]="employeeTxt" appendTo="body" />
+                <app-validation-message class="validation-message" [control]="frm.get('employee')"></app-validation-message>
             </div>
 
             <!-- rol -->
             <label for="rolCommittee" class="form-label md:col-2">Rol</label>
-            <div class="p-inputgroup md:col-10">
+            <div class="p-inputgroup md:col-10 field-container">
                 <p-dropdown [style]="{width: '100%'}" [options]="listRolCommittees" formControlName="rolCommittee"
                     appendTo="body" placeholder="Rol" optionLabel="name"></p-dropdown>
+                <app-validation-message class="validation-message" [control]="frm.get('rolCommittee')"></app-validation-message>
             </div>
             <!-- END rol -->
+            <!-- Cargo -->
+            <label for="position" class="form-label md:col-2">Cargo</label>
+            <div class="p-inputgroup md:col-10 field-container">
+                <p-dropdown appendTo="body" [style]="{width: '100%'}"  [options]="selectCharge" formControlName="position" optionLabel="fullNameCharge" optionValue="chargeId" [showClear]="true" placeholder="Select a City"></p-dropdown>
+                <app-validation-message class="validation-message" [control]="frm.get('position')"></app-validation-message>
+            </div>
+            <!-- END Cargo -->
         </div>
     </form>
 </app-modal-general>

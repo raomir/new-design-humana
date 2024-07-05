@@ -13,6 +13,7 @@ import { HelpersServiceImp } from '../../../../../../../../shared/core/applicati
 import { CommitteeService } from '../../../../../../core/application/committee/committee.service';
 import { CommitteesDetailsModel } from '../../../../../../../../ssgt/parameter/core/domain/committee/ommitteesDetails.model';
 import { AdvancedSearchEmployeComponent } from '../../../../../../../../shared/components/advanced-search-employe/advanced-search-employe.component';
+import { ValidationMessageComponent } from '../../../../../../../../shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'app-commitee-modal',
@@ -28,6 +29,7 @@ import { AdvancedSearchEmployeComponent } from '../../../../../../../../shared/c
     InputSwitchModule,
     DropdownModule,
     InputNumberModule, 
+    ValidationMessageComponent,
     AdvancedSearchEmployeComponent
   ],
 })
@@ -45,6 +47,7 @@ export class CommiteeModalComponent implements OnInit {
   public frm!: FormGroup;
 
   public listRolCommittees: Array<any> = [];
+  public selectCharge: Array<any> = [];
 
   // autocomplete and advanced
   public displayModalAdvanced: boolean = false;
@@ -80,7 +83,7 @@ export class CommiteeModalComponent implements OnInit {
       committee: [{id: this.committeeId}],
       rolCommittee: [null, Validators.required],
       employee: [null, Validators.required],
-      position: [{id: 71}, Validators.required],
+      position: [null, Validators.required],
     })
   }
 
@@ -93,7 +96,9 @@ export class CommiteeModalComponent implements OnInit {
   }
 
   closeModal(event: boolean) {
+    this.frm.markAllAsTouched();
     if (event) {
+      this.frm.markAllAsTouched();
       if (this.frm.valid) {
         this.save();
       }
@@ -114,6 +119,11 @@ export class CommiteeModalComponent implements OnInit {
         valor_montar: info.fullName
       }
       this.frm.controls['employee'].setValue({id: info.id});
+      this.committeeService.findChargeByEmployeeId(info.id).subscribe(
+        (res: any) => {
+          this.selectCharge = res.data;
+        }
+      )
     }
   }
 
@@ -122,9 +132,11 @@ export class CommiteeModalComponent implements OnInit {
     this.frm.controls['employee'].setValue(null);
   }
 
-  save(): void {
-
+  save(): void | boolean {
+    this.frm.markAllAsTouched();
+    if (this.frm.invalid) { return false }
     const data: CommitteesDetailsModel = new CommitteesDetailsModel(this.frm.getRawValue());
+    data.position = {id: this.frm.getRawValue().position};
 
     if (this.id) {
       this.committeeService.updateDetails(this.id, data).subscribe({
