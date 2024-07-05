@@ -230,47 +230,8 @@ export class AdvancedSearchEmployeComponent {
       });
   }
 
-  /**
-   * Method that loads default values into the form
-   */
-  public loadData(res: any) {
-      if (res != null) {
-         
-      }
-  }
-
   toggleTree() {
     this.treeVisible = !this.treeVisible;
-  }
-
-  productSelected(info: any) {
-    if (info) {
-      this.productTxt = {
-        id: info.id,
-        valor_montar: info.codigoUnspsc + ' - ' + info.nombre
-      }
-      this.frm.controls['com_producto_id'].setValue(info.id);
-    }
-  }
-
-  clearSelectedProduct() {
-    this.productTxt = null;
-    this.frm.controls['com_producto_id'].setValue(null);
-  }
-
-  proveedorSelected(info: any) {
-    if (info) {
-      this.proveedorTxt = {
-        id: info.id,
-        valor_montar: info.valor_montar
-      }
-      this.frm.controls['com_tercero_id'].setValue(info.id);
-    }
-  }
-
-  clearSelectedProveedor() {
-    this.proveedorTxt = null;
-    this.frm.controls['com_tercero_id'].setValue(null);
   }
 
   async searchForms() {
@@ -287,12 +248,10 @@ export class AdvancedSearchEmployeComponent {
     this.table?.loadTable(0, this.table?.pageNumber, '', this.dataForm);
   }
 
-  selectElement(info: RegistroData) {
+  selectElement(info: RegistroData | any) {
     const dataProceso = {
         'id': info.data.id,
-        'valorMontar': `${info.data.codigo} - ${info.data.nombre}`,
-        'valor_montar': `${info.data.codigo} - ${info.data.nombre}`,
-        'valorMontarPadre': info.data.nombrePadre
+        'valor_montar': info.data.valor_montar
     };
     this.modalResponse.emit(dataProceso)
   }

@@ -111,12 +111,12 @@ export class CommiteeModalComponent implements OnInit {
     this.displayModalAdvanced = open;
   }
 
-  employeeSelected(info: any) {
+  employeeSelected(info: any, advance: boolean = false) {
     this.displayModalAdvanced = false;
     if (info) {
       this.employeeTxt = {
         id: info.id,
-        valor_montar: info.fullName
+        valor_montar: advance ? info.valor_montar : info.fullName
       }
       this.frm.controls['employee'].setValue({id: info.id});
       this.committeeService.findChargeByEmployeeId(info.id).subscribe(

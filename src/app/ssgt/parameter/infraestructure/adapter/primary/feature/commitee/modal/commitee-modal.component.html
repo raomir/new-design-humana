@@ -16,7 +16,7 @@
             <!-- rol -->
             <label for="rolCommittee" class="form-label md:col-2">Rol</label>
             <div class="p-inputgroup md:col-10 field-container">
-                <p-dropdown [style]="{width: '100%'}" [options]="listRolCommittees" formControlName="rolCommittee"
+                <p-dropdown id="rolCommittee" [style]="{width: '100%'}" [options]="listRolCommittees" formControlName="rolCommittee"
                     appendTo="body" placeholder="Rol" optionLabel="name"></p-dropdown>
                 <app-validation-message class="validation-message" [control]="frm.get('rolCommittee')"></app-validation-message>
             </div>
@@ -24,11 +24,11 @@
             <!-- Cargo -->
             <label for="position" class="form-label md:col-2">Cargo</label>
             <div class="p-inputgroup md:col-10 field-container">
-                <p-dropdown appendTo="body" [style]="{width: '100%'}"  [options]="selectCharge" formControlName="position" optionLabel="fullNameCharge" optionValue="chargeId" [showClear]="true" placeholder="Select a City"></p-dropdown>
+                <p-dropdown id="position" appendTo="body" [style]="{width: '100%'}"  [options]="selectCharge" formControlName="position" optionLabel="fullNameCharge" optionValue="chargeId" [showClear]="true" placeholder="Select a City"></p-dropdown>
                 <app-validation-message class="validation-message" [control]="frm.get('position')"></app-validation-message>
             </div>
             <!-- END Cargo -->
         </div>
     </form>
 </app-modal-general>
-<app-advanced-search-employe  [displayModal]="displayModalAdvanced" (modalResponse)="employeeSelected($event)" />
+<app-advanced-search-employe  [displayModal]="displayModalAdvanced" (modalResponse)="employeeSelected($event, true)" />
