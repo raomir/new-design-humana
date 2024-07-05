@@ -14,6 +14,7 @@ import { FirstAidModelRequest } from '../../../../../../core/domain/first-aid/fi
 import { AutocompleteComponent } from '../../../../../../../../shared/components/autocomplete/autocomplete.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { C } from '@fullcalendar/core/internal-common';
+import { AdvancedSearchEmployeComponent } from '../../../../../../../../shared/components/advanced-search-employe/advanced-search-employe.component';
 
 @Component({
   selector: 'app-first-aid-form',
@@ -28,7 +29,8 @@ import { C } from '@fullcalendar/core/internal-common';
     InputTextModule,
     ButtonsGeneralComponent,
     AutocompleteComponent,
-    DropdownModule
+    DropdownModule,
+    AdvancedSearchEmployeComponent
   ],
   templateUrl: './first-aid-form.component.html',
   styles: [
@@ -43,6 +45,7 @@ export class FirstAidFormComponent implements OnInit {
   public id?: Number;
   public endPointElements: string = 'firstAid/'
   public selectCharge: Array<any> = [];
+  public origen: string = '';
 
   // autocomplete and advanced
   public displayModalAdvanced: boolean = false;
@@ -172,25 +175,28 @@ export class FirstAidFormComponent implements OnInit {
     }
   }
 
-  openModalAdvanced(open: boolean) {
+  openModalAdvanced(open: boolean, origen: string) {
+    this.origen = origen;
     this.displayModalAdvanced = open;
   }
 
-  employeeSelected(info: any, origin: string) {
+  //Cuando viene el buscador avanzado pone el valor del info.valor_montar 
+  employeeSelected(info: any, origin: string, advance: boolean = false) {
+    this.origen = '';
     this.displayModalAdvanced = false;
     if (info) {
       switch (origin) {
         case 'inCharge':
           this.inChargeTxt = {
             id: info.id,
-            valor_montar: info.fullName
+            valor_montar:  advance ? info.valor_montar : info.fullName
           }
           this.frm.controls['inCharge'].setValue({ id: info.id });
           break;
         case 'employee':
           this.employeeTxt = {
             id: info.id,
-            valor_montar: info.fullName
+            valor_montar:  advance ? info.valor_montar : info.fullName
           }
           this.frm.controls['employee'].setValue({ id: info.id });
           this.firstAidService.findChargeByEmployeeId(info.id).subscribe(
@@ -201,6 +207,7 @@ export class FirstAidFormComponent implements OnInit {
           break;
       }
     }
+    console.log(info)
   }
 
   clearSelectedEmployee(origin: string) {
