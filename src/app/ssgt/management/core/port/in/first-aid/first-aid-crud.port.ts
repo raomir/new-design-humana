@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { FirstAidModelRequest, FirstAidModelResponse } from "../../../domain/first-aid/first-aid.model";
+import { FirstAidModelRequest, FirstAidModelResponse, ChargeModelResponse } from '../../../domain/first-aid/first-aid.model';
 
 export interface FirstAidCrudPort {
 
@@ -12,4 +12,6 @@ export interface FirstAidCrudPort {
     update(id: Number, data: FirstAidModelRequest): Observable<any>;
 
     delete(id: Number): Observable<any>;
+
+    findChargeByEmployeeId(id: Number): Observable<ChargeModelResponse[]>;
 }

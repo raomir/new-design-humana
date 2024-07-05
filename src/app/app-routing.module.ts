@@ -654,6 +654,11 @@ const routes: Routes = [
                                     import(
                                         './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-index/first-aid-index.component'
                                     ).then((m) => m.FirstAidIndexComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.primeros_auxilios'
+                                    }
+                                },
                             },
                             {
                                 path: 'new',
@@ -661,6 +666,11 @@ const routes: Routes = [
                                     import(
                                         './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
                                     ).then((m) => m.FirstAidFormComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.primeros_auxilios'
+                                    }
+                                },
                             },
                             {
                                 path: 'edit/:id',
@@ -668,6 +678,24 @@ const routes: Routes = [
                                     import(
                                         './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
                                     ).then((m) => m.FirstAidFormComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.primeros_auxilios'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'show/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
+                                    ).then((m) => m.FirstAidFormComponent),
+                                data: {
+                                    view: true,
+                                    permissions: {
+                                        name: 'talentohumano.primeros_auxilios'
+                                    }
+                                },
                             }
                         ]
                         

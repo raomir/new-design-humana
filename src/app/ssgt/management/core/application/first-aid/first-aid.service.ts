@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { FirstAidCrudPort } from '../../port/in/first-aid/first-aid-crud.port';
 import { Observable } from 'rxjs';
-import { FirstAidModelResponse, FirstAidModelRequest } from '../../domain/first-aid/first-aid.model';
+import { FirstAidModelResponse, FirstAidModelRequest, ChargeModelResponse } from '../../domain/first-aid/first-aid.model';
 import { FirstAidRepositoryService } from '../../../infraestructure/adapter/secondary/first-aid/first-aid-repository.service';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class FirstAidService implements FirstAidCrudPort {
   private firstAidRepositoryService = inject(FirstAidRepositoryService)
 
   constructor() { }
+  
   findAll(): Observable<FirstAidModelResponse[]> {
     return this.firstAidRepositoryService.findAll();
   }
@@ -26,5 +27,9 @@ export class FirstAidService implements FirstAidCrudPort {
   }
   delete(id: Number): Observable<any> {
     return this.firstAidRepositoryService.delete(id);
+  }
+
+  findChargeByEmployeeId(id: Number): Observable<ChargeModelResponse[]> {
+    return this.firstAidRepositoryService.findChargeByEmployeeId(id);
   }
 }

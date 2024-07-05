@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FirstAidModelResponse, FirstAidModelRequest } from 'src/app/ssgt/management/core/domain/first-aid/first-aid.model';
 import { environment } from '../../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { ChargeModelResponse } from '../../../../core/domain/first-aid/first-aid.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class FirstAidRepositoryService implements FirstAidRepositoryPort {
 
   private apiUrl: string = environment.url + 'v2/firstAid'
+  private apiUrlCharge: string = environment.url + 'v2/links/filterByEmployee/';
 
   constructor(private http: HttpClient) { }
 
@@ -28,5 +30,9 @@ export class FirstAidRepositoryService implements FirstAidRepositoryPort {
   }
   delete(id: Number): Observable<any> {
     return this.http.delete(this.apiUrl +"/"+ id);
+  }
+
+  findChargeByEmployeeId(id: Number): Observable<ChargeModelResponse[]> {
+    return this.http.get<ChargeModelResponse[]>(this.apiUrlCharge + id);
   }
 }

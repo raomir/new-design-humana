@@ -67,6 +67,7 @@ export class FirstAidIndexComponent implements OnInit {
           return data[2] + '/' + data[1] + '/' + data[0];
         },
         sort: 'date',
+        searchable: false,
         width: '10%'
       },
       {
@@ -75,7 +76,9 @@ export class FirstAidIndexComponent implements OnInit {
         render: (data: any) => {
           return data?.typeNumberNameLastName;
         },
-        sort: 'employee',
+        sort: 'employee.name1',
+        orderable: true,
+        searchable: false,
         width: '20%'
       },
       {
@@ -84,7 +87,8 @@ export class FirstAidIndexComponent implements OnInit {
         render: (data: any) => {
           return data?.charge;
         },
-        sort: 'inCharge.typeNumberNameLastName',
+        searchable: false,
+        sort: 'bonding.charge',
         width: '10%',
       },
       {
@@ -99,12 +103,14 @@ export class FirstAidIndexComponent implements OnInit {
         render: (data: any) => {
           return data?.typeNumberNameLastName;
         },
-        sort: 'inCharge',
+        searchable: false,
+        sort: 'inCharge.name1',
         width: '20%'
       },
       {
         title: 'Elementos usados',
         data: 'usedItem',
+        searchable: true,
         sort: 'usedItem',
         width: '20%'
       },
@@ -112,15 +118,18 @@ export class FirstAidIndexComponent implements OnInit {
         title: 'Descripción',
         data: 'description',
         sort: 'description',
+        searchable: true,
+        orderable: true,
         width: '20%'
       },
       {
         title: 'Acciones',
         data: '',
-        sort: '',
         width: '10%',
         classTitle: 'text-center no-pointer',
-        actions: ['btn_eliminar', 'btn_editar'],
+        actions: ['btn_eliminar', 'btn_ver', 'btn_editar'],
+        orderable: false,
+        searchable: false
       },
     ];
   }
@@ -145,6 +154,10 @@ export class FirstAidIndexComponent implements OnInit {
           .catch((error: any) => {
             console.error('Error al mostrar el cuadro de confirmación:', error);
           });
+        break;
+
+      case 'btn_ver':
+        this.router.navigateByUrl(`/main/management/first-aid/show/${event.data.id}`);
         break;
       default:
         break;
