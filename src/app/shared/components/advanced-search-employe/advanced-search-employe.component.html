@@ -8,160 +8,135 @@
             <p-divider class="p-divider p-component p-divider-solid p-divider-left" styleClass="divider-general" />
             <form name="frm" id="frm" [formGroup]="frm">
                 <div class="grid col-12 m-0">
-                    <!-- Producto -->
-                    <div class="col-12 sm:col-12 md:col-12 lg:col-12 py-0">
+
+                    <!-- Tipo de tercero -->
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="producto" class="form-label md:col-2 m-0">Producto</label>
-                            <div class="md:col-12 px-0 py-0 field-container">
-                                <app-autocomplete [params]="paramsAutocomplete" [placeholder]="'Producto'" (itemSelected)="productSelected($event)"
-                                    [endPoint]="endPointAutocomplete" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
-                                    (clearSelectedItem)="clearSelectedProduct()" [inputModel]="productTxt" appendTo="body" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END Producto -->
-                    <!-- Categoria -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
-                        <div class="field form-group">
-                            <label for="codigo" class="m-0">Categoria</label>
-                            <div class="p-inputgroup mt-2">
-                                <div class="container col-12 px-0 py-0">
-                                    <div class="p-dropdown w-100" (click)="toggleTree()">
-                                        <input styleClass="p-dropdown-default w-100" type="text" pInputText placeholder="Seleccionar" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}" readonly>
-                                        <div class="p-dropdown-trigger-icon p-dropdown-trigger">
-                                            <span class="pi pi-chevron-down"></span>
-                                        </div>
-                                    </div>
-                                    <div class="p-dropdown-panel" [ngClass]="{ 'p-dropdown-panel-visible': treeVisible }">
-                                        <p-tree [filter]="true" [value]="selectedCategoryTree" selectionMode="single" (onNodeSelect)="getCuentaC($event)" [style]="{ 'max-width': '400px', 'max-height': '300px', 'overflow-y': 'auto' }"></p-tree>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END Categoria -->
-                    <!-- Tipo de producto -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
-                        <div class="field form-group">
-                            <label for="Tipo de producto" class="m-0">Tipo de producto</label>
+                            <label for="tipoTerceros" class="m-0">Tipo Tercero</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-dropdown appendTo="body" [style]="{width: '100%'}" [options]="productTypeList" formControlName="tipo_producto_id" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
+                                <p-dropdown appendTo="body" [style]="{width: '100%'}" [options]="typeThird" formControlName="tipoTerceros" optionValue="id" optionLabel="nombre" [showClear]="false" placeholder="Tipo"></p-dropdown>
                             </div>
                         </div>
                     </div>
-                    <!-- END Tipo de producto -->
-                    <!-- usos -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                    <!-- END Tipo de tercero -->
+                    <!-- tipo documento -->
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="usos_ids" class="m-0">Usos</label>
+                            <label for="tipo_documento_id" class="m-0">Tipo de documento</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-multiSelect appendTo="body" id="usos_ids" [style]="{width: '100%'}" styleClass="p-multiselect-default" [options]="usageList" formControlName="usos_ids" optionValue="id" optionLabel="nombre" placeholder="Usos"></p-multiSelect>
+                                <p-dropdown appendTo="body" id="tipo_documento_id" [style]="{width: '100%'}" [options]="typeDocs" formControlName="tipo_documento_id" optionLabel="nombre" [showClear]="false" placeholder="Tipo de documento"></p-dropdown>
                             </div>
                         </div>
                     </div>
-                    <!-- END usos -->
-                    <!-- Grupo de marca -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                    <!-- END tipo documento -->
+                    <!-- Número documento --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="grupo_marca_id" class="m-0">Grupo de marca</label>
+                            <label for="numero_documento" class="m-0">Número documento</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-dropdown appendTo="body" id="grupo_marca_id" [style]="{width: '100%'}" [options]="brandGroupList" formControlName="grupo_marca_id" optionLabel="nombre" [showClear]="false" (onChange)="getBrands($event)" placeholder="Grupo de marca"></p-dropdown>
-                            </div>
-                        </div>
+                                <input pInputText placeholder="Número documento" formControlName="numero_documento" id="numero_documento" name="numero_documento"
+                                type="text" />
+                            </div>                            
+                        </div>                        
                     </div>
-                    <!-- END Grupo de marca -->
-                    <!-- Marca -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                    <!-- END Número documento  -->
+                    <!-- codigo --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="inv_marca_id" class="m-0">Marca</label>
-                            <div class="p-inputgroup field-container mt-2" [ngClass]="loadingBrand ? 'custom-spinner-brand' : ''">
-                                <ng-container *ngIf="loadingBrand; else dropdownTemplate">
-                                    <p-progressSpinner id="inv_marca_id_loading" styleClass="custom-spinner-brand w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
-                                </ng-container>
-                                <ng-template #dropdownTemplate>
-                                    <p-dropdown appendTo="body" id="inv_marca_id" [style]="{width: '100%'}"
-                                        [options]="brandList" formControlName="inv_marca_id" 
-                                        optionLabel="nombre" [showClear]="false" placeholder="Marca">
-                                    </p-dropdown>
-                                </ng-template>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END Marca -->
-                    <!-- Unidad de compra -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
-                        <div class="field form-group">
-                            <label for="unidad_compra_id" class="m-0">Unidad de compra</label>
+                            <label for="codigo" class="m-0">Código</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-dropdown appendTo="body" id="unidad_compra_id" [style]="{width: '100%'}" [options]="purchaseUnitList" formControlName="unidad_compra_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de compra"></p-dropdown>
-                            </div>
-                        </div>
+                                <input pInputText placeholder="Código" formControlName="codigo" id="code" name="code"
+                                type="text" />
+                            </div>                            
+                        </div>                        
                     </div>
-                    <!-- END Unidad de compra -->
-                    <!-- Unidad de distribucion -->
-                    <div class="col-12 sm:col-12 md:col-4 lg:col-4 py-0">
+                    <!-- END codigo  -->
+                    <!-- Primer nombre --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="unidad_distribucion_id" class="m-0">Unidad de distribucion</label>
+                            <label for="nombre1" class="m-0">Primer nombre</label>
                             <div class="p-inputgroup field-container mt-2">
-                                <p-dropdown appendTo="body" id="unidad_distribucion_id" [style]="{width: '100%'}" [options]="distributionUnitList" formControlName="unidad_distribucion_id" optionLabel="nombre" [showClear]="false" placeholder="Unidad de distribucion"></p-dropdown>
-                            </div>
-                        </div>
+                                <input pInputText placeholder="Primer nombre" formControlName="nombre1" id="nombre1" name="nombre1"
+                                type="text" />
+                            </div>                            
+                        </div>                        
                     </div>
-                    <!-- END Unidad de distribucion -->
-                    <!-- Proveedor -->
-                    <div class="col-12 sm:col-12 md:col-8 lg:col-8 py-0">
+                    <!-- END Primer nombre  -->
+                    <!-- Segundo nombre --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
                         <div class="field form-group">
-                            <label for="proveedor" class="form-label md:col-2 m-0">Proveedor</label>
-                            <div class="md:col-12 px-0 py-0 field-container">
-                                <app-autocomplete [params]="paramsAutocompleteProveedor" [placeholder]="'Proveedor'" (itemSelected)="proveedorSelected($event)"
-                                    [endPoint]="'comtercero/search'" [usePostRequest]="true" url="url2" type="application/x-www-form-urlencoded"
-                                    (clearSelectedItem)="clearSelectedProveedor()" [inputModel]="proveedorTxt" appendTo="body" />
+                            <label for="nombre2" class="m-0">Segundo nombre</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <input pInputText placeholder="Segundo nombre" formControlName="nombre2" id="nombre2" name="nombre2"
+                                type="text" />
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- END Segundo nombre  -->
+                    <!-- Primer apellido --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="apellido1" class="m-0">Primer apellido</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <input pInputText placeholder="Primer apellido" formControlName="apellido1" id="apellido1" name="apellido1"
+                                type="text" />
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- END Primer apellido  -->
+                    <!-- Segundo apellido --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="apellido2" class="m-0">Segundo apellido</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <input pInputText placeholder="Segundo apellido" formControlName="apellido2" id="apellido2" name="apellido2"
+                                type="text" />
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- END Segundo apellido  -->
+                    <!-- Razón social --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="razon_social" class="m-0">Razón social</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <input pInputText placeholder="Razón social" formControlName="razon_social" id="razon_social" name="razon_social"
+                                type="text" />
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- END Razón social  -->
+                    <!-- Razón comercial --> 
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="razon_comercial" class="m-0">Razón comercial</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <input pInputText placeholder="Razón comercial" formControlName="razon_comercial" id="razon_comercial" name="razon_comercial"
+                                type="text" />
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- END Razón comercial  -->
+                    <!-- Tipo de contribuyente -->
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="tipo_contribuyente_id" class="m-0">Tipo de contribuyente</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="tipo_contribuyente_id" [style]="{width: '100%'}" [options]="typeTaxpayer" formControlName="tipo_contribuyente_id" optionLabel="nombre" [showClear]="false" placeholder="Tipo de contribuyente"></p-dropdown>
                             </div>
                         </div>
                     </div>
-                    <!-- END Proveedor -->
-                    <div class="grid col-12 m-0 mt-2 p-0">
-                        <!-- Variantes -->
-                        <div class="col-2 d-flex align-items-center">
-                            <label for="con_variantes" class="form-label col-3">Variantes</label>
-                            <div class="col-9">
-                                <p-inputSwitch formControlName="con_variantes" id="con_variantes" name="con_variantes" class="w-full"
-                                    [(ngModel)]="frm.value.con_variantes"></p-inputSwitch>
-                            </div>
-                        </div>
-                        <!-- Maneja lotes -->
-                        <div class="col-2 d-flex align-items-center">
-                            <label for="maneja_lotes" class="form-label col-3">Maneja lotes</label>
-                            <div class="col-9">
-                                <p-inputSwitch formControlName="maneja_lotes" id="maneja_lotes" name="maneja_lotes" class="w-full"
-                                    [(ngModel)]="frm.value.maneja_lotes"></p-inputSwitch>
-                            </div>
-                        </div>
-                        <!-- Compuestos -->
-                        <div class="col-2 d-flex align-items-center">
-                            <label for="con_compuestos" class="form-label col-3">Compuestos</label>
-                            <div class="col-9">
-                                <p-inputSwitch formControlName="con_compuestos" id="con_compuestos" name="con_compuestos" class="w-full"
-                                    [(ngModel)]="frm.value.con_compuestos"></p-inputSwitch>
-                            </div>
-                        </div>
-                        <!-- Exigencias -->
-                        <div class="col-3 d-flex align-items-center">
-                            <label for="con_existencias" class="form-label col-3">Exigencias</label>
-                            <div class="col-9">
-                                <p-inputSwitch formControlName="con_existencias" id="con_existencias" name="con_existencias" class="w-full"
-                                    [(ngModel)]="frm.value.con_existencias"></p-inputSwitch>
-                            </div>
-                        </div>
-                        <!-- Tarifas -->
-                        <div class="col-3 d-flex align-items-center">
-                            <label for="con_tarifas" class="form-label col-3">Tarifas</label>
-                            <div class="col-9">
-                                <p-inputSwitch formControlName="con_tarifas" id="con_tarifas" name="con_tarifas" class="w-full"
-                                    [(ngModel)]="frm.value.con_tarifas"></p-inputSwitch>
+                    <!-- END Tipo de contribuyente -->
+                    <!-- Actividades económicas -->
+                    <div class="col-12 sm:col-12 md:col-3 lg:col-3 py-0">
+                        <div class="field form-group">
+                            <label for="actividad_economica_id" class="m-0">Actividades económicas</label>
+                            <div class="p-inputgroup field-container mt-2">
+                                <p-dropdown appendTo="body" id="actividad_economica_id" [style]="{width: '100%'}" [options]="economicActivities" formControlName="actividad_economica_id" optionLabel="nombre" [showClear]="false" placeholder="Actividades económicas"></p-dropdown>
                             </div>
                         </div>
                     </div>
+                    <!-- END Actividades económicas -->
                     <div class="col-auto ml-auto">
                         <app-buttons-general [buttons]="buttonsForm" (searchAction)="searchForms()"
                             (cleanAction)="cleanForm()" />

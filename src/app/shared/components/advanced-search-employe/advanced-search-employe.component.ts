@@ -102,11 +102,11 @@ export class AdvancedSearchEmployeComponent {
   public treeVisible: boolean = false;
   public selectedCategory: TreeNode | null = null;
 
-  public productTypeList: Array<any> = [];
-  public brandGroupList: Array<any> = [];
+  public typeThird: Array<any> = [];
+  public typeDocs: Array<any> = [];
   public brandList: Array<any> = [];
-  public purchaseUnitList: Array<any> = [];
-  public distributionUnitList: Array<any> = [];
+  public typeTaxpayer: Array<any> = [];
+  public economicActivities: Array<any> = [];
   public usageList: Array<any> = [];
 
   public loadingBrand: boolean = false;
@@ -221,8 +221,18 @@ export class AdvancedSearchEmployeComponent {
    */
   public loadForm() {
       this.frm = new FormGroup({
-            com_producto_id: new FormControl(null, Validators.required),
-            tipo_producto_id: new FormControl(null, Validators.required),
+            tipoTerceros: new FormControl(null, Validators.required),
+            tipo_documento_id: new FormControl(null, Validators.required),
+            numero_documento: new FormControl(null, Validators.required),
+            codigo: new FormControl(null, Validators.required),
+            nombre1: new FormControl(null, Validators.required),
+            nombre2: new FormControl(null, Validators.required),
+            apellido1: new FormControl(null, Validators.required), 
+            apellido2: new FormControl(null, Validators.required),
+            razon_social: new FormControl(null, Validators.required),
+            razon_comercial: new FormControl(null, Validators.required),
+            tipo_contribuyente_id: new FormControl(null, Validators.required),
+            actividad_economica_id: new FormControl(null, Validators.required),        
             usos_ids: new FormControl(null, Validators.required),
             con_variantes: new FormControl(2, Validators.required),
             grupo_marca_id: new FormControl(null, Validators.required),
@@ -237,7 +247,7 @@ export class AdvancedSearchEmployeComponent {
             com_categoria_id: new FormControl('')
       });
       this.prepareForm();
-      this.validateForm();
+      //this.validateForm();
   }
 
   public validateForm(): Promise<void> {
@@ -246,8 +256,8 @@ export class AdvancedSearchEmployeComponent {
               com_producto_id: new FormControl(''),
               com_categoria_id: new FormControl(''),
               tipo_producto_id: new FormControl({
-                  value: (this.productTypeList.length > 0) ? this.productTypeList[0].id : this.typeProductId,
-                  disabled: (this.productTypeList.length == 1) ? true : (this.productTypeList.length > 1) ? false : this.helperService.isset(this.typeProductId)
+                  value: (this.typeThird.length > 0) ? this.typeThird[0].id : this.typeProductId,
+                  disabled: (this.typeThird.length == 1) ? true : (this.typeThird.length > 1) ? false : this.helperService.isset(this.typeProductId)
               }),
               grupo_marca_id: new FormControl(''),
               inv_marca_id: new FormControl(''),
@@ -273,7 +283,7 @@ export class AdvancedSearchEmployeComponent {
    * obtained from the API.
    */
   private prepareForm() {
-      this.dataForm = {
+      /* this.dataForm = {
         "producto": this.frm.controls['com_producto_id'].value,
         "categoria": this.frm.controls['com_categoria_id'].value,
         "tipo_producto": this.frm.controls['tipo_producto_id'].value,
@@ -285,14 +295,14 @@ export class AdvancedSearchEmployeComponent {
         "con_variantes": this.helperService.getSwitch(this.frm.controls['con_variantes'].value, false),
         "proveedor": this.frm.controls['com_tercero_id'].value,
         "tipo_clase": [43364, 43365]
-    };
+    }; */
     this.thirdSearchService.getInitialData().subscribe(
         async (res: any) => {
           console.log(res);
-            res = res.data;
-            this.loadLists(res.listas).then(() => {
-                this.loadData(res);
-            });
+            this.typeThird = res.listas.tipos_terceros;
+            this.typeDocs = res.listas.tipos_documentos;
+            this.typeTaxpayer = res.listas.tipos_contribuyentes;
+            this.economicActivities = res.listas.actividades_economicas;
         }
     );
   }
@@ -303,11 +313,11 @@ export class AdvancedSearchEmployeComponent {
    */
   public loadLists(lists: any): Promise<void> {
       return new Promise<void>(resolve => {
-          this.brandGroupList = lists.grupos_marcas;
+          this.typeDocs = lists.grupos_marcas;
           this.brandList = lists.marcas;
-          this.productTypeList = lists.tipos_productos;
-          this.purchaseUnitList = lists.unidades_compras;
-          this.distributionUnitList = lists.unidades_distribucion;
+          this.typeThird = lists.tipos_productos;
+          this.typeTaxpayer = lists.unidades_compras;
+          this.economicActivities = lists.unidades_distribucion;
           this.usageList = lists.usos;          
 
           resolve();
