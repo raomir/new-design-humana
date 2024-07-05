@@ -7,7 +7,7 @@ export interface FirstAidModelResponse {
 
 export interface FirstAidModelRequest {
     readonly id?:          number;
-    readonly date?:        Date | null | undefined | string;
+    readonly date?:        Date | null | undefined | string | number[];
     readonly injury?:      string;
     readonly usedItem?:    string;
     readonly description?: string;
@@ -67,4 +67,9 @@ export interface Employee {
     readonly lastName1?:              string;
     readonly lastName2?:              string;
     readonly typeNumberNameLastName?: string;
+}
+
+export interface ChargeModelResponse{
+    chargeId: number;
+    fullNameCharge: string;
 }
