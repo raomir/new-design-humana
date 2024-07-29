@@ -7,6 +7,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { AccidentCausesService } from '../../../../../../../core/application/accident-causes/accident-causes.service';
 import { AccidentCausesModel } from '../../../../../../../core/domain/accident-causes/accident-causes.model';
 import { HelpersServiceImp } from '../../../../../../../../../shared/core/application/config/helpers.service.imp';
+import { ValidationMessageComponent } from 'src/app/shared/components/validation-message/validation-message.component';
 
 @Component({
   selector: 'app-new-class-cause-modal',
@@ -16,7 +17,8 @@ import { HelpersServiceImp } from '../../../../../../../../../shared/core/applic
           FormsModule,
           ReactiveFormsModule,
           InputTextModule,
-          InputSwitchModule
+          InputSwitchModule,
+          ValidationMessageComponent
         ],
   templateUrl: './new-class-cause-modal.component.html'
 })
@@ -39,6 +41,7 @@ export class NewClassCauseModalComponent implements OnInit {
   public frm!: FormGroup;
   public llave? : any;
   public nivel? : any;
+  public isLoading: boolean = false;
 
   constructor( 
       private formBuilder: FormBuilder,
@@ -61,18 +64,18 @@ export class NewClassCauseModalComponent implements OnInit {
 
   loadForm() {
     this.frm = this.formBuilder.group({
-      activo: [true],
-      codigo: [null, Validators.compose([
+      active: [true],
+      code: [null, Validators.compose([
         Validators.maxLength(20),
         Validators.minLength(3),
         Validators.required
       ])],
-      nombre: [null, Validators.compose([
+      name: [null, Validators.compose([
         Validators.maxLength(150),
         Validators.minLength(3),
         Validators.required
       ])],
-      descripcion: [null, Validators.compose([
+      description: [null, Validators.compose([
         Validators.maxLength(150),
         Validators.minLength(3),
         Validators.required
@@ -84,20 +87,22 @@ export class NewClassCauseModalComponent implements OnInit {
   }
 
   loadData(id: Number) {
+    this.isLoading = true;
     this.accidentCausesService.findID(id).subscribe(
       (res: AccidentCausesModel | any) => {
         this.frm.patchValue({
-          activo: res.activo === 1,
-          codigo: res.codigo,
-          nombre: res.nombre,
-          descripcion: res.descripcion,
-          id: res.id,
-          grupo_clase: res.llave?.llave?.codigo + ' - ' + res.llave?.llave?.nombre,
-          clase_causa: res.llave?.codigo + ' - ' + res.llave?.nombre
+          active: res.data.active === 1,
+          code: res.data.code,
+          name: res.data.name,
+          description: res.data.description,
+          id: res.data.id,
+          grupo_clase: res.data.accidentCauses?.accidentCauses?.code + ' - ' + res.data.accidentCauses?.accidentCauses?.name,
+          clase_causa: res.data.accidentCauses?.code + ' - ' + res.data.accidentCauses?.name
         })
         if(this.fatherId === null || this.fatherId === undefined){
-          this.fatherId = res.llave?.id 
+          this.fatherId = res.data.accidentCauses?.id 
         }
+        this.isLoading = false;
     })
   }
 
@@ -117,19 +122,20 @@ export class NewClassCauseModalComponent implements OnInit {
 
     const data: AccidentCausesModel = {
       id: this.frm.value.id,
-      codigo: this.frm.value.codigo,
-      nombre: this.frm.value.nombre,
-      descripcion: this.frm.value.descripcion,
-      nivel: this.action === 'btn_nuevo' ? this.level + 1 : this.level,
-      activo: this.helperService.getSwitch(this.frm.value.activo, false),
-      llave: (this.fatherId !== null && this.fatherId !== undefined) ? { id: this.fatherId } as AccidentCausesModel : null,
+      code: this.frm.value.code,
+      name: this.frm.value.name,
+      description: this.frm.value.description,
+      level: this.action === 'btn_nuevo' ? this.level + 1 : this.level,
+      active: this.helperService.getSwitch(this.frm.value.active, false),
+      accidentCauses: (this.fatherId !== null && this.fatherId !== undefined) ? { id: this.fatherId } as AccidentCausesModel : null,
     };
-    if(data.nivel === 1){
-      data.llave = null
+    
+    if(data.level === 1){
+      data.accidentCauses = null
     }
-    if(data.nivel && data.nivel > 1 && this.fatherId !== null && this.fatherId !== undefined){
-      data.llave = { id: this.fatherId } as AccidentCausesModel
-    }
+    if(data.level && data.level > 1 && this.fatherId !== null && this.fatherId !== undefined){
+      data.accidentCauses = { id: this.fatherId } as AccidentCausesModel
+    }  
 
     if(this.id){
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "new-his-frontend": {
+    "new-humana-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/new-his-frontend",
+            "outputPath": "dist/new-humana-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "new-his-frontend:build:production"
+              "browserTarget": "new-humana-frontend:build:production"
             },
             "development": {
-              "browserTarget": "new-his-frontend:build:development"
+              "browserTarget": "new-humana-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "new-his-frontend:build"
+            "browserTarget": "new-humana-frontend:build"
           }
         },
         "test": {

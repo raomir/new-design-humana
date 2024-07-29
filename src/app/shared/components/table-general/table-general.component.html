@@ -68,9 +68,9 @@
                 (click)="sendDocument && runActions.emit({action: 'documento', data: dataItem})"
                 [ngClass]="{'highlight-row': sendDocument && rowIndex === rowIndexHovered, 'cursor-pointer': sendDocument && rowIndex === rowIndexHovered}"
                 [ngStyle]="{'cursor': sendDocument && rowIndex === rowIndexHovered ? 'pointer' : 'default'}">
-                <ng-container *ngFor="let column of columns">
+                <ng-container *ngFor="let column of columns; let i = index">
                     <td style="padding: 0.25rem 0.5rem" *ngIf="!column.actions && !column.render" class="{{ column.classCode }}">{{ dataItem[column.data] }}</td>
-                    <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem)"></td>
+                    <td style="padding: 0.25rem 0.5rem" *ngIf="column.render && !column?.actions?.length" class="{{ column.classStatus }}" [innerHTML]="column.render(dataItem[column.data], dataItem, rowIndex)"></td>
                     <td style="padding: 0.25rem 0.5rem" *ngIf="column?.actions?.length" class="text-center">
                         <ng-container *ngIf="column.actions">
                             <app-buttons-general (runActions)="handleRunActions($event)" [datatable]="true" [buttons]="column.actions" [dataDatatable]="dataItem"></app-buttons-general> 

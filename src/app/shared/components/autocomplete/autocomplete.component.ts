@@ -24,6 +24,10 @@ export class AutocompleteComponent {
   @Input() usePostRequest: boolean = false;
   @Input() params: any = {};
   @Input() inputModel: any;
+  @Input() noBuscar: Array<any> | any = [];
+  @Input() type: string = 'application/json';
+  @Input() url: string = 'url';
+  @Input() employe: boolean = false;
 
   @Output() openAdvanced = new EventEmitter<boolean>();
   @Output() itemSelected = new EventEmitter<any>();
@@ -31,9 +35,10 @@ export class AutocompleteComponent {
   
   public suggestions: Array<any> = [];
 
-  constructor(private autocompleteService: AutocompleteService) { }
+  constructor(private autocompleteService: AutocompleteService) {}
 
   async search(event: AutoCompleteCompleteEvent) {
+    this.autocompleteService.url = this.url;
     if (event.query.length < 3) return;
 
     if (this.usePostRequest) {
@@ -45,13 +50,23 @@ export class AutocompleteComponent {
         todoJunto: event.query,
         term: event.query
       }
-      await this.autocompleteService.searchByPost(this.endPoint, data).subscribe({
+      await this.autocompleteService.searchByPost(this.endPoint, data, this.type).subscribe({
         next: async res => {
           if (!res.content) {
-            res.content = res;
+            // Verificar si res.data existe y no es un array, luego convertirlo en array
+            if (res.data && !Array.isArray(res.data)) {
+              res.data = Object.values(res.data);
+            }
+            if (res.data && Array.isArray(res.data)) {
+              res.content = res.data;
+            } else if (Array.isArray(res)) {
+              res = {content: res};
+            }
           }
           this.suggestions = await res.content.map((e: any) => {
-            e.valor_montar = e.codigo + ' - ' + e.nombre;
+            if (!e.valor_montar) {
+              e.valor_montar = e.codigo + ' - ' + e.nombre;
+            }            
             if (e.valorMontar) {
               e.valor_montar = e.valorMontar;
             }
@@ -63,12 +78,19 @@ export class AutocompleteComponent {
         }
       })
     } else {
-      this.autocompleteService.searchByGet(this.endPoint, event.query).subscribe({
+      this.autocompleteService.searchByGet(this.endPoint, (this.employe) ? event.query + '/0' : event.query).subscribe({
         next: async res => { // pendiente verificar la respuesta
-          this.suggestions = await res.content.map((e: any) => {
-            e.valor_montar = e.codigo + ' - ' + e.nombre
-            return e;
-          });
+          if (this.employe) {
+            this.suggestions = await res.content.map((e: any) => {
+              e.valor_montar = e.tipoDocumento + ' - ' + e.numeroDocumento + ' - ' + e.nombre1
+              return e;
+            });
+          } else {
+            this.suggestions = await res.content.map((e: any) => {
+              e.valor_montar = e.codigo + ' - ' + e.nombre
+              return e;
+            });
+          }
         },
         error: err => {
           this.suggestions = [];

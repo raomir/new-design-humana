@@ -39,6 +39,7 @@ export class ElementListModalComponent {
   @Input() endPoint: string = '';
   @Input() buttons: Array<string> = ['btn_save', 'btn_cancel'];
   @Input() typeList: number = 0;
+  @Input() hideFavorite: boolean = false;
 
   @Output() modalResponse = new EventEmitter<boolean>();
 
@@ -48,7 +49,6 @@ export class ElementListModalComponent {
 
   public frm!: FormGroup;
 
-  public hideFavorite: boolean = false;
   public labelDescription: string = 'Descripción';
 
   public codePatterns = { '0': { pattern: new RegExp('[a-zA-Z0-9-]') } }

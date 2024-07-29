@@ -93,7 +93,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Agentes De Lesión',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/main/administration/injury-agent'],
+                        routerLink: ['/main/administration/agent-injury'],
                     },
                     {
                         label: 'Niveles De Exposición',
@@ -175,6 +175,36 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/main/administration/processes-subprocesses'],
 
+                    },
+                    {
+                        label: 'Tipos De Eventos',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-events'],
+                    },
+                    {
+                        label: 'Tipos De Actividad Comités',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/main/administration/type-committee-activity'],
+                    },
+                    {
+                        label: 'Variable Indicador Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/variable-indicator-measurement'],
+                    },
+                    {
+                        label: 'Tipos Indicadores Medición',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/measurement-indicator-types'],
+                    },
+                    {
+                        label: 'Rol Comités',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/committee-roles'],
+                    },
+                    {
+                        label: 'Comités',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/main/administration/committee'],
                     }
                 ],
             },
@@ -184,37 +214,10 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/pages'],
                 items: [
                     {
-                        label: 'Parámetros',
-                        icon: 'pi pi-fw pi-pencil',
-                        items: [
-                            {
-                                label: 'Calendario',
-                                icon: 'pi pi-fw pi-calendar-plus',
-                                routerLink: ['/pages/calendar'],
-                            },
-                            {
-                                label: 'Recursos Físicos',
-                                icon: 'pi pi-fw pi-calendar-plus',
-                                routerLink: ['/pages/calendar'],
-                            },
-                        ],
-                    },
-                    {
-                        label: 'Gestión',
+                        label: 'Primeros Auxilios',
                         icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/pages/timeline'],
-                    },
-                    {
-                        label: 'Procesos',
-                        icon: 'pi pi-fw pi-globe',
-                        url: 'assets/pages/landing.html',
-                        target: '_blank',
-                    },
-                    {
-                        label: 'Reportes',
-                        icon: 'pi pi-fw pi-sign-in',
-                        routerLink: ['/login'],
-                    },
+                        routerLink: ['/main/management/first-aid'],
+                    }
                 ],
             },
             {

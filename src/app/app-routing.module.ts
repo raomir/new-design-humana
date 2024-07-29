@@ -202,21 +202,11 @@ const routes: Routes = [
                         }
                     },
                     {
-                        path: 'injury-agent',
+                        path: 'agent-injury',
                         loadComponent: () =>
                             import(
-                                './shared/components/element-list/datatable/element-list.component'
-                            ).then((m) => m.ElementListComponent),
-                        data: {
-                            title: 'Agentes De Lesión',
-                            endpoint: 'agentelesion',
-                            endpointExport: 'agentelesion/agenteLesion',
-                            module: 'url2',
-                            permissions: {
-                                name: 'talentohumano.agentes_lesion',
-                                only: 'talentohumano.agentes_lesion.index'
-                            }
-                        }
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/agent-injury/agent-injury-index/agent-injury-index.component'
+                            ).then((m) => m.AgentInjuryIndexComponent),
                     },
                     {
                         path: 'worst-consequences',
@@ -226,9 +216,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Peores Consecuencias',
-                            endpoint: 'peorconsecuencia',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/peoresConsecuencias/32',
                             module: 'url2',
+                            typeList: 32,
                             permissions: {
                                 name: 'talentohumano.peores_consecuencias',
                                 only: 'talentohumano.peores_consecuencias.index'
@@ -243,9 +234,11 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles de exposición',
-                            endpoint: 'nivelexposicion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteNiveles/nivelesExposicicion/36',
                             module: 'url2',
+                            nameComponent: "nivelexposicion",
+                            typeList: 36, 
                             permissions: {
                                 name: 'talentohumano.niveles_exposicion',
                                 only: 'talentohumano.niveles_exposicion.index'
@@ -260,8 +253,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Consecuencia',
-                            endpoint: 'nivelconsecuencia',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteNiveles/nivelesConsecuencia/29',
+                            typeList: 29,
+                            nameComponent: "nivelconsecuencia",
                             module: 'url2',
                             permissions: {
                                 name: 'talentohumano.niveles_consecuencia',
@@ -277,8 +272,9 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Jornada De Trabajo Habitual',
-                            endpoint: 'jornadatrabajo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Jornadadetrabajohabitual/6',
+                            typeList: 6, 
                             module: 'url2',
                             permissions: {
                                 name: 'talentohumano.jornada_trabajo_habitual',
@@ -294,9 +290,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Gravedad',
-                            endpoint: 'nivelgravedad',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/nivelesGravedad/9',
                             module: 'url2',
+                            typeList: 9,
                             permissions: {
                                 name: 'talentohumano.nivel_gravedad',
                                 only: 'talentohumano.nivel_gravedad.index'
@@ -311,9 +308,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles De Riesgo',
-                            endpoint: 'nivelriesgo',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'nivelriesgo/reporteNivelRiesgo/nivelesRiesgo/50',
                             module: 'url2',
+                            typeList: 50,
                             permissions: {
                                 name: 'talentohumano.niveles_riesgo',
                                 only: 'talentohumano.niveles_riesgo.index'
@@ -346,9 +344,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Occupation CIE88',
-                            endpoint: 'ocupacioncie88',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Ocupacion Cie88/33',
                             module: 'url2',
+                            typeList: 33,
                             permissions: {
                                 name: 'talentohumano.ocupacion_cie88',
                                 only: 'talentohumano.ocupacion_cie88.index'
@@ -363,9 +362,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en el medio',
-                            endpoint: 'controlmedio',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en el medio/4',
                             module: 'url2',
+                            typeList: 4,
                             permissions: {
                                 name: 'talentohumano.controles_medio',
                                 only: 'talentohumano.controles_medio.index'
@@ -380,9 +380,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Eventos de investigación',
-                            endpoint: 'eventosinvestigacion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Eventos de Investigacion/16',
                             module: 'url2',
+                            typeList: 16,
                             permissions: {
                                 name: 'talentohumano.eventos_investigacion',
                                 only: 'talentohumano.eventos_investigacion.index'
@@ -397,9 +398,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Controles en la fuente',
-                            endpoint: 'controlfuente',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Controles en la Fuente/2',
                             module: 'url2',
+                            typeList: 2,
                             permissions: {
                                 name: 'talentohumano.controles_fuente',
                                 only: 'talentohumano.controles_fuente.index'
@@ -414,9 +416,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Tipos de lesión',
-                            endpoint: 'tipolesion',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Tipos de lesión/10',
                             module: 'url2',
+                            typeList: 10,
                             permissions: {
                                 name: 'talentohumano.tipos_lesion',
                                 only: 'talentohumano.tipos_lesion.index'
@@ -461,9 +464,10 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Niveles de Probabilidad',
-                            endpoint: 'nivelprobabilidad',
+                            endpoint: 'v2/listElementsst',
                             endpointExport: 'reportesSggt/reporteParametros1/Niveles de Probabilidad/30',
                             module: 'url2',
+                            typeList: '30',
                             permissions: {
                                 name: 'talentohumano.niveles_probabilidad',
                                 only: 'talentohumano.niveles_probabilidad.index'
@@ -478,7 +482,7 @@ const routes: Routes = [
                             ).then((m) => m.ActivityIndexComponent),
                         data: {
                             title: 'Actividad',
-                            endpoint: 'actividad',
+                            endpoint: 'activity',
                             endpointExport: 'actividad/reporte',
                             module: 'url2',
                             permissions: {
@@ -488,13 +492,163 @@ const routes: Routes = [
                         }
                     },
                     {
+                        path: 'type-events',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/parameter/infraestructure/adapter/primary/feature/type-events/type-events-index/type-events-index.component'
+                            ).then((m) => m.TypeEventsIndexComponent),
+                        data: {
+                            title: 'Tipos De Eventos',
+                            endpoint: 'eventosSSST',
+                            endpointExport: 'eventosSSST/reporte',
+                            module: 'url2',
+                            permissions: {
+                                name: 'talentohumano.tipos_eventos',
+                                only: 'talentohumano.tipos_eventos.index'
+                            }
+                        }
+                    },
+                    {
                         path: 'processes-subprocesses',
                         loadComponent: () =>
                             import(
                                 './ssgt/parameter/infraestructure/adapter/primary/feature/processes-subprocesses/processes-subprocesses-index/processes-subprocesses-index.component'
                             ).then((m) => m.ProcessesSubprocessesIndexComponent),
+                    },
+                    {
+                        path: 'type-committee-activity',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Tipos De Actividad Comités',
+                            endpoint: 'v2/listElementsst',
+                            endpointExport: 'reportesSggt/reporteParametros1/tipoActividadComites/53',
+                            module: 'url2',
+                            typeList: '53',
+                            permissions: {
+                                name: 'administration.tipos_actividad',
+                                only: 'administration.tipos_actividad.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'variable-indicator-measurement',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Variable Indicador Medición',
+                            endpoint: 'v2/listElementsst',
+                            endpointExport: 'reportesSggt/reporteParametros1/Variable Indicador Medición/51',
+                            module: 'url2',
+                            typeList: 51,
+                            permissions: {
+                                name: 'administration.variable_indicador_medicion',
+                                only: 'administration.variable_indicador_medicion.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'measurement-indicator-types',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/tree/tree-list.component'
+                            ).then((m) => m.TreeListComponent),
+                        data: {
+                            title: 'Tipos Indicadores Medición',
+                            endpoint: 'v2/listElementsst/tree/55',
+                            endpointExport: 'tipoindicadormedicion/impresion',
+                            module: 'url2',
+                            typeList: 55,
+                            permissions: {
+                                name: 'talentohumano.actividad',
+                                only: 'talentohumano.actividad.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'committee-roles',
+                        loadComponent: () =>
+                            import(
+                                './shared/components/element-list/datatable/element-list.component'
+                            ).then((m) => m.ElementListComponent),
+                        data: {
+                            title: 'Rol Comités',
+                            endpoint: 'v2/listElementsst',
+                            endpointExport: 'reportesSggt/reporteParametros1/rolComite/52',
+                            module: 'url2',
+                            typeList: 52,
+                            permissions: {
+                                name: 'administration.rol_comites',
+                                only: 'administration.rol_comites.index'
+                            }
+                        }
+                    },
+                    {
+                        path: 'committee',
+                        children: [
+                            {
+                                path: '',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/datatable/commitee.component'
+                                    ).then((m) => m.CommiteeComponent),
+                                data: {
+                                    permissions: {
+                                        only: 'talentohumano.committee.index'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'new',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/edit/commitee-edit.component'
+                                    ).then((m) => m.CommiteeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.committee'
+                                    }
+                                },
+                            },
+                            {
+                                path: 'edit/:id',
+                                loadComponent: () =>
+                                    import(
+                                        './ssgt/parameter/infraestructure/adapter/primary/feature/commitee/edit/commitee-edit.component'
+                                    ).then((m) => m.CommiteeEditComponent),
+                                data: {
+                                    permissions: {
+                                        name: 'talentohumano.committee'
+                                    }
+                                },
+                            }
+                        ]
+
                     }
-                ],
+                ]
+            },
+            {
+                path: 'management',
+                children: [
+                    {
+                        path: 'first-aid',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-index/first-aid-index.component'
+                            ).then((m) => m.FirstAidIndexComponent),
+                    },
+                    {
+                        path: 'first-aid/new-first-aid',
+                        loadComponent: () =>
+                            import(
+                                './ssgt/management/infraestructure/adapter/primary/feature/first-aid/first-aid-form/first-aid-form.component'
+                            ).then((m) => m.FirstAidFormComponent),
+                    },
+                ]
             }
         ]
     },

@@ -1,8 +1,8 @@
-import { Component, EventEmitter,  Input,  OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter,  Input,  OnDestroy,  OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Action, BodyPage, Column, DatatableSort, ExtendedPostData, JsonParams, PostData } from './col/col';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonsGeneralComponent } from '../buttons-general/buttons-general.component';
@@ -13,6 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ApisServicesServiceImp } from '../../core/application/config/apis-services.service.imp';
 import { DialogModule } from 'primeng/dialog';
 import { Input as InputDatatable } from '../../core/domain/export.models';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-table-general',
@@ -21,7 +22,7 @@ import { Input as InputDatatable } from '../../core/domain/export.models';
   templateUrl: './table-general.component.html',
   styleUrls: ['./table-general.component.css']
 })
-export class TableGeneralComponent implements OnInit {
+export class TableGeneralComponent implements OnInit, OnDestroy {
 
   @Input() columns: Array<Column> = []; // Atributo: Columnas de la tabla
   @Input() export: boolean = true;
@@ -41,6 +42,7 @@ export class TableGeneralComponent implements OnInit {
   @Input() public sendDocument: boolean = false; // Attribute: Send Document
 
   @Input() public typeList: number = 0;
+  @Input() public committeeId: number | Number = 0;
 
   @Output() dataRequest: any = new EventEmitter<PostData>(); // Método: Emite una solicitud de datos
   @Output() generalData: EventEmitter<any> = new EventEmitter(); // Método: Emite datos generales
@@ -66,11 +68,13 @@ export class TableGeneralComponent implements OnInit {
   currentDate: Date = new Date(); // Atributo: Fecha actual
   public dateTime: any; // Atributo: Fecha y hora
   public rowsPerPageOptions: number[] = [10, 25, 50, 100];
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     public services: ApisServicesServiceImp,
   ) {
     this.services.endPoint = this.endPoint;
+    this.services.erp = false;
   }
 
   onMouseEnter(rowIndex: number): void {
@@ -265,22 +269,57 @@ export class TableGeneralComponent implements OnInit {
     path = path == null ? this.path : path;
     this.loading = loading;
     this.services.endPoint = this.endPoint;
+    if (this.erp) {
+      this.services.erp = this.erp;
+      this.services.urlBase = `${environment.url_sinergia}`;
+    } else {
+      this.services.erp = false;
+      this.services.urlBase = `${environment.url}`;
+    }
     this.services.render();
 
     if (this.usePostRequest) {
       if (datatable) this.parameters = datatable;
-      const postData: ExtendedPostData | PostData | any = {
+      let postData: ExtendedPostData | PostData | JsonParams | any = {
         ...this.parameters,
         length: rows,
         busqueda: search,
         columnOrder: sortField,
         directionOrder: sortOrder === 1 ? 'asc' : 'desc',
       };
-      this.services.postData(postData, page).subscribe((res: any) => {
-        this.setData(res?.content);
-        this.numberPage = res.totalElements;
-        this.size = res.content.length;
-        this.totalPages = res.totalPages;
+      if (this.erp) {
+        postData = {
+          ... this.parameters,
+          draw: 1,
+          columns: this.columns.map(col => {
+            return {
+              data: col.data,
+              name: '',
+              searchable: col.searchable == undefined ? true : col.searchable,
+              orderable: col.orderable == undefined || col.sort == "" || col.sort == null || col.sort == undefined ? false : col.orderable,
+              search: {
+                value: '',
+                regex: false,
+              }
+            };
+          }),
+          order: [{ column: this.columns.findIndex((col: Column) => col.data == sortField) != -1 ? this.columns.findIndex((col: Column) => col.data == sortField) : 0, dir: sortOrder == 1 ? 'desc' : 'asc' }],
+          start: page,
+          length: rows,
+          search: {
+            value: search || '',
+            regex: false,
+          },
+          pageCurrent: page,
+          pages: this.totalPages,
+          params: this.parameters
+        };
+      }
+      this.services.postData(postData, this.erp ? '' : page).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
+        this.setData(this.erp ? res?.data : res?.content);
+        this.numberPage = this.erp ? res.recordsTotal : res.totalElements;
+        this.size = this.erp ? res.data.length : res.content.length;
+        this.totalPages = this.erp ? res.recordsTotal : res.totalPages;
         this.loading = false;
         this.dataRequest.emit(postData);
       });
@@ -293,8 +332,8 @@ export class TableGeneralComponent implements OnInit {
           return {
             data: col.data,
             name: '',
-            searchable: true,
-            orderable: true,
+            searchable: col.searchable == undefined ? true : col.searchable,
+            orderable: col.orderable == undefined || col.sort == "" || col.sort == null || col.sort == undefined ? false : col.orderable,
             search: {
               value: '',
               regex: false,
@@ -317,6 +356,8 @@ export class TableGeneralComponent implements OnInit {
         typeListId: this.typeList,
         page: jsonParams
       }
+      if ( this.committeeId != 0 ) data.committeeId = this.committeeId;
+
       this.services.postData(data)
         .subscribe((res: any) => {
           this.setData(res?.data?.content);
@@ -422,5 +463,14 @@ export class TableGeneralComponent implements OnInit {
       }
       this.runActions.emit(data)
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(); // Emite una señal para cancelar las suscripciones
+    this.destroy$.complete(); // Limpia el Subject
+    this.erp = false;
+    this.services.erp = false;
+    this.services.urlBase = `${environment.url}`;
+    this.services.render();
   }
 }

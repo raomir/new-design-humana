@@ -1,9 +1,9 @@
 export class AccidentCausesModel {
     id?: number;
-    codigo?: string;
-    nombre?: string;
-    descripcion?: string;
-    nivel?: number;
-    llave?: AccidentCausesModel | null;
-    activo?: number | boolean;
+    code?: string;
+    name?: string;
+    description?: string;
+    level?: number;
+    accidentCauses?: AccidentCausesModel | null;
+    active?: number | boolean;
 }

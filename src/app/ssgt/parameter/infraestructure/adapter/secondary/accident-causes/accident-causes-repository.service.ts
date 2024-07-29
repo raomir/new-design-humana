@@ -11,7 +11,7 @@ import * as helpers from '../../../../../../shared/core/application/config/helpe
 })
 export class AccidentCausesRepositoryService implements AccidentCausesRepositoryPort {
 
-  private apiUrl: string = environment.url + 'causas_accidente/';
+  private apiUrl: string = environment.url + 'v2/accident_causes/';
 
   constructor(
       private http: HttpClient

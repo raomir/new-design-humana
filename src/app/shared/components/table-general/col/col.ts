@@ -25,6 +25,8 @@ export interface Column {
   classNames?: string;
   classStatus?: string;
   iconDatatable?: boolean;
+  searchable?: boolean;
+  orderable?: boolean;
 }
 
 export interface DatatableSort {
@@ -84,5 +86,6 @@ export class DatatableSort implements DatatableSort {
 
 export interface BodyPage {
   typeListId: number;
+  committeeId?: number | Number;
   page: JsonParams
 }

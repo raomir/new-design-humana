@@ -1,0 +1,25 @@
+<app-modal-general [displayModal]="displayModal" [title]="titleModal" (closeModal)="closeModal($event)"
+    [widthVwModal]="'27vw'">
+    <form name="frm" id="frm" [formGroup]="frm">
+        <div class="grid m-0">
+
+            <!-- Empleado -->
+            <label for="employee" class="form-label md:col-2">Empleado</label>
+            <div class="md:col-10 field-container">
+                <app-autocomplete [advanced]="true" (openAdvanced)="openModalAdvanced($event)"
+                    [params]="paramsAutocomplete" [employe]="true" [placeholder]="'Empleado'" (itemSelected)="employeeSelected($event)"
+                    [endPoint]="endPointAutocomplete" [usePostRequest]="false" url="url" type="application/x-www-form-urlencoded"
+                    (clearSelectedItem)="clearSelectedEmployee()" [inputModel]="employeeTxt" appendTo="body" />
+            </div>
+
+            <!-- rol -->
+            <label for="rolCommittee" class="form-label md:col-2">Rol</label>
+            <div class="p-inputgroup md:col-10">
+                <p-dropdown [style]="{width: '100%'}" [options]="listRolCommittees" formControlName="rolCommittee"
+                    appendTo="body" placeholder="Rol" optionLabel="name"></p-dropdown>
+            </div>
+            <!-- END rol -->
+        </div>
+    </form>
+</app-modal-general>
+<app-advanced-search-forms-produts  [displayModal]="displayModalAdvanced" (modalResponse)="employeeSelected($event)" />

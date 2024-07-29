@@ -12,6 +12,7 @@ import { ListService } from '../../../../../../../../shared/core/application/lis
 import { EndowmentsPerChargeService } from '../../../../../../core/application/endowments-per-charge/endowments-per-charge.service';
 import { EndowmentsPerChargeModel } from '../../../../../../core/domain/endowments-per-charge/endowments-per-charge.model';
 import { HelpersServiceImp } from '../../../../../../../../shared/core/application/config/helpers.service.imp';
+import { AdvancedSearchFormsProdutsComponent } from '../../../../../../../../shared/components/advanced-search-forms-produts/advanced-search-forms-produts.component';
 
 @Component({
   selector: 'app-endowments-per-charge-modal',
@@ -26,7 +27,8 @@ import { HelpersServiceImp } from '../../../../../../../../shared/core/applicati
     InputTextModule,
     InputSwitchModule,
     DropdownModule,
-    InputNumberModule
+    InputNumberModule,
+    AdvancedSearchFormsProdutsComponent
   ],
 })
 export class EndowmentsPerChargeModalComponent implements OnInit {
@@ -48,7 +50,15 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
   public displayModalAdvanced: boolean = false;
   public productTxt: any;
   public endPointAutocomplete: string = 'comproductos/autocompleta/false/false/false';
-  public paramsAutocomplete: any = { tipo_clase: [43364, 43365] } // dotación, protección
+  public paramsAutocomplete: any = { 
+    grupo: {
+      tipo_clase: [43364, 43365] 
+    },
+    validaciones_extras: null,
+    dataBusqueda: null,
+    vinculacion_id: null,
+    tipo_concepto: null
+  } // dotación, protección
 
   constructor(
     private formBuilder: FormBuilder,
@@ -123,6 +133,12 @@ export class EndowmentsPerChargeModalComponent implements OnInit {
       }
       this.frm.controls['producto'].setValue(info.id);
     }
+  }
+
+  public subprocessResponse(event: any) {
+    this.displayModalAdvanced = false;
+    this.productTxt = event;
+    this.frm.controls['producto'].setValue(event.id);
   }
 
   clearSelectedProduct() {
