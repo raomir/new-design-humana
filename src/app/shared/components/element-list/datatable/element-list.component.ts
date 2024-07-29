@@ -81,17 +81,17 @@ export class ElementListComponent {
       { title: 'Nombre', data: 'name', sort: 'name' }
     ];
     switch (this.typeList) {
-      case null://'objectoInpeccion':
+      case 67://'objectoInpeccion':
         this.columnsTable = this.columnsTable.concat([
-          { title: 'Descripción', data: 'descripcion', sort: 'descripcion' },
-          { title: 'Formulario específico', data: 'metadatos', sort: 'metadatos.formularioNombre', render: (data: any) => data?.formularioNombre },
+          { title: 'Descripción', data: 'description', sort: 'description' },
+          { title: 'Formulario específico', data: 'metadata', sort: 'metadata.formulario', render: (data: any) => data?.formularioNombre },
         ])
         break;
 
       case 34: // nivelDeficiencia
         this.columnsTable = this.columnsTable.concat([
-          { title: 'Valor', data: 'metadatos', sort: 'metadatos.valor', render: (data: any) => data?.valor },
-          { title: 'Significado', data: 'descripcion', sort: 'descripcion' },
+          { title: 'Valor', data: 'metadata', sort: 'metadata.valor', render: (data: any) => data?.valor },
+          { title: 'Significado', data: 'description', sort: 'description' },
         ])
         break;
       case 1: //'nivelriesgo':

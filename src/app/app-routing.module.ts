@@ -137,7 +137,8 @@ const routes: Routes = [
                             ).then((m) => m.ElementListComponent),
                         data: {
                             title: 'Objetos de inspección',
-                            endpoint: 'objectoInpeccion',
+                            endpoint: 'v2/listElementsst',
+                            typeList: 67, 
                             endpointExport: 'reportesSggt/resportesObjectosInspeccion/objectosInspeccion/67',
                             module: 'url2',
                             permissions: {
